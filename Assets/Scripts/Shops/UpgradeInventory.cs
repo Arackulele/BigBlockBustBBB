@@ -11,13 +11,6 @@ public class UpgradeInventory : MonoBehaviour
 
     [SerializeField] private float Padding = 0.3f;
 
-    public static UpgradeInventory Instance;
-
-    private void Start()
-    {
-        Instance = this;
-    }
-
     public void UpdateArea()
     {
         foreach (GameObject obj in UpgradeVisuals)
@@ -25,25 +18,33 @@ public class UpgradeInventory : MonoBehaviour
             if (obj != null)
                 Destroy(obj);
         }
-
         UpgradeVisuals.Clear();
+        PopulatebyList();
 
-        float top = UpperBound.transform.localPosition.y;
-        float bottom = LowerBound.transform.localPosition.y;
+    }
 
-        int count = GameManager.Instance.Perks.Count;
+    protected virtual void PopulatebyList()
+    {
+        Populate(GameManager.Instance.Perks);
+    }
+
+    protected void Populate(List<Upgrade> upgrades)
+    {
+        
+        int count = upgrades.Count;
 
         for (int i = 0; i < count; i++)
         {
-            Upgrade upgrade = GameManager.Instance.Perks[i];
+            Upgrade upgrade = upgrades[i];
 
             GameObject visual = upgrade.createVisual(transform);
             UpgradeVisuals.Add(visual);
 
             visual.transform.localPosition =
-                GetUpgradePosition(i, count, top, bottom, Padding);
+                GetUpgradePosition(i, count, UpperBound.transform.localPosition.y, LowerBound.transform.localPosition.y, Padding);
 
         }
+        
     }
 
     private Vector3 GetUpgradePosition(int index, int total, float upperEdge, float lowerEdge, float padding)

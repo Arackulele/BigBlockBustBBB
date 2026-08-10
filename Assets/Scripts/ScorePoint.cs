@@ -18,7 +18,7 @@ public class ScorePoint : MonoBehaviour
 
         LifeTime += UnityEngine.Random.Range(0.01f, 0.06f);
         transform.GetComponent<TextMeshPro>().text = "+" + Amount;
-        transform.localScale *= Math.Min(1 + (Amount * 0.05f), 4);
+        transform.localScale *= Math.Min(1 + (Amount * 0.01f), 4);
         goalPos = ScoreManagement.Instance.transform.position;
         originalPos = transform.position;
 

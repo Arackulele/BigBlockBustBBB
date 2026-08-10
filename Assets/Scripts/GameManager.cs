@@ -14,8 +14,10 @@ public class GameManager : MonoBehaviour
 
     public List<Upgrade> Perks = new List<Upgrade>();
 
+    public UpgradeInventory upgradeArea;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
         Instance = this;
         StartCoroutine(StartGame());
@@ -31,7 +33,7 @@ public class GameManager : MonoBehaviour
         Perks.Add(new GlobalLowMultBonus());
         Perks.Add(new MoneyMultBonus());
 
-        UpgradeInventory.Instance.UpdateArea();
+        upgradeArea.UpdateArea();
 
     }
 
