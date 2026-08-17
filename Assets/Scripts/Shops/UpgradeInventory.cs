@@ -8,6 +8,8 @@ public class UpgradeInventory : MonoBehaviour
 
     [SerializeField] private GameObject UpperBound;
     [SerializeField] private GameObject LowerBound;
+    [SerializeField] private GameObject UpgradeHolder;
+
 
     [SerializeField] private float Padding = 0.3f;
 
@@ -37,7 +39,7 @@ public class UpgradeInventory : MonoBehaviour
         {
             Upgrade upgrade = upgrades[i];
 
-            GameObject visual = upgrade.createVisual(transform);
+            GameObject visual = upgrade.createVisual(UpgradeHolder.transform);
             UpgradeVisuals.Add(visual);
 
             visual.transform.localPosition =

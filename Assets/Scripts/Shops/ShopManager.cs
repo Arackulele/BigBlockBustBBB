@@ -7,16 +7,25 @@ public class ShopManager : MonoBehaviour
     
     public static ShopManager instance;
 
-    private void Start()
+    public bool active = false;
+
+    private void Awake()
     {
         instance = this;
-
-        SetUpShop();
     }
 
     public void SetUpShop()
     {
-        shopInventory.Upgrades = new List<Upgrade>() { new GlobalLowMultBonus(), new MoneyMultBonus(), new RowClearBonus() };
+        shopInventory.Upgrades = new List<Upgrade>() { new RowClearBonus(), new GlobalLowMultBonus(), new MoneyMultBonus() };
         shopInventory.UpdateArea();
+    }
+
+    public void GoToShop()
+    {
+        active = true;
+        GameBoard.instance.gameObject.SetActive(false);
+        transform.GetChild(0).gameObject.SetActive(true);
+        SetUpShop();
+
     }
 }

@@ -5,8 +5,9 @@ public class ShopInventory : UpgradeInventory
 {
     public List<Upgrade> Upgrades;
     
-    protected new void PopulatebyList()
+    protected override void PopulatebyList()
     {
+        Debug.Log("Amount of shop upgrades rendering:" +  Upgrades.Count);
         Populate(Upgrades);
     }
     
