@@ -8,7 +8,7 @@ public class ShopInventory : UpgradeInventory
     protected override void PopulatebyList()
     {
         Debug.Log("Amount of shop upgrades rendering:" +  Upgrades.Count);
-        Populate(Upgrades);
+        Populate(Upgrades, true);
     }
     
 }

@@ -71,6 +71,7 @@ public abstract class DraggableObject : MonoBehaviour
             )
         );
 
+        mouseWorldPosition.z =  originalPosition.z - 2;
         transform.position = mouseWorldPosition;
     }
 

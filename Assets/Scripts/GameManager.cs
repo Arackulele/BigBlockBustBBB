@@ -13,8 +13,11 @@ public class GameManager : MonoBehaviour
     private GameObject EndScreen;
 
     public List<Upgrade> Perks = new List<Upgrade>();
+    
+    public int MaxPerks = 4;
 
     public UpgradeInventory upgradeArea;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -29,12 +32,24 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
         BlockPlacementArea.Instance.CheckPlacements();
 
-        Perks.Add(new RowClearBonus());
-        Perks.Add(new GlobalLowMultBonus());
-        Perks.Add(new MoneyMultBonus());
+        //AddUpgrade(new RowClearBonus());
+        //AddUpgrade(new GlobalLowMultBonus());
+        //AddUpgrade(new MoneyMultBonus());
 
         upgradeArea.UpdateArea();
 
+    }
+
+    public bool AddUpgrade(Upgrade upgrade)
+    {
+        if (!Perks.Contains(upgrade) &&  Perks.Count < MaxPerks)
+        {
+        Perks.Add(upgrade);
+        //ToDo: When an upgrade is added, schedule to update area at the end of the frame, insttead of updating every time one is added
+        upgradeArea.UpdateArea();
+        return true;
+        }
+        return false;
     }
 
     public bool IsDead()
@@ -69,15 +84,19 @@ public class GameManager : MonoBehaviour
 
     public void EndRun()
     {
-
         EndScreen.SetActive(true);
-
     }
 
     public void StartNew()
     {
-
         Scene scene = SceneManager.GetActiveScene(); SceneManager.LoadScene(scene.name);
-
+    }
+    
+    public void ProgressLevel()
+    {
+        ShopManager.instance.ExitShop();
+        ScoreManagement.Instance.Score = 0;
+        LevelProgressSlider.instance.ScoreReq *= 1.2f;
+        GameBoard.instance.EmptyBoard();
     }
 }

@@ -160,5 +160,13 @@ public class GameBoard : MonoBehaviour
             GettingMult = true;
         }
     }
+    
+    public void EmptyBoard()
+    {
+        foreach (GameObject g in GridObjects)
+        {
+            g.GetComponent<BlockScript>().Clear();
+        }
+    }
 
 }

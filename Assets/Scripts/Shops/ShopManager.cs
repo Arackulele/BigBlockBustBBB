@@ -9,6 +9,8 @@ public class ShopManager : MonoBehaviour
 
     public bool active = false;
 
+    public GameObject ContinueButton;
+    
     private void Awake()
     {
         instance = this;
@@ -25,7 +27,16 @@ public class ShopManager : MonoBehaviour
         active = true;
         GameBoard.instance.gameObject.SetActive(false);
         transform.GetChild(0).gameObject.SetActive(true);
+        ContinueButton.SetActive(true);
         SetUpShop();
-
+    }
+    
+    
+    public void ExitShop()
+    {
+        active = false;
+        ContinueButton.SetActive(false);
+        GameBoard.instance.gameObject.SetActive(true);
+        transform.GetChild(0).gameObject.SetActive(false);
     }
 }

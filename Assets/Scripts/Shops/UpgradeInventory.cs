@@ -27,10 +27,10 @@ public class UpgradeInventory : MonoBehaviour
 
     protected virtual void PopulatebyList()
     {
-        Populate(GameManager.Instance.Perks);
+        Populate(GameManager.Instance.Perks, false);
     }
 
-    protected void Populate(List<Upgrade> upgrades)
+    protected void Populate(List<Upgrade> upgrades, bool Shop)
     {
         
         int count = upgrades.Count;
@@ -41,6 +41,7 @@ public class UpgradeInventory : MonoBehaviour
 
             GameObject visual = upgrade.createVisual(UpgradeHolder.transform);
             UpgradeVisuals.Add(visual);
+            if (Shop) visual.GetComponent<UpgradeVisual>().IsShop = true;
 
             visual.transform.localPosition =
                 GetUpgradePosition(i, count, UpperBound.transform.localPosition.y, LowerBound.transform.localPosition.y, Padding);

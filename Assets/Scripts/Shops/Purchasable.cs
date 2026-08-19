@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Purchasable
 {
-    double Price = 5;
+    public virtual double price() { return 10; }
 
     GameObject visual;
 

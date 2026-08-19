@@ -31,7 +31,7 @@ public class ScoreManagement : MonoBehaviour
 
     private void Update()
     {
-        ScoreText.text = "" + Score;
+        ScoreText.text = "" + Score + "/" + LevelProgressSlider.instance.ScoreReq;
         SpendingScoreText.text = "" + UnspentScore.ToString();
         CurrentMultPrefab.text = "" + Combo.ToString() + "/" + GetMult().ToString();
 
