@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
         BlockPlacementArea.Instance.CheckPlacements();
 
-        //AddUpgrade(new RowClearBonus());
+        AddUpgrade(new AlwaysGainLow());
         //AddUpgrade(new GlobalLowMultBonus());
         //AddUpgrade(new MoneyMultBonus());
 

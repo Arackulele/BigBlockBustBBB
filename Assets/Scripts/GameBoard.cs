@@ -163,9 +163,12 @@ public class GameBoard : MonoBehaviour
     
     public void EmptyBoard()
     {
-        foreach (GameObject g in GridObjects)
+        for (int i = 0; i < GridMap.GetLength(0); i++)
         {
-            g.GetComponent<BlockScript>().Clear();
+            for (int c = 0; c < GridMap.GetLength(1); c++)
+            {
+                ClearBlockAtPos(i, c);
+            }
         }
     }
 

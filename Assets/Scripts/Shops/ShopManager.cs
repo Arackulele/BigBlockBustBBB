@@ -24,14 +24,16 @@ public class ShopManager : MonoBehaviour
 
     public void GoToShop()
     {
+        shopInventory.Upgrades.Clear();
         active = true;
         GameBoard.instance.gameObject.SetActive(false);
         transform.GetChild(0).gameObject.SetActive(true);
         ContinueButton.SetActive(true);
         SetUpShop();
     }
-    
-    
+
+
+
     public void ExitShop()
     {
         active = false;

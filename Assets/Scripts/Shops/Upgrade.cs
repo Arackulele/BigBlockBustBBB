@@ -83,6 +83,9 @@ public class Upgrade : Purchasable
         return 0;
     }
 
+    public virtual void OnBlocksRefilled()
+    {
+    }
 }
 
 public enum Rarity

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ShopInventory : UpgradeInventory
 {
-    public List<Upgrade> Upgrades;
+    public List<Upgrade> Upgrades = new List<Upgrade>();
     
     protected override void PopulatebyList()
     {

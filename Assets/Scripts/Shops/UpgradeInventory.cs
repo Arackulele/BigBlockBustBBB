@@ -43,6 +43,7 @@ public class UpgradeInventory : MonoBehaviour
             UpgradeVisuals.Add(visual);
             if (Shop) visual.GetComponent<UpgradeVisual>().IsShop = true;
 
+            if (visual != null)
             visual.transform.localPosition =
                 GetUpgradePosition(i, count, UpperBound.transform.localPosition.y, LowerBound.transform.localPosition.y, Padding);
 

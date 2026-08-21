@@ -866,8 +866,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3c2997813634768580903b1aa33f578, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShopInventory
-  UpgradeVisuals:
-  - {fileID: 1426277647}
+  UpgradeVisuals: []
   UpperBound: {fileID: 1068139348}
   LowerBound: {fileID: 1426277647}
   UpgradeHolder: {fileID: 1460973964}

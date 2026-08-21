@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static Unity.Collections.AllocatorManager;
 
 public class BlockPlacementArea : MonoBehaviour
 {
@@ -40,6 +41,28 @@ public class BlockPlacementArea : MonoBehaviour
                 newBlockScript.Positions = shape;
             }
         }
+
+        foreach (Upgrade u in GameManager.Instance.Perks)
+        {
+            u.OnBlocksRefilled();
+        }
+    }
+
+    public void FillBlock(int index)
+    {
+        GameObject block = BlockPlacementAreas[index];
+        if (block.transform.childCount > 0) Destroy(block.transform.GetChild(0));
+            
+                GameObject newblock = Instantiate(PlaceBlockPrefab, block.transform);
+                UnplacedBlockScript newBlockScript = newblock.GetComponent<UnplacedBlockScript>();
+
+                List<Vector2Int> shape = new List<Vector2Int>(
+                    BlockDictionary.BlockShapes.GetRandomItem());
+
+                RotateShapeRandom(shape);
+
+                newBlockScript.Positions = shape;
+            
     }
 
     private void RotateShapeRandom(List<Vector2Int> shape)
