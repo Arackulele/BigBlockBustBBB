@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -6,10 +7,11 @@ public class ThemerScript : MonoBehaviour
     public static ThemerScript Instance;
 
     public Theme CurrentTheme;
-    public SpriteRenderer BordBorder;
-    public SpriteRenderer UpgradeArea;
-    public SpriteRenderer Background;
-    public SpriteRenderer UpgradeAreaBackground;
+    public List<SpriteRenderer> UIBorder = new List<SpriteRenderer>();
+    public List<SpriteRenderer> Background = new List<SpriteRenderer>();
+    public List<SpriteRenderer> UIBackground = new List<SpriteRenderer>();
+    public List<SpriteRenderer> UIPanel = new List<SpriteRenderer>();
+
 
     public TextMeshProUGUI TotalScoreText;
 
@@ -27,17 +29,28 @@ public class ThemerScript : MonoBehaviour
 
         foreach (GameObject t in GameBoard.instance.GridObjects)
         {
-            t.GetComponent<SpriteRenderer>().color = CurrentTheme.BordBackgroundColor;
+             t.GetComponent<SpriteRenderer>().color = CurrentTheme.BordBackgroundColor;
         }
-        Background.color = CurrentTheme.BackgroundColor;
+        
+        ChangeSegment(Background, CurrentTheme.BackgroundColor);
         TotalScoreText.color = CurrentTheme.TotalScoreTextColor;
 
-        BordBorder.color = CurrentTheme.BordBorderColor;
+        ChangeSegment(UIBorder, CurrentTheme.BordBorderColor);
+        
+        ChangeSegment(UIBackground, CurrentTheme.BordBackgroundColor);
+        
+        ChangeSegment(UIPanel, CurrentTheme.UIPanelColor);
 
-        UpgradeArea.color = CurrentTheme.BordBorderColor;
-        UpgradeAreaBackground.color = CurrentTheme.BordBackgroundColor;
-
-
+        
     }
+
+    private void ChangeSegment(List<SpriteRenderer> segments, Color color)
+    {
+        foreach (SpriteRenderer segment in segments)
+        {
+            segment.color = color;
+        }
+    }
+    
 
 }

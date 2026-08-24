@@ -12,17 +12,29 @@ public class AlwaysGainLow : Upgrade
 
     public override void OnBlocksRefilled()
     {
-        bool check = true;
+        BlockPlacementArea placementArea = BlockPlacementArea.Instance;
+        if (placementArea == null || placementArea.BlockPlacementAreas == null ||
+            placementArea.BlockPlacementAreas.Count == 0)
+            return;
 
-        while (check)
+        GameObject blockSlot = placementArea.BlockPlacementAreas[0];
+        if (blockSlot == null || blockSlot.transform.childCount == 0)
+            return;
+
+        UnplacedBlockScript block = blockSlot.transform.GetChild(0).GetComponent<UnplacedBlockScript>();
+        if (block == null)
+            return;
+
+        List<List<Vector2Int>> lowShapes = new List<List<Vector2Int>>();
+        foreach (List<Vector2Int> shape in BlockDictionary.BlockShapes)
         {
-            UnplacedBlockScript up = BlockPlacementArea.Instance.BlockPlacementAreas[0].transform.GetChild(0).GetComponent<UnplacedBlockScript>();
-
-            if (up.Positions.Count > 3)
-            {
-                BlockPlacementArea.Instance.FillBlock(0);
-            }
-            else check = false;
+            if (shape != null && shape.Count <= 3)
+                lowShapes.Add(shape);
         }
+
+        if (lowShapes.Count == 0)
+            return;
+
+        block.Positions = new List<Vector2Int>(lowShapes[Random.Range(0, lowShapes.Count)]);
     }
 }

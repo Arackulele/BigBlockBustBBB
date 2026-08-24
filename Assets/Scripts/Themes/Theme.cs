@@ -11,6 +11,8 @@ public struct Theme
     public Color BackgroundColor;
     public Color BordBackgroundColor;
     public Color BordBorderColor;
+    public Color UIPanelColor;
+
 
     public TMPro.VertexGradient ScoreTextColor;
     public Color TotalScoreTextColor;
