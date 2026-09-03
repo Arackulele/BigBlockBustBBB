@@ -511,6 +511,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5f54e9a2dfbe514191a66d9cb69a945, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  EndScreen: {fileID: 0}
+  MaxPerks: 4
+  upgradeArea: {fileID: 0}
 --- !u!1 &757012234
 GameObject:
   m_ObjectHideFlags: 0
@@ -791,10 +794,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScoreManagement
   ScoreText: {fileID: 979267722}
+  SpendingScoreText: {fileID: 0}
+  CurrentMultPrefab: {fileID: 0}
   ScoreGiverPrefab: {fileID: 8139122544070361356, guid: 5db81124bccdb014f9b47b822e036620, type: 3}
   MultVisualPrefab: {fileID: 8139122544070361356, guid: 471737b7eaa15a5478e9375029feb2a2, type: 3}
   Score: 0
-  Multiplier: 1
+  MoneyMult: 1
+  UnspentScore: 0
+  Combo: 1
 --- !u!114 &979267725
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1020,7 +1027,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  - {fileID: 2100000, guid: 4b2b96cd61370e145b8838d0c7b43f9b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1395,14 +1402,18 @@ MonoBehaviour:
     BackgroundColor: {r: 0.346351, g: 0.7377221, b: 0.78113204, a: 1}
     BordBackgroundColor: {r: 0.1624421, g: 0.41385418, b: 0.4415095, a: 1}
     BordBorderColor: {r: 0.18871482, g: 0.400652, b: 0.5849056, a: 1}
+    UIPanelColor: {r: 0, g: 0, b: 0, a: 0}
     ScoreTextColor:
       topLeft: {r: 1, g: 0.49919963, b: 0, a: 1}
       topRight: {r: 1, g: 0.49803925, b: 0, a: 1}
       bottomLeft: {r: 1, g: 0, b: 0.024423122, a: 1}
       bottomRight: {r: 0, g: 0, b: 0, a: 1}
     TotalScoreTextColor: {r: 0.82641506, g: 0.7596221, b: 0, a: 1}
-  BordBorder: {fileID: 1761819136}
-  Background: {fileID: 1037703829}
+  UIBorder: []
+  Background:
+  - {fileID: 0}
+  UIBackground: []
+  UIPanel: []
   TotalScoreText: {fileID: 979267722}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
