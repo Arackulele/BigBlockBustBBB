@@ -4,7 +4,7 @@ using UnityEngine;
 public class AlwaysGainLow : Upgrade
 {
 
-    public override Rarity rarity { get => Rarity.Common; }
+    public override Rarity rarity { get => Rarity.Rare; }
     
     public override string name => "Tiny Toy Soldier";
 
@@ -13,13 +13,13 @@ public class AlwaysGainLow : Upgrade
     public override void OnBlocksRefilled()
     {
         BlockPlacementArea placementArea = BlockPlacementArea.Instance;
-        if (placementArea == null || placementArea.BlockPlacementAreas == null ||
-            placementArea.BlockPlacementAreas.Count == 0)
-            return;
+        //if (placementArea == null || placementArea.BlockPlacementAreas == null ||
+        //    placementArea.BlockPlacementAreas.Count == 0)
+        //    return;
 
         GameObject blockSlot = placementArea.BlockPlacementAreas[0];
-        if (blockSlot == null || blockSlot.transform.childCount == 0)
-            return;
+        //if (blockSlot == null || blockSlot.transform.childCount == 0)
+        //    return;
 
         UnplacedBlockScript block = blockSlot.transform.GetChild(0).GetComponent<UnplacedBlockScript>();
         if (block == null)

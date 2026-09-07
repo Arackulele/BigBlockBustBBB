@@ -3,23 +3,27 @@ Shader "BBB/Frosted Glass"
     Properties
     {
         [Header(Glass)]
-        _GlassColor ("Glass Color", Color) = (0.8, 0.9, 0.9, 1)
-        _Opacity ("Opacity", Range(0, 1)) = 0.55
+        _GlassColor ("Glass Color", Color) = (0.82, 0.88, 1.0, 1)
+        _Opacity ("Glass Strength", Range(0, 1)) = 0.75
+        _Milkiness ("Milkiness", Range(0, 1)) = 0.35
 
-        [Header(Frost)]
-        _BlurSize ("Blur Size", Range(0, 0.05)) = 0.012
-        _Distortion ("Distortion", Range(0, 0.03)) = 0.004
-        _NoiseScale ("Noise Scale", Range(1, 100)) = 25
-        _NoiseStrength ("Noise Strength", Range(0, 1)) = 0.15
+        [Header(Blur)]
+        _BlurSize ("Blur Size", Range(0, 150)) = 50
+        _BlurSoftness ("Blur Softness", Range(0.2, 3)) = 1.2
+
+        [Header(Distortion)]
+        _Distortion ("Distortion", Range(0, 50)) = 6
+        _NoiseScale ("Frost Scale", Range(1, 100)) = 18
+        _NoiseStrength ("Frost Strength", Range(0, 1)) = 0.35
 
         [Header(Lighting)]
-        _Brightness ("Brightness", Range(0, 2)) = 1.0
-        _Contrast ("Contrast", Range(0, 2)) = 1.0
+        _Brightness ("Brightness", Range(0, 2)) = 1
+        _Contrast ("Contrast", Range(0, 2)) = 0.7
 
         [Header(Edge)]
-        _EdgeDarkening ("Edge Darkening", Range(0, 1)) = 0.15
-        _EdgeHighlight ("Edge Highlight", Range(0, 1)) = 0.15
-        _EdgeSize ("Edge Size", Range(0, 0.5)) = 0.08
+        _EdgeDarkening ("Edge Darkening", Range(0, 1)) = 0.1
+        _EdgeHighlight ("Edge Highlight", Range(0, 1)) = 0.25
+        _EdgeSize ("Edge Size", Range(0.001, 0.5)) = 0.06
     }
 
     SubShader
@@ -32,7 +36,12 @@ Shader "BBB/Frosted Glass"
             "CanUseSpriteAtlas" = "True"
         }
 
-        Blend SrcAlpha OneMinusSrcAlpha
+        // IMPORTANT:
+        // The glass itself is NOT alpha blended with the scene.
+        // We want the blurred scene to completely replace the sharp
+        // background underneath the panel.
+        Blend One Zero
+
         Cull Off
         ZWrite Off
 
@@ -63,16 +72,17 @@ Shader "BBB/Frosted Glass"
                 float4 color : COLOR;
             };
 
-
             CBUFFER_START(UnityPerMaterial)
 
                 float4 _GlassColor;
 
                 float _Opacity;
+                float _Milkiness;
 
                 float _BlurSize;
-                float _Distortion;
+                float _BlurSoftness;
 
+                float _Distortion;
                 float _NoiseScale;
                 float _NoiseStrength;
 
@@ -87,23 +97,21 @@ Shader "BBB/Frosted Glass"
 
 
             // ============================================================
-            // HASH / NOISE
+            // HASH
             // ============================================================
 
             float hash21(float2 p)
             {
                 p = frac(p * float2(123.34, 456.21));
+                p += dot(p, p + 45.32);
 
-                p += dot(
-                    p,
-                    p + 45.32
-                );
-
-                return frac(
-                    p.x * p.y
-                );
+                return frac(p.x * p.y);
             }
 
+
+            // ============================================================
+            // VALUE NOISE
+            // ============================================================
 
             float noise(float2 p)
             {
@@ -113,15 +121,45 @@ Shader "BBB/Frosted Glass"
                 f = f * f * (3.0 - 2.0 * f);
 
                 float a = hash21(i);
-                float b = hash21(i + float2(1, 0));
-                float c = hash21(i + float2(0, 1));
-                float d = hash21(i + float2(1, 1));
+                float b = hash21(i + float2(1.0, 0.0));
+                float c = hash21(i + float2(0.0, 1.0));
+                float d = hash21(i + float2(1.0, 1.0));
 
                 return lerp(
                     lerp(a, b, f.x),
                     lerp(c, d, f.x),
                     f.y
                 );
+            }
+
+
+            // ============================================================
+            // FBM
+            // ============================================================
+
+            float fbm(float2 p)
+            {
+                float value = 0.0;
+                float amplitude = 0.5;
+
+                value += noise(p) * amplitude;
+
+                p *= 2.0;
+                amplitude *= 0.5;
+
+                value += noise(p) * amplitude;
+
+                p *= 2.0;
+                amplitude *= 0.5;
+
+                value += noise(p) * amplitude;
+
+                p *= 2.0;
+                amplitude *= 0.5;
+
+                value += noise(p) * amplitude;
+
+                return value;
             }
 
 
@@ -152,102 +190,156 @@ Shader "BBB/Frosted Glass"
 
 
             // ============================================================
-            // SAMPLE BLURRED SCENE
+            // DISTORTION FIELD
+            // ============================================================
+
+            float2 GetDistortionField(float2 uv)
+            {
+                float2 p =
+                    uv * _NoiseScale;
+
+                p +=
+                    float2(
+                        _Time.y * 0.012,
+                        _Time.y * 0.009
+                    );
+
+                float x =
+                    fbm(
+                        p +
+                        float2(17.1, 4.3)
+                    );
+
+                float y =
+                    fbm(
+                        p * 0.83 +
+                        float2(38.7, 21.4)
+                    );
+
+                return float2(
+                    x - 0.5,
+                    y - 0.5
+                );
+            }
+
+
+            // ============================================================
+            // GAUSSIAN
+            // ============================================================
+
+            float Gaussian(float x, float sigma)
+            {
+                return exp(
+                    -(x * x) /
+                    (2.0 * sigma * sigma)
+                );
+            }
+
+
+            // ============================================================
+            // LARGE FROSTED BLUR
+            //
+            // Multiple samples distributed over a large radius.
+            // This is deliberately weighted toward the center so edges
+            // dissolve smoothly instead of producing obvious streaks.
             // ============================================================
 
             float3 SampleBlurredScene(float2 uv)
             {
-                float2 pixel =
-                    _BlurSize / _ScreenParams.xy;
+                float2 texel =
+                    _CameraOpaqueTexture_TexelSize.xy;
+
+                float radius =
+                    _BlurSize;
+
+                float sigma =
+                    max(
+                        radius / _BlurSoftness,
+                        1.0
+                    );
+
+                float3 result =
+                    float3(0, 0, 0);
+
+                float totalWeight =
+                    0.0;
 
 
-                float3 result = 0;
-
-
+                // --------------------------------------------------------
                 // Center
-                result +=
-                    SampleSceneColor(
-                        uv
-                    ) * 0.16;
+                // --------------------------------------------------------
 
-
-                // Cardinal directions
-                result +=
-                    SampleSceneColor(
-                        uv + float2(pixel.x, 0)
-                    ) * 0.10;
+                float centerWeight =
+                    Gaussian(
+                        0,
+                        sigma
+                    );
 
                 result +=
-                    SampleSceneColor(
-                        uv - float2(pixel.x, 0)
-                    ) * 0.10;
+                    SampleSceneColor(uv) *
+                    centerWeight;
 
-                result +=
-                    SampleSceneColor(
-                        uv + float2(0, pixel.y)
-                    ) * 0.10;
-
-                result +=
-                    SampleSceneColor(
-                        uv - float2(0, pixel.y)
-                    ) * 0.10;
+                totalWeight +=
+                    centerWeight;
 
 
-                // Diagonals
-                result +=
-                    SampleSceneColor(
-                        uv + pixel
-                    ) * 0.09;
+                // --------------------------------------------------------
+                // Large number of samples
+                //
+                // The loop is symmetric so that there isn't a directional
+                // smear.
+                // --------------------------------------------------------
 
-                result +=
-                    SampleSceneColor(
-                        uv - pixel
-                    ) * 0.09;
+                for (int y = -6; y <= 6; y++)
+                {
+                    for (int x = -6; x <= 6; x++)
+                    {
+                        if (x == 0 && y == 0)
+                            continue;
 
-                result +=
-                    SampleSceneColor(
-                        uv + float2(
-                            pixel.x,
-                            -pixel.y
-                        )
-                    ) * 0.09;
+                        float2 pos =
+                            float2(x, y) / 6.0;
 
-                result +=
-                    SampleSceneColor(
-                        uv + float2(
-                            -pixel.x,
-                            pixel.y
-                        )
-                    ) * 0.09;
+                        float distance =
+                            length(pos);
+
+                        if (distance > 1.0)
+                            continue;
 
 
-                // Wider samples
-                float2 wide =
-                    pixel * 2.0;
+                        float sampleRadius =
+                            distance *
+                            radius;
 
 
-                result +=
-                    SampleSceneColor(
-                        uv + float2(wide.x, 0)
-                    ) * 0.02;
-
-                result +=
-                    SampleSceneColor(
-                        uv - float2(wide.x, 0)
-                    ) * 0.02;
-
-                result +=
-                    SampleSceneColor(
-                        uv + float2(0, wide.y)
-                    ) * 0.02;
-
-                result +=
-                    SampleSceneColor(
-                        uv - float2(0, wide.y)
-                    ) * 0.02;
+                        float weight =
+                            Gaussian(
+                                sampleRadius,
+                                sigma
+                            );
 
 
-                return result;
+                        float2 offset =
+                            pos *
+                            radius *
+                            texel;
+
+
+                        result +=
+                            SampleSceneColor(
+                                uv + offset
+                            ) *
+                            weight;
+
+                        totalWeight +=
+                            weight;
+                    }
+                }
+
+
+                return
+                    result /
+                    max(totalWeight, 0.0001);
             }
 
 
@@ -257,97 +349,134 @@ Shader "BBB/Frosted Glass"
 
             half4 frag(Varyings IN) : SV_Target
             {
+                // --------------------------------------------------------
+                // SCREEN UV
+                // --------------------------------------------------------
+
                 float2 screenUV =
                     IN.screenPos.xy /
                     IN.screenPos.w;
 
 
                 // --------------------------------------------------------
-                // FROST NOISE
+                // ORGANIC DISTORTION
                 // --------------------------------------------------------
 
-                float2 noiseUV =
-                    screenUV *
-                    _NoiseScale;
-
-                noiseUV +=
-                    _Time.y * 0.015;
-
-
-                float noiseX =
-                    noise(
-                        noiseUV
-                        + float2(17.3, 4.7)
+                float2 distortionField =
+                    GetDistortionField(
+                        screenUV
                     );
 
-                float noiseY =
-                    noise(
-                        noiseUV
-                        + float2(3.1, 29.4)
-                    );
-
+                float2 texel =
+                    _CameraOpaqueTexture_TexelSize.xy;
 
                 float2 distortion =
-                    float2(
-                        noiseX - 0.5,
-                        noiseY - 0.5
-                    );
-
-                distortion *=
+                    distortionField *
+                    texel *
                     _Distortion *
                     _NoiseStrength;
 
-
-                // --------------------------------------------------------
-                // BLURRED BACKGROUND
-                // --------------------------------------------------------
 
                 float2 distortedUV =
                     screenUV +
                     distortion;
 
 
-                float3 background =
+                // --------------------------------------------------------
+                // BLURRED BACKGROUND
+                // --------------------------------------------------------
+
+                float3 blurred =
                     SampleBlurredScene(
                         distortedUV
                     );
 
 
+        // --------------------------------------------------------
+        // BRIGHTNESS
+        // --------------------------------------------------------
+
+        blurred *= _Brightness;
+
+
+        // --------------------------------------------------------
+        // CONTRAST
+        //
+        // Apply contrast around the pixel's luminance rather than
+        // around neutral grey. This preserves the colors of the
+        // Balatro background.
+        // --------------------------------------------------------
+
+        float luminance =
+            dot(
+                blurred,
+                float3(
+                    0.2126,
+                    0.7152,
+                    0.0722
+                )
+            );
+
+        float3 contrasted =
+            luminance +
+            (blurred - luminance) *
+            _Contrast;
+
+
+        // --------------------------------------------------------
+        // GLASS COLOR
+        //
+        // Glass Strength controls whether the glass actually
+        // influences the background.
+        //
+        // At 0:
+        //     untouched blurred colors.
+        //
+        // At 1:
+        //     Milkiness is fully applied.
+        // --------------------------------------------------------
+
+        float tintAmount =
+            _Milkiness *
+            _Opacity;
+
+        float3 frostedColor =
+            lerp(
+                contrasted,
+                _GlassColor.rgb,
+                tintAmount
+            );
+
+
+        // --------------------------------------------------------
+        // SUBTLE FROST CLOUDING
+        //
+        // Only changes local brightness. It does not pull the
+        // image toward white.
+        // --------------------------------------------------------
+
+        float cloud =
+            fbm(
+                screenUV *
+                (_NoiseScale * 0.65)
+            );
+
+        float cloudFactor =
+            lerp(
+                0.97,
+                1.03,
+                cloud
+            );
+
+        frostedColor *=
+            lerp(
+                1.0,
+                cloudFactor,
+                _NoiseStrength * 0.25
+            );
+
                 // --------------------------------------------------------
-                // CONTRAST
-                // --------------------------------------------------------
-
-                background =
-                    lerp(
-                        0.5,
-                        background,
-                        _Contrast
-                    );
-
-
-                // --------------------------------------------------------
-                // BRIGHTNESS
-                // --------------------------------------------------------
-
-                background *=
-                    _Brightness;
-
-
-                // --------------------------------------------------------
-                // GLASS TINT
-                // --------------------------------------------------------
-
-                background =
-                    lerp(
-                        background,
-                        background *
-                        _GlassColor.rgb,
-                        _GlassColor.a
-                    );
-
-
-                // --------------------------------------------------------
-                // SPRITE EDGE
+                // EDGES
                 // --------------------------------------------------------
 
                 float2 edgeDistance =
@@ -362,7 +491,6 @@ Shader "BBB/Frosted Glass"
                         edgeDistance.y
                     );
 
-
                 float edgeFactor =
                     1.0 -
                     smoothstep(
@@ -372,16 +500,19 @@ Shader "BBB/Frosted Glass"
                     );
 
 
-                // Slight darkening toward edge
-                background *=
+                // Slight edge darkening
+
+                frostedColor *=
                     1.0 -
                     edgeFactor *
                     _EdgeDarkening;
 
 
-                // Small bright rim
-                background +=
+                // Soft colored rim
+
+                frostedColor +=
                     edgeFactor *
+                    _GlassColor.rgb *
                     _EdgeHighlight;
 
 
@@ -389,13 +520,9 @@ Shader "BBB/Frosted Glass"
                 // OUTPUT
                 // --------------------------------------------------------
 
-                float alpha =
-                    _Opacity *
-                    IN.color.a;
-
                 return half4(
-                    background,
-                    alpha
+                    frostedColor,
+                    1.0
                 );
             }
 

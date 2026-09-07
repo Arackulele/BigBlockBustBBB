@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
@@ -32,7 +33,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
         BlockPlacementArea.Instance.CheckPlacements();
 
-        AddUpgrade(new AlwaysGainLow());
+        //AddUpgrade(new AlwaysGainLow());
         //AddUpgrade(new GlobalLowMultBonus());
         //AddUpgrade(new MoneyMultBonus());
 
@@ -45,6 +46,7 @@ public class GameManager : MonoBehaviour
         if (!Perks.Contains(upgrade) &&  Perks.Count < MaxPerks)
         {
         Perks.Add(upgrade);
+        if (ShopManager.instance.shopInventory.UpgradeIndex.Contains(upgrade)) ShopManager.instance.shopInventory.UpgradeIndex.Remove(upgrade);
         //ToDo: When an upgrade is added, schedule to update area at the end of the frame, insttead of updating every time one is added
         upgradeArea.UpdateArea();
         return true;
@@ -97,6 +99,7 @@ public class GameManager : MonoBehaviour
         ShopManager.instance.ExitShop();
         ScoreManagement.Instance.Score = 0;
         LevelProgressSlider.instance.ScoreReq *= 1.2f;
+        LevelProgressSlider.instance.ScoreReq = Mathf.RoundToInt(LevelProgressSlider.instance.ScoreReq);
         GameBoard.instance.EmptyBoard();
     }
 }

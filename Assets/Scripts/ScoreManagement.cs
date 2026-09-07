@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -31,9 +32,9 @@ public class ScoreManagement : MonoBehaviour
 
     private void Update()
     {
-        ScoreText.text = "" + Score + "/" + LevelProgressSlider.instance.ScoreReq;
-        SpendingScoreText.text = "" + UnspentScore.ToString();
-        CurrentMultPrefab.text = "" + Combo.ToString() + "/" + GetMult().ToString();
+        ScoreText.text = "" + Math.Round((double)Score, 1) + "/" + LevelProgressSlider.instance.ScoreReq;
+        SpendingScoreText.text = "" + Math.Round(UnspentScore, 2);
+        CurrentMultPrefab.text = "" + Combo + "/" + Math.Round(GetMult(), 2);
 
     }
 
@@ -55,6 +56,11 @@ public class ScoreManagement : MonoBehaviour
     public void AddScore(int amount, Vector2 pos = new Vector2())
     {
         amount = (int)(amount * GetMult());
+        PutScore(amount, pos);
+    }
+    
+    public void AddRawScore(int amount, Vector2 pos = new Vector2())
+    {
         PutScore(amount, pos);
     }
 

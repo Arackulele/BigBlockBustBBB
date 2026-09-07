@@ -24,8 +24,8 @@ public class Upgrade : Purchasable
         switch (rarity)
         {
             case Rarity.Common: Price *= 1; break;
-            case Rarity.Rare:   Price *= 2;  break;
-            case Rarity.Epic:   Price *= 5;  break;
+            case Rarity.Rare:   Price *= 3;  break;
+            case Rarity.Epic:   Price *= 6;  break;
         }
         
         

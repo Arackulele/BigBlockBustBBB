@@ -8,7 +8,7 @@ public class RowClearBonus : Upgrade
     
     public override string name => "Olive Branch";
 
-    public override string description => "Clearing a row is worth 50% more";
+    public override string description => "Clearing a row gains 50% more points";
 
     public override float LineClearModifier(List<Vector2Int> ClearedBlocks)
     {

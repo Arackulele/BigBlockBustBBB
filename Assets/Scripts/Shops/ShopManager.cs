@@ -10,6 +10,8 @@ public class ShopManager : MonoBehaviour
     public bool active = false;
 
     public GameObject ContinueButton;
+
+    public int ShopAmount = 3;
     
     private void Awake()
     {
@@ -18,7 +20,6 @@ public class ShopManager : MonoBehaviour
 
     public void SetUpShop()
     {
-        shopInventory.Upgrades = new List<Upgrade>() { new RowClearBonus(), new GlobalLowMultBonus(), new MoneyMultBonus() };
         shopInventory.UpdateArea();
     }
 

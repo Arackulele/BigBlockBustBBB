@@ -102,12 +102,15 @@ Material:
     - _BandWidth: 0.18
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
-    - _BlurSize: 0.0316
-    - _Brightness: 1
+    - _BlurSize: 24.7
+    - _BlurSoftness: 1.11
+    - _BlurStrength: 1
+    - _BlurVariation: 1
+    - _Brightness: 1.28
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
-    - _Contrast: 1
+    - _Contrast: 0.78
     - _Cull: 2
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
@@ -116,26 +119,28 @@ Material:
     - _DetailStrength: 0.05
     - _DetailWarp: 0.5
     - _Direction: 0.51
-    - _Distortion: 0.03
+    - _Distortion: 30
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EdgeDarkening: 0.15
-    - _EdgeHighlight: 0.15
-    - _EdgeSize: 0.08
+    - _EdgeHighlight: 0.036
+    - _EdgeSize: 0.048
     - _EnvironmentReflections: 1
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _Metallic: 0
-    - _NoiseScale: 1
-    - _NoiseStrength: 0.781
+    - _Milkiness: 0.487
+    - _NoiseScale: 100
+    - _NoiseStrength: 1
     - _OcclusionStrength: 1
-    - _Opacity: 0.597
+    - _Opacity: 0.04
     - _Parallax: 0.005
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
+    - _SoftBlur: 1
     - _SpecularHighlights: 1
     - _Speed: 0.27
     - _SrcBlend: 1
@@ -161,7 +166,7 @@ Material:
     - _Color4: {r: 0.33641866, g: 0.5283019, b: 0.49540767, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FlowColor: {r: 0.34999996, g: 0.65, b: 0.62, a: 1}
-    - _GlassColor: {r: 0.8, g: 0.9, b: 0.9, a: 1}
+    - _GlassColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _TopColor: {r: 0.24999997, g: 0.45, b: 0.43999997, a: 1}
   m_BuildTextureStacks: []
