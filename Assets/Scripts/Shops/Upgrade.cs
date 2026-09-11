@@ -3,36 +3,12 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Upgrade : Purchasable
+public class Upgrade : ShopItem
 {
     //ToDo:Gain Points on condition set
     //Get specific Block Types in Block roll
 
-    [SerializeField]
-    private Sprite sprite;
-
-    public virtual Rarity rarity { get; }
-    
-    public virtual string name { get; }
-    
-    public virtual string description { get; }
-
-    public override double price()
-    {
-        double Price = 30 + UnityEngine.Random.Range(2, 10);
-        
-        switch (rarity)
-        {
-            case Rarity.Common: Price *= 1; break;
-            case Rarity.Rare:   Price *= 3;  break;
-            case Rarity.Epic:   Price *= 6;  break;
-        }
-        
-        
-        return Price;
-    }
-
-    
+    public override float baseprice => 32;
 
     public override GameObject createVisual(Transform par)
     {
@@ -52,6 +28,8 @@ public class Upgrade : Purchasable
 
         return g;
     }
+
+
 
     public virtual float LineClearModifier(List<Vector2Int> ClearedBlocks)
     {
@@ -87,11 +65,3 @@ public class Upgrade : Purchasable
     {
     }
 }
-
-public enum Rarity
-{
-    Common,
-    Rare,
-    Epic
-}
-

@@ -35,11 +35,7 @@ Shader "BBB/Frosted Glass"
             "RenderPipeline" = "UniversalPipeline"
             "CanUseSpriteAtlas" = "True"
         }
-
-        // IMPORTANT:
-        // The glass itself is NOT alpha blended with the scene.
-        // We want the blurred scene to completely replace the sharp
-        // background underneath the panel.
+        
         Blend One Zero
 
         Cull Off
@@ -95,10 +91,7 @@ Shader "BBB/Frosted Glass"
 
             CBUFFER_END
 
-
-            // ============================================================
-            // HASH
-            // ============================================================
+            
 
             float hash21(float2 p)
             {
@@ -108,10 +101,7 @@ Shader "BBB/Frosted Glass"
                 return frac(p.x * p.y);
             }
 
-
-            // ============================================================
-            // VALUE NOISE
-            // ============================================================
+            
 
             float noise(float2 p)
             {
@@ -380,32 +370,17 @@ Shader "BBB/Frosted Glass"
                 float2 distortedUV =
                     screenUV +
                     distortion;
-
-
-                // --------------------------------------------------------
-                // BLURRED BACKGROUND
-                // --------------------------------------------------------
+                
 
                 float3 blurred =
                     SampleBlurredScene(
                         distortedUV
                     );
 
-
-        // --------------------------------------------------------
-        // BRIGHTNESS
-        // --------------------------------------------------------
+                
 
         blurred *= _Brightness;
-
-
-        // --------------------------------------------------------
-        // CONTRAST
-        //
-        // Apply contrast around the pixel's luminance rather than
-        // around neutral grey. This preserves the colors of the
-        // Balatro background.
-        // --------------------------------------------------------
+                
 
         float luminance =
             dot(
@@ -422,19 +397,7 @@ Shader "BBB/Frosted Glass"
             (blurred - luminance) *
             _Contrast;
 
-
-        // --------------------------------------------------------
-        // GLASS COLOR
-        //
-        // Glass Strength controls whether the glass actually
-        // influences the background.
-        //
-        // At 0:
-        //     untouched blurred colors.
-        //
-        // At 1:
-        //     Milkiness is fully applied.
-        // --------------------------------------------------------
+                
 
         float tintAmount =
             _Milkiness *
@@ -448,12 +411,6 @@ Shader "BBB/Frosted Glass"
             );
 
 
-        // --------------------------------------------------------
-        // SUBTLE FROST CLOUDING
-        //
-        // Only changes local brightness. It does not pull the
-        // image toward white.
-        // --------------------------------------------------------
 
         float cloud =
             fbm(
@@ -474,10 +431,7 @@ Shader "BBB/Frosted Glass"
                 cloudFactor,
                 _NoiseStrength * 0.25
             );
-
-                // --------------------------------------------------------
-                // EDGES
-                // --------------------------------------------------------
+                
 
                 float2 edgeDistance =
                     min(
@@ -499,27 +453,20 @@ Shader "BBB/Frosted Glass"
                         edge
                     );
 
-
-                // Slight edge darkening
+                
 
                 frostedColor *=
                     1.0 -
                     edgeFactor *
                     _EdgeDarkening;
 
-
-                // Soft colored rim
-
+                
                 frostedColor +=
                     edgeFactor *
                     _GlassColor.rgb *
                     _EdgeHighlight;
 
-
-                // --------------------------------------------------------
-                // OUTPUT
-                // --------------------------------------------------------
-
+                
                 return half4(
                     frostedColor,
                     1.0

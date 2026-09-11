@@ -15,9 +15,16 @@ public class GameManager : MonoBehaviour
 
     public List<Upgrade> Perks = new List<Upgrade>();
     
+    public List<Consumable> Consumables = new List<Consumable>();
+
+    
     public int MaxPerks = 4;
+    
+    public int MaxConsumables = 10;
+
 
     public UpgradeInventory upgradeArea;
+    public ConsumableInventory consumableArea;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -38,6 +45,7 @@ public class GameManager : MonoBehaviour
         //AddUpgrade(new MoneyMultBonus());
 
         upgradeArea.UpdateArea();
+        consumableArea?.UpdateArea();
 
     }
 
@@ -52,6 +60,16 @@ public class GameManager : MonoBehaviour
         return true;
         }
         return false;
+    }
+
+    public bool AddConsumable(Consumable consumable)
+    {
+        if (Consumables.Count >= MaxConsumables)
+            return false;
+
+        Consumables.Add(consumable);
+        consumableArea.UpdateArea();
+        return true;
     }
 
     public bool IsDead()

@@ -820,6 +820,7 @@ MonoBehaviour:
   MaxPerks: 4
   MaxConsumables: 10
   upgradeArea: {fileID: 1821240714}
+  consumableArea: {fileID: 0}
 --- !u!1 &684381501
 GameObject:
   m_ObjectHideFlags: 0
@@ -868,11 +869,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3c2997813634768580903b1aa33f578, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShopInventory
-  UpgradeVisuals: []
   UpperBound: {fileID: 1068139348}
   LowerBound: {fileID: 1426277647}
   UpgradeHolder: {fileID: 1460973964}
   Padding: 0.3
+  UpgradeVisuals: []
   RareChance: 15
   EpicChance: 1
 --- !u!1 &734741235
@@ -2565,11 +2566,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f6f0595e0cb0f64c9dcadb2f7897416, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeInventory
-  UpgradeVisuals: []
   UpperBound: {fileID: 0}
   LowerBound: {fileID: 0}
   UpgradeHolder: {fileID: 0}
   Padding: 0.3
+  UpgradeVisuals: []
 --- !u!212 &1403638239
 SpriteRenderer:
   serializedVersion: 2
@@ -3080,11 +3081,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f6f0595e0cb0f64c9dcadb2f7897416, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeInventory
-  UpgradeVisuals: []
   UpperBound: {fileID: 0}
   LowerBound: {fileID: 0}
   UpgradeHolder: {fileID: 0}
   Padding: 0.3
+  UpgradeVisuals: []
 --- !u!212 &1807348980
 SpriteRenderer:
   serializedVersion: 2
@@ -3417,11 +3418,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f6f0595e0cb0f64c9dcadb2f7897416, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeInventory
-  UpgradeVisuals: []
   UpperBound: {fileID: 1733262241}
   LowerBound: {fileID: 469682281}
   UpgradeHolder: {fileID: 1991357380}
   Padding: 0.3
+  UpgradeVisuals: []
 --- !u!61 &1821240715
 BoxCollider2D:
   m_ObjectHideFlags: 0
