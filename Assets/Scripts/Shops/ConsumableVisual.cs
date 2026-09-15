@@ -6,6 +6,17 @@ public class ConsumableVisual : DraggableObject
     public TMPro.TextMeshPro name;
     public TMPro.TextMeshPro desc;
     public TMPro.TextMeshPro price;
+    
+    public enum PlacementType
+    {
+        Anywhere,
+        OnBoard,
+        
+        OnUpgrade,
+        OnConsumable
+    }
+
+    public PlacementType type;
 
 
     public bool IsShop = false;
@@ -29,14 +40,31 @@ public class ConsumableVisual : DraggableObject
     protected override bool TryGetValidDropPosition(out Vector2 validPosition)
     {
         validPosition = transform.position;
+        
+        Collider2D consumableAreaCollider = GameManager.Instance.consumableArea.GetComponent<Collider2D>();
 
-        if (!IsShop || Consumable == null || GameManager.Instance == null ||
+
+        if ( Consumable == null || GameManager.Instance == null ||
             ScoreManagement.Instance == null || GameManager.Instance.consumableArea == null)
         {
             return false;
         }
+        else if (!IsShop)
+        {
+            switch (type)
+            {
+                default: case PlacementType.Anywhere:
 
-        Collider2D consumableAreaCollider = GameManager.Instance.consumableArea.GetComponent<Collider2D>();
+                    if (consumableAreaCollider != null &&
+                        !consumableAreaCollider.OverlapPoint(transform.position)) return true;
+                    
+                break;
+                
+                
+            }
+            
+        }
+
 
         return consumableAreaCollider != null &&
                consumableAreaCollider.OverlapPoint(transform.position) &&
@@ -46,10 +74,11 @@ public class ConsumableVisual : DraggableObject
 
     protected override void OnPlace(Vector2 validPosition)
     {
-        if (GameManager.Instance.AddConsumable(Consumable))
+        if (IsShop && GameManager.Instance.AddConsumable(Consumable))
         {
             ScoreManagement.Instance.UnspentScore -= Consumable.price();
             Destroy(gameObject);
         }
+        else if (!IsShop) Consumable.OnDrop(validPosition);
     }
 }

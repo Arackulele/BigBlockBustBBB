@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShopInventory : UpgradeInventory
+public class UpgradeShop : UpgradeInventory
 {
     public List<Upgrade> UpgradeIndex =
         new List<Upgrade>()

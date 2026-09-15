@@ -20,7 +20,7 @@ public class ShopItem : Purchasable
         
         switch (rarity)
         {
-            case Rarity.Common: Price *= 1; break;
+            case Rarity.Common: Price *= 1;  break;
             case Rarity.Rare:   Price *= 3;  break;
             case Rarity.Epic:   Price *= 6;  break;
         }

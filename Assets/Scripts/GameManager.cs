@@ -43,6 +43,7 @@ public class GameManager : MonoBehaviour
         //AddUpgrade(new AlwaysGainLow());
         //AddUpgrade(new GlobalLowMultBonus());
         //AddUpgrade(new MoneyMultBonus());
+        AddConsumable(new GainScoreConsumable());
 
         upgradeArea.UpdateArea();
         consumableArea?.UpdateArea();

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ShopManager : MonoBehaviour
 {
-    public ShopInventory shopInventory;
+    public UpgradeShop shopInventory;
     
     public static ShopManager instance;
 
