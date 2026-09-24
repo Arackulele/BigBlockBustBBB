@@ -8,10 +8,9 @@ public struct Theme
     public List<Sprite> BlockSprites;
     public List<Color>  BlockColors;
 
-    public Color BackgroundColor;
+    public Material BGMaterial;
     public Color BordBackgroundColor;
-    public Color BordBorderColor;
-    public Color UIPanelColor;
+    public Color UIBorderColor;
 
 
     public TMPro.VertexGradient ScoreTextColor;

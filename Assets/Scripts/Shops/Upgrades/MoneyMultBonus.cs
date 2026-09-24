@@ -8,11 +8,11 @@ public class MoneyMultBonus : Upgrade
     
     public override string name => "Piggybank";
 
-    public override string description => "Gain 5% of your current Money as mult";
+    public override string description => "Gain 2% of your current Money as mult";
 
     public override float GlobalPointsMultiplier()
     {
-        if (ScoreManagement.Instance.UnspentScore > 50) return (float)(ScoreManagement.Instance.UnspentScore * 0.05f);
+        if (ScoreManagement.Instance.UnspentScore > 50) return (float)(ScoreManagement.Instance.UnspentScore * 0.02f);
         return 0;
     }
 }

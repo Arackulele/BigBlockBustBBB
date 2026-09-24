@@ -7,7 +7,7 @@ public class GainScoreConsumable : Consumable
     public override ConsumableVisual.PlacementType Placement { get => ConsumableVisual.PlacementType.Anywhere; }
 
 
-    public override string name => "6 Sided Die";
+    public override string name => "Cubed Melon";
 
     public override string description => "Use to get 1D6*10 Score, affected by mult";
 

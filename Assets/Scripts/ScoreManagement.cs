@@ -32,7 +32,7 @@ public class ScoreManagement : MonoBehaviour
 
     private void Update()
     {
-        ScoreText.text = "" + Math.Round((double)Score, 1) + "/" + LevelProgressSlider.instance.ScoreReq;
+        ScoreText.text = "" + Math.Round((double)Score, 1) + "/" + LevelProgression.instance.ScoreReq;
         SpendingScoreText.text = "" + Math.Round(UnspentScore, 2);
         CurrentMultPrefab.text = "" + Combo + "/" + Math.Round(GetMult(), 2);
 
@@ -43,11 +43,11 @@ public class ScoreManagement : MonoBehaviour
         Instance = this;
     }
 
-    public float GetMult()
+
+    public double GetMult()
     {
-        float mult = Combo;
-        foreach (Upgrade u in GameManager.Instance.Perks)
-        {
+        double mult = Combo * GameManager.Instance.GlobalMultiplier;
+        foreach (GameModifier u in GameManager.Instance.GameModifiers())        {
             mult += u.GlobalPointsMultiplier();
         }
         return mult;
@@ -67,19 +67,20 @@ public class ScoreManagement : MonoBehaviour
     public void ClearLine(int amount, List<Vector2Int> ClearedBlocks, Vector2 pos = new Vector2())
     {
         amount = (int)(amount * GetMult());
-        foreach (Upgrade u in GameManager.Instance.Perks)
-        {
+        foreach (GameModifier u in GameManager.Instance.GameModifiers())        {
             amount = (int)(amount * (u.LineClearModifier(ClearedBlocks) + 1));
         }
-        PutScore(amount, pos);
+        
+        IncrementMult(pos);
+        GameBoard.instance.GettingMult = true;
+        PutScoreAndMoney(amount, pos);
 
     }
 
     public void PlaceBlock(List<Vector2Int> PlacedPositions, UnplacedBlockScript Block, Vector2 pos = new Vector2())
     {
         int amount = 0;
-        foreach (Upgrade u in GameManager.Instance.Perks)
-        {
+        foreach (GameModifier u in GameManager.Instance.GameModifiers())        {
             Debug.Log($"Upgrade: {(u == null ? "NULL" : u.ToString())}");
             amount += u.BlockPlaceModifier(PlacedPositions, Block);
         }
@@ -103,9 +104,19 @@ public class ScoreManagement : MonoBehaviour
         g.transform.position = pos;
         g.GetComponent<ScorePoint>().Amount = amount;
     }
+    
+    public void PutScoreAndMoney(int amount, Vector2 pos = new Vector2())
+    {
+        PutScore(amount, pos);
+        ScoreManagement.Instance.UnspentScore += amount * (0.1 * ScoreManagement.Instance.MoneyMult);
+    }
 
     public void DepleteMult()
     {
+        foreach (GameModifier u in GameManager.Instance.GameModifiers())        {
+            Debug.Log($"Upgrade: {(u == null ? "NULL" : u.ToString())}");
+            u.OnMultReset(Combo);
+        }
         Combo = 1;
     }
 

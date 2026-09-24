@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Rendering;
@@ -10,6 +11,8 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance;
 
+    public Stage CurrentStage = new DefaultStage();
+
     [SerializeField]
     private GameObject EndScreen;
 
@@ -18,13 +21,23 @@ public class GameManager : MonoBehaviour
     public List<Consumable> Consumables = new List<Consumable>();
 
     
-    public int MaxPerks = 4;
+    [SerializeField, Min(0)] private int maxPerks = 4;
+    public int MaxPerks => maxPerks;
     
-    public int MaxConsumables = 10;
+    [SerializeField, Min(0)] private int maxConsumables = 10;
+    public int MaxConsumables => maxConsumables;
+    
+    public double GlobalMultiplier = 1.0;
+
+    public int TurnLimit = 10;
 
 
     public UpgradeInventory upgradeArea;
     public ConsumableInventory consumableArea;
+    
+    public ObjectSwitcher areaswitcher;
+
+
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -34,16 +47,32 @@ public class GameManager : MonoBehaviour
         StartCoroutine(StartGame());
     }
 
+    private void Start()
+    {
+    }
+
+    public List<GameModifier> GameModifiers()
+    {
+        List<GameModifier> FinalList = new List<GameModifier>();
+        FinalList.AddRange(Perks);
+        if (CurrentStage != null) FinalList.Add(CurrentStage);
+        return FinalList;
+    }
+
     public IEnumerator StartGame()
     {
 
         yield return new WaitForSeconds(0.2f);
-        BlockPlacementArea.Instance.CheckPlacements();
+        ChangeStage(new DefaultStage());
+        BlockPlacementArea.instance.CheckPlacements();
 
         //AddUpgrade(new AlwaysGainLow());
         //AddUpgrade(new GlobalLowMultBonus());
         //AddUpgrade(new MoneyMultBonus());
-        AddConsumable(new GainScoreConsumable());
+        //AddConsumable(new GainScoreConsumable());
+        //AddConsumable(new BombConsumable());
+        //AddConsumable(new FillConsumable());
+
 
         upgradeArea.UpdateArea();
         consumableArea?.UpdateArea();
@@ -56,8 +85,9 @@ public class GameManager : MonoBehaviour
         {
         Perks.Add(upgrade);
         if (ShopManager.instance.shopInventory.UpgradeIndex.Contains(upgrade)) ShopManager.instance.shopInventory.UpgradeIndex.Remove(upgrade);
-        //ToDo: When an upgrade is added, schedule to update area at the end of the frame, insttead of updating every time one is added
+        //ToDo: When an upgrade is added, schedule to update area at the end of the frame, instead of updating every time one is added
         upgradeArea.UpdateArea();
+        upgrade.OnAdded();
         return true;
         }
         return false;
@@ -73,9 +103,42 @@ public class GameManager : MonoBehaviour
         return true;
     }
 
+    public void ChangeMaxPerks(int amount)
+    {
+        maxPerks = Mathf.Max(0, maxPerks + amount);
+
+        bool removedPerks = false;
+        while (Perks.Count > maxPerks)
+        {
+            int lastIndex = Perks.Count - 1;
+            Upgrade removedPerk = Perks[lastIndex];
+            Perks.RemoveAt(lastIndex);
+            removedPerk.OnRemoved();
+            removedPerks = true;
+        }
+
+        if (removedPerks)
+            upgradeArea?.UpdateArea();
+    }
+
+    public void ChangeMaxConsumables(int amount)
+    {
+        maxConsumables = Mathf.Max(0, maxConsumables + amount);
+
+        bool removedConsumables = false;
+        while (Consumables.Count > maxConsumables)
+        {
+            Consumables.RemoveAt(Consumables.Count - 1);
+            removedConsumables = true;
+        }
+
+        if (removedConsumables)
+            consumableArea?.UpdateArea();
+    }
+
     public bool IsDead()
     {
-        foreach (GameObject block in BlockPlacementArea.Instance.BlockPlacementAreas)
+        foreach (GameObject block in BlockPlacementArea.instance.BlockPlacementAreas)
         {
             if (block.transform.childCount > 0)
             {
@@ -107,6 +170,27 @@ public class GameManager : MonoBehaviour
     {
         EndScreen.SetActive(true);
     }
+    
+    public void WonStage()
+    {
+        ScoreManagement.Instance.Combo = 1;
+        LevelProgression.instance.CurrentTurn = 0;
+        LevelProgression.instance.CurrentStage++;
+        ShopManager.instance.GoToShop();
+        ChangeStage();
+    }
+    
+    public void Endturn()
+    {
+        foreach (GameModifier u in GameManager.Instance.GameModifiers())        {
+            u.OnTurnPassed(LevelProgression.instance.CurrentTurn);
+        }
+        
+        if (!GameBoard.instance.GettingMult) ScoreManagement.Instance.DepleteMult();
+        else GameBoard.instance.GettingMult = false;
+        BlockPlacementArea.instance.FillBlocks();
+        LevelProgression.instance.CurrentTurn++;
+    }
 
     public void StartNew()
     {
@@ -116,9 +200,23 @@ public class GameManager : MonoBehaviour
     public void ProgressLevel()
     {
         ShopManager.instance.ExitShop();
+        BlockPlacementArea.instance.FillBlocks(true);
         ScoreManagement.Instance.Score = 0;
-        LevelProgressSlider.instance.ScoreReq *= 1.2f;
-        LevelProgressSlider.instance.ScoreReq = Mathf.RoundToInt(LevelProgressSlider.instance.ScoreReq);
+        int x = LevelProgression.instance.CurrentStage;
+        LevelProgression.instance.ScoreReq = (float)( ( 500 + 10*(x+2) * x ) * CurrentStage.pointsmod);
+        LevelProgression.instance.ScoreReq = Mathf.RoundToInt(LevelProgression.instance.ScoreReq);
         GameBoard.instance.EmptyBoard();
+    }
+
+    public void ChangeStage()
+    {
+        CurrentStage = LevelProgression.instance.SelectNewStage();
+        ThemerScript.Instance.ChangeTheme(CurrentStage.Theme);
+    }
+    
+    public void ChangeStage(Stage stage)
+    {
+        CurrentStage = stage;
+        ThemerScript.Instance.ChangeTheme(CurrentStage.Theme);
     }
 }

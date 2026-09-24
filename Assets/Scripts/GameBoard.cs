@@ -46,7 +46,7 @@ public class GameBoard : MonoBehaviour
         
     }
 
-    public Vector2Int ClosestBlock(Vector2 position)
+    public Vector2Int ClosestBlock(Vector2 position, bool OnlyEmpty = false)
     {
         GameObject closest = null;
         Vector2Int closestpos = new Vector2Int(-1, -1);
@@ -57,8 +57,10 @@ public class GameBoard : MonoBehaviour
                 GameObject g = GridObjects[i, c];
                 if (closest == null || Vector2.Distance(position, g.transform.position) < Vector2.Distance(position, closest.transform.position))
                 {
-                closest = g;
-                closestpos = new Vector2Int(i, c);
+                    if (!OnlyEmpty || !GridMap[i, c]) {
+                        closest = g;
+                        closestpos = new Vector2Int(i, c);
+                    }
                 }
                 Debug.Log("Closest pos is "  + closest.transform.position);
             }
@@ -88,16 +90,22 @@ public class GameBoard : MonoBehaviour
         return new Vector2Int(GridMap.GetLength(0), GridMap.GetLength(1));
     }
 
-    public void SetBlockAtPos(int x, int y, Color c)
+    public void SetBlockAtPos(int x, int y, Color c, Sprite s)
     {
         GridMap[x, y] = true;
         GridObjects[x, y].GetComponent<BlockScript>().Color = c;
+        GridObjects[x, y].GetComponent<BlockScript>().Sprite = s;
         GridObjects[x, y].GetComponent<BlockScript>().Fill();
     }
     public void ClearBlockAtPos(int x, int y)
     {
         GridMap[x, y] = false;
         GridObjects[x, y].GetComponent<BlockScript>().Clear();
+    }
+    
+    public void ClearBlockAtPos(Vector2Int pos)
+    {
+        ClearBlockAtPos(pos.x, pos.y);
     }
 
     public void ClearBoard()
@@ -148,6 +156,19 @@ public class GameBoard : MonoBehaviour
             if (Random.Range(0, 10) > 4) ComboPosition = GetRealPosition(BlocksInRow.GetRandomItem());
         }
 
+        foreach (GameModifier u in GameManager.Instance.GameModifiers())
+        {
+            List<Vector2Int> additionalBlocks = u.GetAdditionalClearableBlocks(GridMap);
+            foreach (Vector2Int pos in additionalBlocks)
+            {
+                if (!ClearableBlocks.Contains(pos))
+                {
+                    ClearableBlocks.Add(pos);
+                }
+            }
+            if (additionalBlocks.Count > 1) clearedRows++;
+        }
+
         if (clearedRows > 0)
         {
             foreach (Vector2Int bl in ClearableBlocks)
@@ -156,8 +177,11 @@ public class GameBoard : MonoBehaviour
             }
 
             ScoreManagement.Instance.ClearLine(20 * (clearedRows * clearedRows), ClearableBlocks);
-            ScoreManagement.Instance.IncrementMult(ComboPosition);
-            GettingMult = true;
+
+        }
+        
+        foreach (GameModifier u in GameManager.Instance.GameModifiers())  {
+            u.AfterBlocksPlaced();
         }
     }
     
@@ -170,6 +194,19 @@ public class GameBoard : MonoBehaviour
                 ClearBlockAtPos(i, c);
             }
         }
+    }
+
+    public bool IsValidPosition(Vector2Int pos)
+    {
+        if (pos.x >= 0 && pos.x < GridMap.GetLength(0) &&
+            pos.y >= 0 && pos.y < GridMap.GetLength(1) ) return true;
+        else return false;
+    }
+
+    public Vector2Int GetRandomPosition()
+    {
+        return new Vector2Int(Random.Range(0, GridMap.GetLength(0)), Random.Range(0, GridMap.GetLength(1)));
+
     }
 
 }

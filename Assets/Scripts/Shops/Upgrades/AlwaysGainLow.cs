@@ -12,7 +12,7 @@ public class AlwaysGainLow : Upgrade
 
     public override void OnBlocksRefilled()
     {
-        BlockPlacementArea placementArea = BlockPlacementArea.Instance;
+        BlockPlacementArea placementArea = BlockPlacementArea.instance;
         //if (placementArea == null || placementArea.BlockPlacementAreas == null ||
         //    placementArea.BlockPlacementAreas.Count == 0)
         //    return;

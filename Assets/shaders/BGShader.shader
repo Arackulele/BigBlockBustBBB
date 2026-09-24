@@ -1,4 +1,4 @@
-Shader "BBB/Balatro Background"
+Shader "BBB/Background Shader"
 {
     Properties
     {

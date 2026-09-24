@@ -8,19 +8,21 @@ public class ThemerScript : MonoBehaviour
 
     public Theme CurrentTheme;
     public List<SpriteRenderer> UIBorder = new List<SpriteRenderer>();
-    public List<SpriteRenderer> Background = new List<SpriteRenderer>();
+    public SpriteRenderer Background;
     public List<SpriteRenderer> UIBackground = new List<SpriteRenderer>();
-    public List<SpriteRenderer> UIPanel = new List<SpriteRenderer>();
+
+    [SerializeField] private TextMeshProUGUI ThemeText;
+    [SerializeField] private TextMeshProUGUI ThemeDesc;
 
 
     public TextMeshProUGUI TotalScoreText;
 
 
-    private void Start()
+    private void Awake()
     {
         Instance = this;
         //We want to set the current theme once as a start so all the default colors dont have to be manually set in the editor
-        ChangeTheme(CurrentTheme);
+        //ChangeTheme(CurrentTheme);
     }
 
     public void ChangeTheme(Theme theme)
@@ -32,16 +34,18 @@ public class ThemerScript : MonoBehaviour
              t.GetComponent<SpriteRenderer>().color = CurrentTheme.BordBackgroundColor;
         }
         
-        ChangeSegment(Background, CurrentTheme.BackgroundColor);
-        TotalScoreText.color = CurrentTheme.TotalScoreTextColor;
+        Background.material = CurrentTheme.BGMaterial;
 
-        ChangeSegment(UIBorder, CurrentTheme.BordBorderColor);
+        TotalScoreText.color = CurrentTheme.TotalScoreTextColor;
         
         ChangeSegment(UIBackground, CurrentTheme.BordBackgroundColor);
         
-        ChangeSegment(UIPanel, CurrentTheme.UIPanelColor);
+        ChangeSegment(UIBorder, CurrentTheme.UIBorderColor);
 
-        
+        ThemeText.text = GameManager.Instance.CurrentStage.name;
+        ThemeDesc.text = GameManager.Instance.CurrentStage.description + " Required Points: x" + GameManager.Instance.CurrentStage.pointsmod;
+
+
     }
 
     private void ChangeSegment(List<SpriteRenderer> segments, Color color)

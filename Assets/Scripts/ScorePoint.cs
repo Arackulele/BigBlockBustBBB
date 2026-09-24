@@ -22,7 +22,7 @@ public class ScorePoint : MonoBehaviour
         goalPos = ScoreManagement.Instance.transform.position;
         originalPos = transform.position;
 
-        transform.GetComponent<TextMeshPro>().colorGradient = ThemerScript.Instance.CurrentTheme.ScoreTextColor;
+        //transform.GetComponent<TextMeshPro>().colorGradient = ThemerScript.Instance.CurrentTheme.ScoreTextColor;
     }
 
     void Update()
@@ -33,7 +33,6 @@ public class ScorePoint : MonoBehaviour
         if (LifeTime > 1)
         {
             ScoreManagement.Instance.Score += Amount;
-            ScoreManagement.Instance.UnspentScore += Amount * (0.1 * ScoreManagement.Instance.MoneyMult);
             Destroy(gameObject);
         }
     }

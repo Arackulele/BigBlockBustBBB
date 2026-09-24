@@ -13,7 +13,13 @@ public class UpgradeShop : UpgradeInventory
             new GlobalLowMultBonus(),
             new MoneyMultBonus(),
             new RowClearBonus(),
-            new LowMultMoney()
+            new LowMultMoney(),
+            new PlacedBlocksMultiplier(),
+            new TreasureChest(),
+            new GainTomatoMultReset(),
+            new TurnPassMoney(),
+            new IncreaseConsumables(),
+            new ConsumableUsedPoints()
         };
     
     public List<Upgrade> CommonUpgrades = new List<Upgrade>();
@@ -56,6 +62,7 @@ public class UpgradeShop : UpgradeInventory
             else Selected = null; 
             max++;
         }
+        Selected?.ResetPrice();
         return Selected;
     }
 

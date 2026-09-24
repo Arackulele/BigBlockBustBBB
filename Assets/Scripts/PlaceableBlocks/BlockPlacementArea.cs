@@ -13,37 +13,26 @@ public class BlockPlacementArea : MonoBehaviour
 
     [SerializeField]
     public List<GameObject> BlockPlacementAreas;
-
-    public static BlockPlacementArea Instance;
+    
+    public static BlockPlacementArea instance;
 
     void Start()
     {
-        Instance = this;
+        instance = this;
         BlockDictionary.Load(Database);
     }
-
-
-
-    public void FillBlocks()
+    
+    public void FillBlocks(bool refill = false)
     {
-        foreach (GameObject block in BlockPlacementAreas)
+        for (int i = 0; i < BlockPlacementAreas.Count; i++)
         {
-            if (block.transform.childCount < 1)
+            if (BlockPlacementAreas[i].transform.childCount < 1 || refill)
             {
-                GameObject newblock = Instantiate(PlaceBlockPrefab, block.transform);
-                UnplacedBlockScript newBlockScript = newblock.GetComponent<UnplacedBlockScript>();
-
-                List<Vector2Int> shape = new List<Vector2Int>(
-                    BlockDictionary.BlockShapes.GetRandomItem());
-
-                RotateShapeRandom(shape);
-
-                newBlockScript.Positions = shape;
+                FillBlock(i);
             }
         }
 
-        foreach (Upgrade u in GameManager.Instance.Perks)
-        {
+        foreach (GameModifier u in GameManager.Instance.GameModifiers())        {
             u.OnBlocksRefilled();
         }
     }
@@ -51,7 +40,7 @@ public class BlockPlacementArea : MonoBehaviour
     public void FillBlock(int index)
     {
         GameObject block = BlockPlacementAreas[index];
-        if (block.transform.childCount > 0) Destroy(block.transform.GetChild(0));
+        if (block.transform.childCount > 0) Destroy(block.transform.GetChild(0).gameObject);
             
                 GameObject newblock = Instantiate(PlaceBlockPrefab, block.transform);
                 UnplacedBlockScript newBlockScript = newblock.GetComponent<UnplacedBlockScript>();
@@ -95,16 +84,14 @@ public class BlockPlacementArea : MonoBehaviour
 
         if (HaveToRefill)
         {
-            if (!GameBoard.instance.GettingMult) ScoreManagement.Instance.DepleteMult();
-            else GameBoard.instance.GettingMult = false;
-            FillBlocks();
+            GameManager.Instance.Endturn();
         }
     }
 
     public System.Collections.IEnumerator GetNextBlockSpawns()
     {
         yield return new WaitForEndOfFrame();
-        BlockPlacementArea.Instance.CheckPlacements();
+        BlockPlacementArea.instance.CheckPlacements();
         if (GameManager.Instance.IsDead()) { GameManager.Instance.EndRun(); }
     }
 }

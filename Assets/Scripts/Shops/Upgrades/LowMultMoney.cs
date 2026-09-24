@@ -8,12 +8,11 @@ public class LowMultMoney : Upgrade
     
     public override string name => "Lucky Penny";
 
-    public override string description => "At 0 combo, clearing a line rewards 5 coins";
+    public override string description => "At 0 combo, clearing a line rewards 7 money";
 
     public override float LineClearModifier(List<Vector2Int> ClearedBlocks)
     {
-
-        if (ScoreManagement.Instance.Combo == 1) ScoreManagement.Instance.UnspentScore += 5;
+        if (ScoreManagement.Instance.Combo == 1) ScoreManagement.Instance.UnspentScore += 7;
         return 0f;
     }
 }

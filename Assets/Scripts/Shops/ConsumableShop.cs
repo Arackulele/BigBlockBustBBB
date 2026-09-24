@@ -8,12 +8,22 @@ public class ConsumableShop : ConsumableInventory
     public List<Consumable> ConsumableIndex =
         new List<Consumable>()
         {
-            new GainScoreConsumable()
+            new GainScoreConsumable(),
+            new GainMultConsumable(),
+            new BlockRerollConsumable(),
+            new BombConsumable(),
+            new FillConsumable(),
+            new PermaMultConsumable(),
+            new UpgradeSlotIncreaseConsumable(),
+            new EatMultConsumable(),
+            new TurnAddConsumable(),
+            new TurnLimitIncreaseConsumable(),
+            new SmallBombConsumable()
         };
     
-    public List<Consumable> CommonConsumables = new List<Consumable>();
-    public List<Consumable> RareConsumables = new List<Consumable>();
-    public List<Consumable> EpicConsumables = new List<Consumable>();
+    List<Consumable> CommonConsumables = new List<Consumable>();
+    List<Consumable> RareConsumables = new List<Consumable>();
+    List<Consumable> EpicConsumables = new List<Consumable>();
 
     public float RareChance = 30f;
     public float EpicChance = 3f;
@@ -25,32 +35,27 @@ public class ConsumableShop : ConsumableInventory
     protected override void PopulatebyList()
     {
         
-        for(int c = ShopManager.instance.ShopAmount; c > 0; c--)
+        for(int c = ShopManager.instance.ConsumableAmount; c > 0; c--)
         {
-            Consumable potential = SelectConsumable(Consumables);
+            Consumable potential = SelectConsumable();
             if (potential != null )Consumables.Add(potential);
         }
         
-        Populate(Consumables, true, visual => visual.GetComponent<UpgradeVisual>().IsShop = true);
+        Populate(Consumables, true, visual => visual.GetComponent<ConsumableVisual>().IsShop = true);
     }
 
-    private Consumable SelectConsumable(List<Consumable> excluded)
+    public Consumable SelectConsumable()
     {
-        Consumable Selected = null;
-        bool Completed = false;
-        int max = 0;
-        
-        while (!Completed && max < 10)
-        {
-            if (UnityEngine.Random.Range(0f, 100f) <= RareChance) Selected = RareConsumables.GetRandomItem();
-            else if (UnityEngine.Random.Range(0f, 100f) <= EpicChance) Selected = EpicConsumables.GetRandomItem();
-            else Selected = CommonConsumables.GetRandomItem();
+        Consumable selected;
 
-            if (!excluded.Contains(Selected)) Completed = true;
-            else Selected = null; 
-            max++;
-        }
-        return Selected;
+        if (UnityEngine.Random.Range(0f, 100f) <= RareChance) selected = RareConsumables.GetRandomItem();
+        else if (UnityEngine.Random.Range(0f, 100f) <= EpicChance) selected = EpicConsumables.GetRandomItem();
+        else selected = CommonConsumables.GetRandomItem();
+
+        //This is hacky and a little weird tbh
+        return selected == null
+            ? null
+            : (Consumable)Activator.CreateInstance(selected.GetType());
     }
 
     private void Awake()
@@ -63,8 +68,6 @@ public class ConsumableShop : ConsumableInventory
                 case Rarity.Rare: RareConsumables.Add(consumable); break;
                 case Rarity.Epic: EpicConsumables.Add(consumable); break;
             }
-            
-            
         }
         
     }

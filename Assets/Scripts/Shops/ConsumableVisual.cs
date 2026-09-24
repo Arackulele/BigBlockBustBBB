@@ -6,11 +6,14 @@ public class ConsumableVisual : DraggableObject
     public TMPro.TextMeshPro name;
     public TMPro.TextMeshPro desc;
     public TMPro.TextMeshPro price;
+
+    public GameObject pulloutMenu;
     
     public enum PlacementType
     {
         Anywhere,
         OnBoard,
+        OnBlockArea,
         
         OnUpgrade,
         OnConsumable
@@ -49,20 +52,31 @@ public class ConsumableVisual : DraggableObject
         {
             return false;
         }
-        else if (!IsShop)
+        
+        if (!IsShop)
         {
+            if (!Consumable.CanUse()) return false;
+            
             switch (type)
             {
                 default: case PlacementType.Anywhere:
-
                     if (consumableAreaCollider != null &&
                         !consumableAreaCollider.OverlapPoint(transform.position)) return true;
-                    
                 break;
-                
+                case PlacementType.OnBoard:
+                    Collider2D boardCollider = GameBoard.instance.GetComponent<Collider2D>();
+                    if (boardCollider != null &&
+                        boardCollider.OverlapPoint(transform.position)) return true;
+                    break;
+                case PlacementType.OnBlockArea:
+                    Collider2D blockareacollider = BlockPlacementArea.instance.GetComponent<Collider2D>();
+                    if (blockareacollider != null &&
+                        blockareacollider.OverlapPoint(transform.position)) return true;
+                    break;
                 
             }
-            
+
+            return false;
         }
 
 
@@ -80,5 +94,17 @@ public class ConsumableVisual : DraggableObject
             Destroy(gameObject);
         }
         else if (!IsShop) Consumable.OnDrop(validPosition);
+    }
+
+    protected override void OnStartDragging()
+    {
+        //ToDo: For consumables dropped on upgrade, should swap to upgrade area instead when using but only if they arent marked as shop
+        if (!GameManager.Instance.consumableArea.gameObject.activeInHierarchy) GameManager.Instance.areaswitcher.Switch();
+        pulloutMenu.SetActive(true);
+    }
+
+    protected override void OnCancelDragging()
+    {
+        pulloutMenu.SetActive(false);
     }
 }

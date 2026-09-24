@@ -8,7 +8,7 @@ public class Consumable : ShopItem
     //ToDo:Gain Points on condition set
     //Get specific Block Types in Block roll
 
-    public override float baseprice => 5;
+    public override float baseprice => 4;
     
     public virtual ConsumableVisual.PlacementType Placement => ConsumableVisual.PlacementType.Anywhere;
 
@@ -42,11 +42,20 @@ public class Consumable : ShopItem
         
     }
     
+    public virtual bool CanUse()
+    {
+        return true;
+    }
+    
     //ToDo: Maybe consumables should always delete after being dropped, leaving it up to the consumable
     //has pros ( reusable consumables on a cooldown, limited uses ) and cons ( repeat code for different
     //consumable types, no standartization for the pros)
     public void UsedUp()
     {
+        foreach (GameModifier u in GameManager.Instance.GameModifiers())        {
+            u.OnConsumableUsed();
+        }
+        
         GameManager.Instance.Consumables.Remove(this);
         GameObject.Destroy(Visual.gameObject);
     }

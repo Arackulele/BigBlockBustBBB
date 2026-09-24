@@ -53,4 +53,9 @@ public class UpgradeVisual : DraggableObject
             Destroy(gameObject);
         }
     }
+    
+    protected override void OnStartDragging()
+    {
+        if (!GameManager.Instance.upgradeArea.gameObject.activeInHierarchy) GameManager.Instance.areaswitcher.Switch();
+    }
 }

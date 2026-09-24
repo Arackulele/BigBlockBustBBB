@@ -9,6 +9,8 @@ public class BlockScript : MonoBehaviour
     private GameObject Block;
 
     public Color Color;
+    public Sprite Sprite;
+
 
     [SerializeField]
     private GameObject hlight;
@@ -25,6 +27,7 @@ public class BlockScript : MonoBehaviour
         Block.SetActive(false);
         IsFilled = false;
         ClearParticle.startColor = Color;
+        ClearParticle.GetComponent<Renderer>().material.SetTexture("_BaseMap", Sprite.texture);
         ClearParticle.Play();
         return true;
     }
@@ -33,6 +36,7 @@ public class BlockScript : MonoBehaviour
     {
         if (IsFilled) return false;
         Block.GetComponent<SpriteRenderer>().color = Color;
+        Block.GetComponent<SpriteRenderer>().sprite = Sprite;
         Block.SetActive(true);
         IsFilled = true;
         return true;

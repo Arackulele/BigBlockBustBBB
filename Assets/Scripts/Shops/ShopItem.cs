@@ -1,31 +1,38 @@
 using UnityEngine;
 
-public class ShopItem : Purchasable
+public class ShopItem : GameModifier
 {
     [SerializeField]
     protected Sprite sprite;
 
+    private double? cachedPrice;
+
     public virtual Rarity rarity { get; }
-    
-    public virtual string name { get; }
-    
-    public virtual string description { get; }
     
     public virtual float baseprice { get; }
 
 
     public override double price()
     {
-        double Price = baseprice + UnityEngine.Random.Range(2, 10);
+        if (cachedPrice.HasValue)
+            return cachedPrice.Value;
+
+        double generatedPrice = baseprice + UnityEngine.Random.Range(2, 10);
         
         switch (rarity)
         {
-            case Rarity.Common: Price *= 1;  break;
-            case Rarity.Rare:   Price *= 3;  break;
-            case Rarity.Epic:   Price *= 6;  break;
+            case Rarity.Common: generatedPrice *= 1;  break;
+            case Rarity.Rare:   generatedPrice *= 3;  break;
+            case Rarity.Epic:   generatedPrice *= 6;  break;
         }
         
-        return Price;
+        cachedPrice = generatedPrice;
+        return cachedPrice.Value;
+    }
+
+    public void ResetPrice()
+    {
+        cachedPrice = null;
     }
 }
 

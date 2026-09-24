@@ -11,12 +11,16 @@ public class UnplacedBlockScript : DraggableObject
     private GameObject ghostClone;
 
     public Color color;
+    
+    public Sprite sprite;
+
 
     private readonly List<BlockScript> highlightedBlocks = new();
 
     private void Start()
     {
         color = ThemerScript.Instance.CurrentTheme.BlockColors.GetRandomItem();
+        sprite = ThemerScript.Instance.CurrentTheme.BlockSprites.GetRandomItem();
 
         CreateBlocks();
         CreateGhost();
@@ -34,6 +38,8 @@ public class UnplacedBlockScript : DraggableObject
             );
 
             posBlock.GetComponent<SpriteRenderer>().material.color = color;
+            posBlock.GetComponent<SpriteRenderer>().sprite = sprite;
+
         }
     }
 
@@ -86,13 +92,17 @@ public class UnplacedBlockScript : DraggableObject
     protected override void OnPlace(Vector2 validPosition)
     {
         Vector2Int save = GameBoard.instance.ClosestBlock(transform.position);
+        
+        List<Vector2Int> actualpositions = new List<Vector2Int>();
 
         foreach (Vector2Int pos in Positions)
         {
             int x = save.x + pos.x;
             int y = save.y + pos.y;
 
-            GameBoard.instance.SetBlockAtPos(x, y, color);
+            GameBoard.instance.SetBlockAtPos(x, y, color, sprite);
+            
+            actualpositions.Add(new Vector2Int(x, y));
 
             ScoreManagement.Instance.AddScore(
                 1,
@@ -104,12 +114,12 @@ public class UnplacedBlockScript : DraggableObject
 
         ClearHighlights();
 
-        BlockPlacementArea.Instance.StartCoroutine(
-            BlockPlacementArea.Instance.GetNextBlockSpawns()
+        BlockPlacementArea.instance.StartCoroutine(
+            BlockPlacementArea.instance.GetNextBlockSpawns()
         );
 
         ScoreManagement.Instance.PlaceBlock(
-            Positions,
+            actualpositions,
             this,
             transform.position
         );
