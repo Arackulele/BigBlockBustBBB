@@ -38,6 +38,9 @@ public class ShopManager : MonoBehaviour
         GameBoard.instance.gameObject.SetActive(false);
         transform.GetChild(0).gameObject.SetActive(true);
         ContinueButton.SetActive(true);
+        foreach (GameModifier u in GameManager.Instance.GameModifiers())        {
+            u.OnStageCleared();
+        }
         SetUpShop();
     }
 

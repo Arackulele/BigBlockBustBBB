@@ -20,5 +20,7 @@ public abstract class GameModifier : Purchasable
     public virtual void OnRemoved() { }
     public virtual void AfterBlocksPlaced() { }
     public virtual void OnConsumableUsed() { }
+    public virtual void OnStageCleared() { }
+
     public virtual List<Vector2Int> GetAdditionalClearableBlocks(bool[,] gridMap) => new List<Vector2Int>();
 }
