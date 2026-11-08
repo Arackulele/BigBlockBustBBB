@@ -19,7 +19,8 @@ public class UpgradeShop : UpgradeInventory
             new GainTomatoMultReset(),
             new TurnPassMoney(),
             new IncreaseConsumables(),
-            new ConsumableUsedPoints()
+            new ConsumableUsedPoints(),
+            new GainMultTemp()
         };
     
     public List<Upgrade> CommonUpgrades = new List<Upgrade>();

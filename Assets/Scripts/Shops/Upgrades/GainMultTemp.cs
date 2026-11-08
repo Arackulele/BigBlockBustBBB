@@ -14,7 +14,8 @@ public class GainMultTemp : Upgrade
 
     public override void OnStageCleared()
     {
-        if (Mult > 0.19) Mult -= 0.2;
+        if (Mult > 0) Mult -= 0.2;
+        if (Mult < 0) Mult = 0;
     }
     
     public override float GlobalPointsMultiplier()
