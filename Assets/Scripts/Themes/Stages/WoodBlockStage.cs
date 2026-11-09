@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 public class WoodBlockStage : Stage
@@ -22,7 +20,7 @@ public class WoodBlockStage : Stage
 
     public override List<Vector2Int> GetAdditionalClearableBlocks(bool[,] gridMap)
     {
-        List<Vector2Int> clearableBlocks = new List<Vector2Int>();
+        var clearableBlocks = new HashSet<Vector2Int>();
         
         // Check for 4x4 areas
         for (int x = 0; x <= gridMap.GetLength(0) - 4; x++)
@@ -43,7 +41,6 @@ public class WoodBlockStage : Stage
 
                 if (isFull)
                 {
-                    Debug.Log("Found 4x4 area at: " + x + ", " + y);
                     for (int dx = 0; dx < 4; dx++)
                     {
                         for (int dy = 0; dy < 4; dy++)
@@ -55,6 +52,6 @@ public class WoodBlockStage : Stage
             }
         }
 
-        return clearableBlocks;
+        return new List<Vector2Int>(clearableBlocks);
     }
 }

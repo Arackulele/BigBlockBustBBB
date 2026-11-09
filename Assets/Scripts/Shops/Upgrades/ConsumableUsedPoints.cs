@@ -12,6 +12,6 @@ public class ConsumableUsedPoints : Upgrade
 
     public override void OnConsumableUsed()
     {
-        ScoreManagement.Instance.AddScore(5);
+        ScoreManagement.Instance.AddScore(10);
     }
 }

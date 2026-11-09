@@ -79,6 +79,11 @@ public class GameBoard : MonoBehaviour
     {
         return GridObjects[x, y];
     }
+    
+    public GameObject GetBlockAtPosition(Vector2Int position)
+    {
+        return GridObjects[position.x, position.y];
+    }
 
     public Vector3 GetRealPosition(Vector2Int pos)
     {
@@ -110,79 +115,67 @@ public class GameBoard : MonoBehaviour
 
     public void ClearBoard()
     {
-        int clearedRows = 0;
-        Vector2 ComboPosition = new Vector2();
-        List<Vector2Int> ClearableBlocks = new List<Vector2Int>();
-        for (int i = 0; i < GridMap.GetLength(0); i++)
-        {
-            bool foundGap = false;
-            List<Vector2Int> BlocksInRow = new List<Vector2Int>();
-            for (int c = 0; c < GridMap.GetLength(1); c++)
-            {
-                if (GridMap[i, c] == false) foundGap = true;
-                BlocksInRow.Add(new Vector2Int(i, c));
-            }
-            if (!foundGap)
-            {
-                clearedRows++;
-                Debug.Log("Attempting to clear Row");
-                foreach (Vector2Int bl in BlocksInRow)
-                {
-                    ClearableBlocks.Add(bl);
-                }
-                ComboPosition = GetRealPosition(BlocksInRow.GetRandomItem());
-            }
-        }
-
-        //clear Rows
-        for (int i = 0; i < GridMap.GetLength(1); i++)
-        {
-            bool foundGap = false;
-            List<Vector2Int> BlocksInRow = new List<Vector2Int>();
-            for (int c = 0; c < GridMap.GetLength(0); c++)
-            {
-                if (GridMap[c, i] == false) foundGap = true;
-                BlocksInRow.Add(new Vector2Int(c, i));
-            }
-            if (!foundGap)
-            {
-                clearedRows++;
-                Debug.Log("Attempting to clear Row");
-                foreach (Vector2Int bl in BlocksInRow)
-                {
-                    ClearableBlocks.Add(bl);
-                }
-            }
-            if (Random.Range(0, 10) > 4) ComboPosition = GetRealPosition(BlocksInRow.GetRandomItem());
-        }
-
-        foreach (GameModifier u in GameManager.Instance.GameModifiers())
-        {
-            List<Vector2Int> additionalBlocks = u.GetAdditionalClearableBlocks(GridMap);
-            foreach (Vector2Int pos in additionalBlocks)
-            {
-                if (!ClearableBlocks.Contains(pos))
-                {
-                    ClearableBlocks.Add(pos);
-                }
-            }
-            if (additionalBlocks.Count > 1) clearedRows++;
-        }
-
+        bool[,] gridBeforeClear = (bool[,])GridMap.Clone();
+        List<Vector2Int> clearableBlocks = GetClearableBlocks(gridBeforeClear, out int clearedRows);
         if (clearedRows > 0)
         {
-            foreach (Vector2Int bl in ClearableBlocks)
-            { 
+            foreach (Vector2Int bl in clearableBlocks)
+            {
             ClearBlockAtPos(bl.x, bl.y);
             }
 
-            ScoreManagement.Instance.ClearLine(20 * (clearedRows * clearedRows), ClearableBlocks);
+            ScoreManagement.Instance.ClearLine(20 * (clearedRows * clearedRows), clearableBlocks);
 
         }
-        
+
         foreach (GameModifier u in GameManager.Instance.GameModifiers())  {
             u.AfterBlocksPlaced();
         }
+    }
+
+    public List<Vector2Int> GetClearableBlocks(bool[,] gridMap, out int clearCount)
+    {
+        clearCount = 0;
+        var clearableBlocks = new List<Vector2Int>();
+
+        for (int y = 0; y < gridMap.GetLength(1); y++)
+        {
+            bool full = true;
+            for (int x = 0; x < gridMap.GetLength(0); x++)
+                if (!gridMap[x, y]) { full = false; break; }
+            if (!full) continue;
+
+            clearCount++;
+            for (int x = 0; x < gridMap.GetLength(0); x++)
+                AddUnique(clearableBlocks, new Vector2Int(x, y));
+        }
+
+        for (int x = 0; x < gridMap.GetLength(0); x++)
+        {
+            bool full = true;
+            for (int y = 0; y < gridMap.GetLength(1); y++)
+                if (!gridMap[x, y]) { full = false; break; }
+            if (!full) continue;
+
+            clearCount++;
+            for (int y = 0; y < gridMap.GetLength(1); y++)
+                AddUnique(clearableBlocks, new Vector2Int(x, y));
+        }
+
+        foreach (GameModifier modifier in GameManager.Instance.GameModifiers())
+        {
+            List<Vector2Int> additionalBlocks = modifier.GetAdditionalClearableBlocks(gridMap);
+            foreach (Vector2Int pos in additionalBlocks)
+                AddUnique(clearableBlocks, pos);
+            if (additionalBlocks.Count > 1) clearCount++;
+        }
+
+        return clearableBlocks;
+    }
+
+    private static void AddUnique(List<Vector2Int> positions, Vector2Int position)
+    {
+        if (!positions.Contains(position)) positions.Add(position);
     }
     
     public void EmptyBoard()

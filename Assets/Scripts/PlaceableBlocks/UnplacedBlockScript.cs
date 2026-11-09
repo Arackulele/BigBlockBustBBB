@@ -198,8 +198,6 @@ public class UnplacedBlockScript : DraggableObject
         ].transform.position;
     }
 
-    // ToDo: This should eventually share code with the actual board
-    // line-clearing logic.
     private void HighlightLinesThatWouldClear()
     {
         Vector2Int attempted =
@@ -216,51 +214,9 @@ public class UnplacedBlockScript : DraggableObject
             ] = true;
         }
 
-        // Check rows
-        for (int y = 0; y < GameBoard.instance.BoardSize().y; y++)
-        {
-            bool full = true;
-
-            for (int x = 0; x < GameBoard.instance.BoardSize().x; x++)
-            {
-                if (!simulated[x, y])
-                {
-                    full = false;
-                    break;
-                }
-            }
-
-            if (full)
-            {
-                for (int x = 0; x < GameBoard.instance.BoardSize().x; x++)
-                {
-                    HighlightCell(x, y);
-                }
-            }
-        }
-
-        // Check columns
-        for (int x = 0; x < GameBoard.instance.BoardSize().x; x++)
-        {
-            bool full = true;
-
-            for (int y = 0; y < GameBoard.instance.BoardSize().y; y++)
-            {
-                if (!simulated[x, y])
-                {
-                    full = false;
-                    break;
-                }
-            }
-
-            if (full)
-            {
-                for (int y = 0; y < GameBoard.instance.BoardSize().y; y++)
-                {
-                    HighlightCell(x, y);
-                }
-            }
-        }
+        List<Vector2Int> clearable = GameBoard.instance.GetClearableBlocks(simulated, out _);
+        foreach (Vector2Int position in clearable)
+            HighlightCell(position.x, position.y);
     }
 
     private void HighlightCell(int x, int y)

@@ -18,6 +18,7 @@ public class AssetLoader : MonoBehaviour
     public Theme ValleyStage_Theme;
     public Theme OceanStage_Theme;
     public Theme WoodenStage_Theme;
+    public Theme OreStage_Theme;
 
 
 
