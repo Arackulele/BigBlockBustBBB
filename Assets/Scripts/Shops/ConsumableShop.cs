@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class ConsumableShop : ConsumableInventory
@@ -25,8 +26,17 @@ public class ConsumableShop : ConsumableInventory
     List<Consumable> RareConsumables = new List<Consumable>();
     List<Consumable> EpicConsumables = new List<Consumable>();
 
-    public float RareChance = 30f;
-    public float EpicChance = 3f;
+    public float RareChance()
+    {
+        float x = LevelProgression.instance.CurrentStage;
+        return (float)math.min(40, 8 + x);
+    } 
+    
+    public float EpicChance()
+    {
+        float x = LevelProgression.instance.CurrentStage;
+        return (float)math.min(12, 0.3 + x * x/20 );
+    } 
     
     public List<Consumable> Consumables = new List<Consumable>();
 
@@ -48,8 +58,8 @@ public class ConsumableShop : ConsumableInventory
     {
         Consumable selected;
 
-        if (UnityEngine.Random.Range(0f, 100f) <= RareChance) selected = RareConsumables.GetRandomItem();
-        else if (UnityEngine.Random.Range(0f, 100f) <= EpicChance) selected = EpicConsumables.GetRandomItem();
+        if (UnityEngine.Random.Range(0f, 100f) <= RareChance()) selected = RareConsumables.GetRandomItem();
+        else if (UnityEngine.Random.Range(0f, 100f) <= EpicChance()) selected = EpicConsumables.GetRandomItem();
         else selected = CommonConsumables.GetRandomItem();
 
         //This is hacky and a little weird tbh

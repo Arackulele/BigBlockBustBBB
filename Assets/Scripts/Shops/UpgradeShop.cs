@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class UpgradeShop : UpgradeInventory
@@ -27,8 +28,17 @@ public class UpgradeShop : UpgradeInventory
     public List<Upgrade> RareUpgrades = new List<Upgrade>();
     public List<Upgrade> EpicUpgrades = new List<Upgrade>();
 
-    public float RareChance = 15f;
-    public float EpicChance = 1f;
+    public float RareChance()
+    {
+        float x = LevelProgression.instance.CurrentStage;
+        return (float)math.min(50, 5 + x/2 + ((x*x)/11));
+    } 
+    
+    public float EpicChance()
+    {
+        float x = LevelProgression.instance.CurrentStage;
+        return (float)math.min(32, 0.3 + ((x*x)/60));
+    } 
     
     public List<Upgrade> Upgrades = new List<Upgrade>();
 
@@ -55,8 +65,8 @@ public class UpgradeShop : UpgradeInventory
         
         while (!Completed && max < 10)
         {
-            if (UnityEngine.Random.Range(0f, 100f) <= RareChance) Selected = RareUpgrades.GetRandomItem();
-            else if (UnityEngine.Random.Range(0f, 100f) <= EpicChance) Selected = EpicUpgrades.GetRandomItem();
+            if (UnityEngine.Random.Range(0f, 100f) <= RareChance()) Selected = RareUpgrades.GetRandomItem();
+            else if (UnityEngine.Random.Range(0f, 100f) <= EpicChance()) Selected = EpicUpgrades.GetRandomItem();
             else Selected = CommonUpgrades.GetRandomItem();
 
             if (!excluded.Contains(Selected) && !GameManager.Instance.Perks.Contains(Selected) && Selected != null) Completed = true;
