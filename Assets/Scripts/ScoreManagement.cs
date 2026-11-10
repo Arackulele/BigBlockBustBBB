@@ -63,6 +63,11 @@ public class ScoreManagement : MonoBehaviour
     {
         PutScore(amount, pos);
     }
+    
+    public void AddScoreNegative(int amount, Vector2 pos = new Vector2())
+    {
+        ChangeScore(amount, pos);
+    }
 
     public void ClearLine(int amount, List<Vector2Int> ClearedBlocks, Vector2 pos = new Vector2())
     {
@@ -98,14 +103,20 @@ public class ScoreManagement : MonoBehaviour
         Combo++;
     }
 
-    public void PutScore(int amount, Vector2 pos = new Vector2())
+    private void PutScore(int amount, Vector2 pos = new Vector2())
+    {
+        ChangeScore(Math.Max(amount, 0), pos);
+    }
+    
+    private void ChangeScore(int amount, Vector2 pos = new Vector2())
     {
         GameObject g = Instantiate(ScoreGiverPrefab);
         g.transform.position = pos;
         g.GetComponent<ScorePoint>().Amount = amount;
     }
     
-    public void PutScoreAndMoney(int amount, Vector2 pos = new Vector2())
+    
+    private void PutScoreAndMoney(int amount, Vector2 pos = new Vector2())
     {
         PutScore(amount, pos);
         ScoreManagement.Instance.UnspentScore += amount * (0.1 * ScoreManagement.Instance.MoneyMult);

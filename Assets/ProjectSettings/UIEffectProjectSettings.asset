@@ -33,6 +33,17 @@ MonoBehaviour:
   m_Name: UIEffectProjectSettings
   m_EditorClassIdentifier: Coffee.UIEffect::Coffee.UIEffects.UIEffectProjectSettings
   m_PreLoadSettingsInBuild: 1
+  _jsonText: '{"MonoBehaviour":{"m_Enabled":true,"m_EditorHideFlags":0,"m_Name":"UIEffectProjectSettings","m_EditorClassIdentifier":"Coffee.UIEffect::Coffee.UIEffects.UIEffectProjectSettings","m_PreLoadSettingsInBuild":true,"m_RuntimePresets":[],"m_RuntimePresetsV2":[],"m_UseHDRColorPicker":true,"m_ShaderVariantCollection":{"instanceID":0},"m_ShaderVariantRegistry":{"m_OptionalShaders":[{"key":"Hidden/UI/Default
+    (SoftMaskable)","value":"Hidden/UI/Default (UIEffect)"},{"key":"Hidden/TextMeshPro/Bitmap
+    (SoftMaskable)","value":"Hidden/TextMeshPro/Bitmap (UIEffect)"},{"key":"Hidden/TextMeshPro/Distance
+    Field (SoftMaskable)","value":"Hidden/TextMeshPro/Distance Field (UIEffect)"},{"key":"Hidden/TextMeshPro/Distance
+    Field Overlay (SoftMaskable)","value":"Hidden/TextMeshPro/Distance Field Overlay
+    (UIEffect)"},{"key":"Hidden/TextMeshPro/Distance Field SSD (SoftMaskable)","value":"Hidden/TextMeshPro/Distance
+    Field SSD (UIEffect)"},{"key":"Hidden/TextMeshPro/Mobile/Bitmap (SoftMaskable)","value":"Hidden/TextMeshPro/Mobile/Bitmap
+    (UIEffect)"},{"key":"Hidden/TextMeshPro/Mobile/Distance Field (SoftMaskable)","value":"Hidden/TextMeshPro/Mobile/Distance
+    Field (UIEffect)"},{"key":"Hidden/TextMeshPro/Mobile/Distance Field Overlay (SoftMaskable)","value":"Hidden/TextMeshPro/Mobile/Distance
+    Field Overlay (UIEffect)"},{"key":"Hidden/TextMeshPro/Mobile/Distance Field SSD
+    (SoftMaskable)","value":"Hidden/TextMeshPro/Mobile/Distance Field SSD (UIEffect)"}],"m_Asset":{"fileID":-3585046328470783608,"guid":"94d1b086b94fae4419a3f7d2562d4e26","type":2},"m_RegisteredShaders":[{"fileID":4800000,"guid":"d1cb940e3804b4adcaf9b22083fadfad","type":3}],"m_ErrorOnUnregisteredVariant":false,"m_UnregisteredVariants":[]}}}'
   m_RuntimePresets: []
   m_RuntimePresetsV2: []
   m_UseHDRColorPicker: 1
@@ -59,7 +70,6 @@ MonoBehaviour:
       value: Hidden/TextMeshPro/Mobile/Distance Field SSD (UIEffect)
     m_Asset: {fileID: -3585046328470783608}
     m_RegisteredShaders:
-    - {fileID: 4800000, guid: 96246b1ead49a4c5a996fd477bc5a117, type: 3}
     - {fileID: 4800000, guid: d1cb940e3804b4adcaf9b22083fadfad, type: 3}
     m_ErrorOnUnregisteredVariant: 0
     m_UnregisteredVariants: []

@@ -21,7 +21,8 @@ public class UpgradeShop : UpgradeInventory
             new TurnPassMoney(),
             new IncreaseConsumables(),
             new ConsumableUsedPoints(),
-            new GainMultTemp()
+            new GainMultTemp(),
+            new GainScoreRisk()
         };
     
     public List<Upgrade> CommonUpgrades = new List<Upgrade>();

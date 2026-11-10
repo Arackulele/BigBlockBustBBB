@@ -28,5 +28,4 @@ public class AssetLoader : MonoBehaviour
         Instance = this;
     }
 
-
 }
