@@ -122,11 +122,6 @@ Shader "BBB/Frosted Glass"
                 );
             }
 
-
-            // ============================================================
-            // FBM
-            // ============================================================
-
             float fbm(float2 p)
             {
                 float value = 0.0;
@@ -151,11 +146,7 @@ Shader "BBB/Frosted Glass"
 
                 return value;
             }
-
-
-            // ============================================================
-            // VERTEX
-            // ============================================================
+            
 
             Varyings vert(Attributes IN)
             {
@@ -177,11 +168,6 @@ Shader "BBB/Frosted Glass"
 
                 return OUT;
             }
-
-
-            // ============================================================
-            // DISTORTION FIELD
-            // ============================================================
 
             float2 GetDistortionField(float2 uv)
             {
@@ -211,11 +197,7 @@ Shader "BBB/Frosted Glass"
                     y - 0.5
                 );
             }
-
-
-            // ============================================================
-            // GAUSSIAN
-            // ============================================================
+            
 
             float Gaussian(float x, float sigma)
             {
@@ -224,15 +206,7 @@ Shader "BBB/Frosted Glass"
                     (2.0 * sigma * sigma)
                 );
             }
-
-
-            // ============================================================
-            // LARGE FROSTED BLUR
-            //
-            // Multiple samples distributed over a large radius.
-            // This is deliberately weighted toward the center so edges
-            // dissolve smoothly instead of producing obvious streaks.
-            // ============================================================
+            
 
             float3 SampleBlurredScene(float2 uv)
             {
@@ -248,109 +222,41 @@ Shader "BBB/Frosted Glass"
                         1.0
                     );
 
-                float3 result =
-                    float3(0, 0, 0);
+                float3 result = 0.0;
+                float totalWeight = 0.0;
 
-                float totalWeight =
-                    0.0;
-
-
-                // --------------------------------------------------------
-                // Center
-                // --------------------------------------------------------
-
-                float centerWeight =
-                    Gaussian(
-                        0,
-                        sigma
-                    );
-
-                result +=
-                    SampleSceneColor(uv) *
-                    centerWeight;
-
-                totalWeight +=
-                    centerWeight;
-
-
-                // --------------------------------------------------------
-                // Large number of samples
-                //
-                // The loop is symmetric so that there isn't a directional
-                // smear.
-                // --------------------------------------------------------
-
-                for (int y = -6; y <= 6; y++)
+                // A compact 13-tap disk keeps the broad frosted look while
+                // avoiding the previous 100+ texture samples per pixel.
+                [unroll]
+                for (int y = -2; y <= 2; y++)
                 {
-                    for (int x = -6; x <= 6; x++)
+                    [unroll]
+                    for (int x = -2; x <= 2; x++)
                     {
-                        if (x == 0 && y == 0)
+                        float2 sampleOffset = float2(x, y) * 0.5;
+                        float distanceSquared = dot(sampleOffset, sampleOffset);
+                        if (distanceSquared > 1.0)
                             continue;
 
-                        float2 pos =
-                            float2(x, y) / 6.0;
-
-                        float distance =
-                            length(pos);
-
-                        if (distance > 1.0)
-                            continue;
-
-
-                        float sampleRadius =
-                            distance *
-                            radius;
-
-
-                        float weight =
-                            Gaussian(
-                                sampleRadius,
-                                sigma
-                            );
-
-
-                        float2 offset =
-                            pos *
-                            radius *
-                            texel;
-
-
-                        result +=
-                            SampleSceneColor(
-                                uv + offset
-                            ) *
-                            weight;
-
-                        totalWeight +=
-                            weight;
+                        float distance = sqrt(distanceSquared);
+                        float weight = Gaussian(distance * radius, sigma);
+                        float2 offset = sampleOffset * radius * texel;
+                        result += SampleSceneColor(uv + offset) * weight;
+                        totalWeight += weight;
                     }
                 }
 
-
-                return
-                    result /
-                    max(totalWeight, 0.0001);
+                return result / max(totalWeight, 0.0001);
             }
-
-
-            // ============================================================
-            // FRAGMENT
-            // ============================================================
+            
 
             half4 frag(Varyings IN) : SV_Target
             {
-                // --------------------------------------------------------
-                // SCREEN UV
-                // --------------------------------------------------------
 
                 float2 screenUV =
                     IN.screenPos.xy /
                     IN.screenPos.w;
-
-
-                // --------------------------------------------------------
-                // ORGANIC DISTORTION
-                // --------------------------------------------------------
+                
 
                 float2 distortionField =
                     GetDistortionField(
@@ -399,9 +305,9 @@ Shader "BBB/Frosted Glass"
 
                 
 
-        float tintAmount =
-            _Milkiness *
-            _Opacity;
+        // Keep tint strength independent from overall glass strength so the
+        // selected tint remains visible when _Opacity is set low.
+        float tintAmount = _Milkiness;
 
         float3 frostedColor =
             lerp(
