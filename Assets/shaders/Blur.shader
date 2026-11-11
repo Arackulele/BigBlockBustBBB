@@ -97,7 +97,9 @@ Shader "BBB/Blur Pane"
                 color = lerp(color, luminance.xxx, _Desaturation);
 
                 color = lerp(color, color * _TintColor.rgb, _TintStrength);
-                half alpha = _TintColor.a * input.color.a;
+                // Keep the pane translucent so transparent scene content that
+                // was rendered before it (for example particles) remains visible.
+                half alpha = _TintColor.a * input.color.a * (1.0h - _TintStrength);
                 return half4(color * input.color.rgb, alpha);
             }
             ENDHLSL

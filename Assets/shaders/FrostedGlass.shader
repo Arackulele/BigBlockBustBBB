@@ -36,7 +36,8 @@ Shader "BBB/Frosted Glass"
             "CanUseSpriteAtlas" = "True"
         }
         
-        Blend One Zero
+
+        Blend SrcAlpha OneMinusSrcAlpha
 
         Cull Off
         ZWrite Off
@@ -373,10 +374,8 @@ Shader "BBB/Frosted Glass"
                     _EdgeHighlight;
 
                 
-                return half4(
-                    frostedColor,
-                    1.0
-                );
+                half alpha = saturate(_Opacity * IN.color.a);
+                return half4(frostedColor * IN.color.rgb, alpha);
             }
 
             ENDHLSL
