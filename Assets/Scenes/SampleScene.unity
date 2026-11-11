@@ -688,6 +688,7 @@ GameObject:
   - component: {fileID: 367004057}
   - component: {fileID: 367004056}
   - component: {fileID: 367004055}
+  - component: {fileID: 367004058}
   m_Layer: 0
   m_Name: Particle System
   m_TagString: Untagged
@@ -721,6 +722,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
+  - {fileID: 2100000, guid: 8fa0fbe994b955f49954ec51528135ec, type: 2}
   - {fileID: 2100000, guid: 8fa0fbe994b955f49954ec51528135ec, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -792,7 +794,7 @@ ParticleSystem:
   emitterVelocityMode: 1
   looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -1612,7 +1614,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 10
+      scalar: 1
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -2074,8 +2076,8 @@ ParticleSystem:
         atime5: 0
         atime6: 0
         atime7: 0
-        m_Mode: 0
-        m_ColorSpace: -1
+        m_Mode: 1
+        m_ColorSpace: 0
         m_NumColorKeys: 2
         m_NumAlphaKeys: 2
       minGradient:
@@ -4676,13 +4678,13 @@ ParticleSystem:
         m_RotationOrder: 4
     maxLights: 20
   TrailModule:
-    enabled: 0
-    mode: 1
-    ratio: 1
+    enabled: 1
+    mode: 0
+    ratio: 0.8
     lifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0.5
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -4732,7 +4734,7 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    minVertexDistance: 0.2
+    minVertexDistance: 0.1
     textureMode: 0
     textureScale: {x: 1, y: 1}
     ribbonCount: 1
@@ -4747,13 +4749,13 @@ ParticleSystem:
     attachRibbonsToTransform: 0
     colorOverLifetime:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 1
       minColor: {r: 1, g: 1, b: 1, a: 1}
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
-        key1: {r: 1, g: 1, b: 1, a: 1}
+        key1: {r: 1, g: 1, b: 1, a: 0}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -4777,7 +4779,7 @@ ParticleSystem:
         atime6: 0
         atime7: 0
         m_Mode: 0
-        m_ColorSpace: -1
+        m_ColorSpace: 0
         m_NumColorKeys: 2
         m_NumAlphaKeys: 2
       minGradient:
@@ -4865,12 +4867,12 @@ ParticleSystem:
         m_RotationOrder: 4
     colorOverTrail:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 1
       minColor: {r: 1, g: 1, b: 1, a: 1}
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 1, g: 1, b: 1, a: 1}
+        key0: {r: 0.8113208, g: 0.77611256, b: 0.77611256, a: 1}
         key1: {r: 1, g: 1, b: 1, a: 1}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
@@ -4895,7 +4897,7 @@ ParticleSystem:
         atime6: 0
         atime7: 0
         m_Mode: 0
-        m_ColorSpace: -1
+        m_ColorSpace: 0
         m_NumColorKeys: 2
         m_NumAlphaKeys: 2
       minGradient:
@@ -5513,6 +5515,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1037703830}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!114 &367004058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 367004054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ece957707190a3447b9decc0574457f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ComboParticleSystem
 --- !u!1 &408270539
 GameObject:
   m_ObjectHideFlags: 0
@@ -6081,7 +6095,6 @@ GameObject:
   - component: {fileID: 728007821}
   - component: {fileID: 728007824}
   - component: {fileID: 728007823}
-  - component: {fileID: 728007822}
   m_Layer: 5
   m_Name: TurnCounter
   m_TagString: Untagged
@@ -6108,18 +6121,6 @@ RectTransform:
   m_AnchoredPosition: {x: 57.299988, y: 19.200012}
   m_SizeDelta: {x: 182.53003, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &728007822
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 728007820}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 938fce054c42f40a3969e27a88d9bdd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Coffee.UIEffect::Coffee.UIEffects.UIEffect
 --- !u!114 &728007823
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6645,7 +6646,6 @@ GameObject:
   - component: {fileID: 931560448}
   - component: {fileID: 931560451}
   - component: {fileID: 931560450}
-  - component: {fileID: 931560449}
   m_Layer: 5
   m_Name: UnspentScore (1)
   m_TagString: Untagged
@@ -6672,18 +6672,6 @@ RectTransform:
   m_AnchoredPosition: {x: 82.79999, y: -52.100006}
   m_SizeDelta: {x: 182.53003, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &931560449
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 931560447}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 938fce054c42f40a3969e27a88d9bdd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Coffee.UIEffect::Coffee.UIEffects.UIEffect
 --- !u!114 &931560450
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8347,7 +8335,6 @@ GameObject:
   - component: {fileID: 1471639404}
   - component: {fileID: 1471639407}
   - component: {fileID: 1471639406}
-  - component: {fileID: 1471639405}
   m_Layer: 5
   m_Name: ThemeDesc
   m_TagString: Untagged
@@ -8374,18 +8361,6 @@ RectTransform:
   m_AnchoredPosition: {x: 686.8, y: -43.69998}
   m_SizeDelta: {x: 182.53003, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1471639405
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1471639403}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 938fce054c42f40a3969e27a88d9bdd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Coffee.UIEffect::Coffee.UIEffects.UIEffect
 --- !u!114 &1471639406
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8812,7 +8787,6 @@ GameObject:
   - component: {fileID: 1727816477}
   - component: {fileID: 1727816480}
   - component: {fileID: 1727816479}
-  - component: {fileID: 1727816478}
   m_Layer: 5
   m_Name: ThemeTitle
   m_TagString: Untagged
@@ -8839,18 +8813,6 @@ RectTransform:
   m_AnchoredPosition: {x: 686.8, y: -16}
   m_SizeDelta: {x: 182.53003, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1727816478
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1727816476}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 938fce054c42f40a3969e27a88d9bdd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Coffee.UIEffect::Coffee.UIEffects.UIEffect
 --- !u!114 &1727816479
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9501,7 +9463,6 @@ GameObject:
   - component: {fileID: 1970822799}
   - component: {fileID: 1970822803}
   - component: {fileID: 1970822802}
-  - component: {fileID: 1970822800}
   m_Layer: 5
   m_Name: UnspentScore
   m_TagString: Untagged
@@ -9528,18 +9489,6 @@ RectTransform:
   m_AnchoredPosition: {x: 82.79999, y: -19.100037}
   m_SizeDelta: {x: 182.53003, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1970822800
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1970822798}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 938fce054c42f40a3969e27a88d9bdd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Coffee.UIEffect::Coffee.UIEffects.UIEffect
 --- !u!114 &1970822802
 MonoBehaviour:
   m_ObjectHideFlags: 0
