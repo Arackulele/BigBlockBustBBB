@@ -22,7 +22,10 @@ public class UpgradeShop : UpgradeInventory
             new IncreaseConsumables(),
             new ConsumableUsedPoints(),
             new GainMultTemp(),
-            new GainScoreRisk()
+            new GainScoreRisk(),
+            new KeepCombo(),
+            new ScaleMultClears(),
+            new BoardClearScale()
         };
     
     public List<Upgrade> CommonUpgrades = new List<Upgrade>();

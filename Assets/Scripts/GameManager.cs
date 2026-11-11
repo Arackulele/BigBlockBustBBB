@@ -59,6 +59,12 @@ public class GameManager : MonoBehaviour
         return FinalList;
     }
 
+    public bool HasModifier<T>() where T : GameModifier
+    {
+        //Thanks stackoverflow
+        return Perks.Exists(perk => perk is T);
+    }
+
     public IEnumerator StartGame()
     {
 
@@ -173,7 +179,8 @@ public class GameManager : MonoBehaviour
     
     public void WonStage()
     {
-        ScoreManagement.Instance.Combo = 1;
+        //ToDo: This would be nicer to keep in the upgrade but it'd take more code
+        if (!HasModifier<KeepCombo>())ScoreManagement.Instance.Combo = 1;
         LevelProgression.instance.CurrentTurn = 0;
         LevelProgression.instance.CurrentStage++;
         ShopManager.instance.GoToShop();

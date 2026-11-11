@@ -17,6 +17,6 @@ public class OceanStage : Stage
 
     public override int BlockPlaceModifier(List<Vector2Int> placedPositions, UnplacedBlockScript block)
     {
-        return 1;
+        return placedPositions.Count;
     }
 }

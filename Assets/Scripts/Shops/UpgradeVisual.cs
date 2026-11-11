@@ -30,10 +30,10 @@ public class UpgradeVisual : DraggableObject
     {
         validPosition = transform.position;
 
-        if (!IsShop || upgrade == null || GameManager.Instance == null ||
-            ScoreManagement.Instance == null || GameManager.Instance.upgradeArea == null)
+        if (!IsShop )
         {
-            return false;
+            if ( upgrade == null || GameManager.Instance == null || ScoreManagement.Instance == null || GameManager.Instance.upgradeArea == null) return false;
+            if (RemoveAreaScript.colliderinstance != null && RemoveAreaScript.colliderinstance.OverlapPoint(transform.position)) return true;
         }
 
         Collider2D upgradeAreaCollider = GameManager.Instance.upgradeArea.GetComponent<Collider2D>();
@@ -47,10 +47,15 @@ public class UpgradeVisual : DraggableObject
 
     protected override void OnPlace(Vector2 validPosition)
     {
-        if (GameManager.Instance.AddUpgrade(upgrade))
+        if (IsShop && GameManager.Instance.AddUpgrade(upgrade))
         {
             ScoreManagement.Instance.UnspentScore -= upgrade.price();
             Destroy(gameObject);
+        }
+        else
+        {
+            ScoreManagement.Instance.UnspentScore += upgrade.price() * 0.5f;
+            Destroy(gameObject); 
         }
     }
     

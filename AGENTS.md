@@ -1,8 +1,14 @@
 <!-- UNITY CODE ASSIST INSTRUCTIONS START -->
-- Project name: BigBlockBust(BBB)
+- Project name: BigBlockBustBBB
 - Unity version: Unity 6000.4.10f1
+- Active scene:
+  - Name: SampleScene
+  - Tags:
+    - Untagged, Respawn, Finish, EditorOnly, MainCamera, Player, GameController
+  - Layers:
+    - Default, TransparentFX, Ignore Raycast, Water, UI, Always Front
 - Active game object:
-  - Name: Score
+  - Name: Blur
   - Tag: Untagged
-  - Layer: UI
+  - Layer: Default
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->
