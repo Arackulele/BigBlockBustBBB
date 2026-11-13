@@ -32,7 +32,8 @@ public class LevelProgression : MonoBehaviour
             new OceanStage(),
             
             new WoodBlockStage(),
-            new OreStage()
+            new OreStage(),
+            new MossStage()
         };
 
     private void Update()

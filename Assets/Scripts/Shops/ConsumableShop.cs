@@ -19,7 +19,8 @@ public class ConsumableShop : ConsumableInventory
             new EatMultConsumable(),
             new TurnAddConsumable(),
             new TurnLimitIncreaseConsumable(),
-            new SmallBombConsumable()
+            new SmallBombConsumable(),
+            new ComboAddConsumable()
         };
     
     List<Consumable> CommonConsumables = new List<Consumable>();

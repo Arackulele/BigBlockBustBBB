@@ -25,7 +25,8 @@ public class UpgradeShop : UpgradeInventory
             new GainScoreRisk(),
             new KeepCombo(),
             new ScaleMultClears(),
-            new BoardClearScale()
+            new BoardClearScale(),
+            new GainScoreBigBlocks()
         };
     
     public List<Upgrade> CommonUpgrades = new List<Upgrade>();

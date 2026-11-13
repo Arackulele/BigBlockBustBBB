@@ -102,6 +102,14 @@ public class GameBoard : MonoBehaviour
         GridObjects[x, y].GetComponent<BlockScript>().Sprite = s;
         GridObjects[x, y].GetComponent<BlockScript>().Fill();
     }
+
+    public void SetBlockSimple(Vector2Int pos)
+    {
+        Color c = ThemerScript.Instance.CurrentTheme.BlockColors.GetRandomItem();
+        Sprite s = ThemerScript.Instance.CurrentTheme.BlockSprites.GetRandomItem();
+        GameBoard.instance.SetBlockAtPos(pos.x, pos.y, c, s);
+    }
+    
     public void ClearBlockAtPos(int x, int y)
     {
         GridMap[x, y] = false;
@@ -196,10 +204,24 @@ public class GameBoard : MonoBehaviour
         else return false;
     }
 
-    public Vector2Int GetRandomPosition()
+    public Vector2Int GetRandomPosition(bool onlyempty = false)
     {
-        return new Vector2Int(Random.Range(0, GridMap.GetLength(0)), Random.Range(0, GridMap.GetLength(1)));
+        if (!onlyempty) return new Vector2Int(Random.Range(0, GridMap.GetLength(0)), Random.Range(0, GridMap.GetLength(1)));
 
+        List<Vector2Int> emptyPositions = new List<Vector2Int>();
+        for (int x = 0; x < GridMap.GetLength(0); x++)
+        {
+            for (int y = 0; y < GridMap.GetLength(1); y++)
+            {
+                if (!GridMap[x, y])
+                    emptyPositions.Add(new Vector2Int(x, y));
+            }
+        }
+
+        if (emptyPositions.Count == 0)
+            return new Vector2Int(-1, -1);
+
+        return emptyPositions.GetRandomItem();
     }
 
 }
