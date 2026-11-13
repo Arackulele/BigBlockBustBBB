@@ -19,7 +19,7 @@ public class ScorePoint : MonoBehaviour
         goalPos = ScoreManagement.Instance.transform.position;
         originalPos = transform.position;
         
-        if (Amount > ScoreManagement.Instance.GetMult() + 1) {
+        if (Amount > ScoreManagement.Instance.GetMult() * 2.5f) {
             Camera.main.GetComponent<Screenshake>().shakeDuration += Math.Min(1f, Mathf.Sqrt(Amount) * 0.01f);
             Camera.main.GetComponent<Screenshake>().shakeAmount = Math.Min(1f, Mathf.Sqrt(Amount) * 0.013f + 0.08f );
         }
@@ -35,6 +35,7 @@ public class ScorePoint : MonoBehaviour
         if (LifeTime > 1)
         {
             ScoreManagement.Instance.Score += Amount;
+            LevelProgression.instance.CheckIfWonStage();
             Destroy(gameObject);
         }
     }

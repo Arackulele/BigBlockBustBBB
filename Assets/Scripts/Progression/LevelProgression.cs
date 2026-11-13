@@ -42,9 +42,15 @@ public class LevelProgression : MonoBehaviour
         
         TurnText.text = "Turn " + CurrentTurn + "/" + GameManager.Instance.TurnLimit;
 
-        if (ScoreReq <= ScoreManagement.Instance.Score && !ShopManager.instance.active) GameManager.Instance.WonStage();
         
         if (CurrentTurn > GameManager.Instance.TurnLimit) GameManager.Instance.EndRun();
+    }
+
+    public void CheckIfWonStage()
+    {
+        bool shop = ShopManager.instance == null || !ShopManager.instance.active;
+        
+        if (ScoreReq <= ScoreManagement.Instance.Score && shop) GameManager.Instance.WonStage();
     }
 
     private void Awake()

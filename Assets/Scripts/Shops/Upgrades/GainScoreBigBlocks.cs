@@ -12,6 +12,8 @@ public class GainScoreBigBlocks : Upgrade
 
     public override int BlockPlaceModifier(List<Vector2Int> placedPositions, UnplacedBlockScript block)
     {
-        return placedPositions.Count * 2;
+
+        if (placedPositions.Count > 5) return placedPositions.Count * 2;
+        else return 0;
     }
 }

@@ -12,6 +12,9 @@ public class AssetLoader : MonoBehaviour
     
     
     //Themes
+    public Theme Shop_Theme;
+
+    
     public Theme DefaultStage_Theme;
     public Theme SandStage_Theme;
     public Theme HillsStage_Theme;

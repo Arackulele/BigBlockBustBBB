@@ -32,6 +32,7 @@ public class ShopManager : MonoBehaviour
 
     public void GoToShop()
     {
+        ThemerScript.Instance.ChangeTheme(AssetLoader.Instance.Shop_Theme);
         shopInventory.Upgrades.Clear();
         consumableShop.Consumables.Clear();
         active = true;

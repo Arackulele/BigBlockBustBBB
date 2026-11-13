@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using EasyTransition;
 using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -15,6 +16,9 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private GameObject EndScreen;
+
+    [SerializeField] 
+    private TransitionSettings transitiontype;
 
     public List<Upgrade> Perks = new List<Upgrade>();
     
@@ -37,6 +41,9 @@ public class GameManager : MonoBehaviour
     
     public ObjectSwitcher areaswitcher;
 
+    private bool stageTransitionInProgress;
+    
+
 
 
 
@@ -44,6 +51,7 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         Instance = this;
+        transitiontype.transitionSpeed = 1.8f;
         StartCoroutine(StartGame());
     }
 
@@ -179,13 +187,20 @@ public class GameManager : MonoBehaviour
     
     public void WonStage()
     {
+        if (stageTransitionInProgress) return;
+
         //ToDo: This would be nicer to keep in the upgrade but it'd take more code
-        if (!HasModifier<KeepCombo>())ScoreManagement.Instance.Combo = 1;
-        LevelProgression.instance.CurrentTurn = 0;
-        LevelProgression.instance.CurrentStage++;
-        ShopManager.instance.GoToShop();
-        ChangeStage();
+        stageTransitionInProgress = true;
+        TransitionToNextState(() =>
+        {
+            if (!HasModifier<KeepCombo>()) ScoreManagement.Instance.Combo = 1;
+            LevelProgression.instance.CurrentTurn = 0;
+            LevelProgression.instance.CurrentStage++;
+            ShopManager.instance.GoToShop();
+        });
     }
+    
+    
     
     public void Endturn()
     {
@@ -206,13 +221,46 @@ public class GameManager : MonoBehaviour
     
     public void ProgressLevel()
     {
-        ShopManager.instance.ExitShop();
-        BlockPlacementArea.instance.FillBlocks(true);
-        ScoreManagement.Instance.Score = 0;
-        int x = LevelProgression.instance.CurrentStage;
-        LevelProgression.instance.ScoreReq = (float)( ( 500 + 10*(x+2) * x ) * CurrentStage.pointsmod);
-        LevelProgression.instance.ScoreReq = Mathf.RoundToInt(LevelProgression.instance.ScoreReq);
-        GameBoard.instance.EmptyBoard();
+        if (stageTransitionInProgress) return;
+
+        stageTransitionInProgress = true;
+        TransitionToNextState(() =>
+        {
+            ShopManager.instance.ExitShop();
+            ChangeStage();
+            BlockPlacementArea.instance.FillBlocks(true);
+            ScoreManagement.Instance.Score = 0;
+            int x = LevelProgression.instance.CurrentStage;
+            LevelProgression.instance.ScoreReq = (float)((500 + 10 * (x + 2) * x) * CurrentStage.pointsmod);
+            LevelProgression.instance.ScoreReq = Mathf.RoundToInt(LevelProgression.instance.ScoreReq);
+            GameBoard.instance.EmptyBoard();
+        });
+    }
+
+    private void TransitionToNextState(Action cutPointAction)
+    {
+        TransitionManager transitionManager = TransitionManager.Instance();
+        if (transitionManager == null || transitiontype == null)
+        {
+            stageTransitionInProgress = false;
+            return;
+        }
+
+        UnityEngine.Events.UnityAction onCutPoint = null;
+        onCutPoint = () =>
+        {
+            transitionManager.onTransitionCutPointReached -= onCutPoint;
+            cutPointAction();
+        };
+        transitionManager.onTransitionCutPointReached += onCutPoint;
+        transitionManager.onTransitionEnd += ResetStageTransition;
+        transitionManager.Transition(transitiontype, 0);
+    }
+
+    private void ResetStageTransition()
+    {
+        TransitionManager.Instance().onTransitionEnd -= ResetStageTransition;
+        stageTransitionInProgress = false;
     }
 
     public void ChangeStage()
