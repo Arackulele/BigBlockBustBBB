@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class BlockRerollConsumable : Consumable
 {
-    public override Rarity rarity { get => Rarity.Common; }
+    public override Rarity rarity { get => Rarity.Rare; }
 
     public override ConsumableVisual.PlacementType Placement { get => ConsumableVisual.PlacementType.OnBlockArea; }
 

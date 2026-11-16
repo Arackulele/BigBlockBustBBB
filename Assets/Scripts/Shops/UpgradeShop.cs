@@ -26,7 +26,9 @@ public class UpgradeShop : UpgradeInventory
             new KeepCombo(),
             new ScaleMultClears(),
             new BoardClearScale(),
-            new GainScoreBigBlocks()
+            new GainScoreBigBlocks(),
+            new GainDiscard(),
+            new SafetyNetScore()
         };
     
     public List<Upgrade> CommonUpgrades = new List<Upgrade>();
@@ -36,13 +38,13 @@ public class UpgradeShop : UpgradeInventory
     public float RareChance()
     {
         float x = LevelProgression.instance.CurrentStage;
-        return (float)math.min(50, 5 + x/2 + ((x*x)/11));
+        return (float)math.min(50, 4.2 + x/2 + ((x*x)/9));
     } 
     
     public float EpicChance()
     {
         float x = LevelProgression.instance.CurrentStage;
-        return (float)math.min(32, 0.3 + ((x*x)/60));
+        return (float)math.min(32, 0.5 + ((x*x)/50));
     } 
     
     public List<Upgrade> Upgrades = new List<Upgrade>();

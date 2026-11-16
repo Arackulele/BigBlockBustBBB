@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class TurnAddConsumable : Consumable
 {
-    public override Rarity rarity { get => Rarity.Rare; }
+    public override Rarity rarity { get => Rarity.Common; }
 
     public override ConsumableVisual.PlacementType Placement { get => ConsumableVisual.PlacementType.Anywhere; }
 

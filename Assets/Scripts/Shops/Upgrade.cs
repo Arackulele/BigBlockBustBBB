@@ -6,8 +6,6 @@ using UnityEngine;
 
 public class Upgrade : ShopItem
 {
-    //ToDo:Gain Points on condition set
-    //Get specific Block Types in Block roll
 
     public override float baseprice => 26;
     
@@ -33,9 +31,6 @@ public class Upgrade : ShopItem
 
         return g;
     }
-
-
-
     
     public void Remove()
     {
@@ -49,5 +44,18 @@ public class Upgrade : ShopItem
         
         GameManager.Instance.Perks.Remove(this);
         GameObject.Destroy(Visual.gameObject);
+    }
+
+    public override float Cost()
+    {
+        float finalprice = baseprice + UnityEngine.Random.Range(1, 10);
+        
+        switch (rarity)
+        {
+            case Rarity.Common: finalprice *= 1;  break;
+            case Rarity.Rare:   finalprice *= 3;  break;
+            case Rarity.Epic:   finalprice *= 8;  break;
+        }
+        return finalprice;
     }
 }

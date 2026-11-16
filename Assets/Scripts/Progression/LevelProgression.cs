@@ -30,6 +30,7 @@ public class LevelProgression : MonoBehaviour
             new HillsStage(),
             new ValleyStage(),
             new OceanStage(),
+            new GardensStage(),
             
             new WoodBlockStage(),
             new OreStage(),

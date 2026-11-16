@@ -72,6 +72,11 @@ public class GameManager : MonoBehaviour
         //Thanks stackoverflow
         return Perks.Exists(perk => perk is T);
     }
+    
+    public bool HasConsumable<T>() where T : Consumable
+    {
+        return Consumables.Exists(consumable => consumable is T);
+    }
 
     public IEnumerator StartGame()
     {

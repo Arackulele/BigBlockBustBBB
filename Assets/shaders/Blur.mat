@@ -89,14 +89,14 @@ Material:
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BlurMode: 1
-    - _BlurSize: 3.5
-    - _BlurSpread: 1.632
+    - _BlurSize: 8.2
+    - _BlurSpread: 1.342
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _Cull: 2
     - _Cutoff: 0.5
-    - _Desaturation: 0.427
+    - _Desaturation: 0.433
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0

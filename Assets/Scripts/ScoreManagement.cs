@@ -119,7 +119,7 @@ public class ScoreManagement : MonoBehaviour
     private void PutScoreAndMoney(int amount, Vector2 pos = new Vector2())
     {
         PutScore(amount, pos);
-        ScoreManagement.Instance.UnspentScore += amount * (0.1 * ScoreManagement.Instance.MoneyMult);
+        ScoreManagement.Instance.UnspentScore += Math.Max(0, amount*(0.1 * ScoreManagement.Instance.MoneyMult));
     }
 
     public void DepleteMult()

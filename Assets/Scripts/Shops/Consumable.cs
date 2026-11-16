@@ -8,7 +8,7 @@ public class Consumable : ShopItem
     //ToDo:Gain Points on condition set
     //Get specific Block Types in Block roll
 
-    public override float baseprice => 4;
+    public override float baseprice => 7;
     
     public virtual ConsumableVisual.PlacementType Placement => ConsumableVisual.PlacementType.Anywhere;
 
@@ -58,6 +58,19 @@ public class Consumable : ShopItem
         
         GameManager.Instance.Consumables.Remove(this);
         GameObject.Destroy(Visual.gameObject);
+    }
+    
+    public override float Cost()
+    {
+        float finalprice = baseprice + UnityEngine.Random.Range(0, 2);
+        
+        switch (rarity)
+        {
+            case Rarity.Common: finalprice *= 1;  break;
+            case Rarity.Rare:   finalprice *= 2;  break;
+            case Rarity.Epic:   finalprice *= 8;  break;
+        }
+        return finalprice;
     }
     
 }

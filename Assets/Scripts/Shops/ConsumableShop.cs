@@ -20,7 +20,8 @@ public class ConsumableShop : ConsumableInventory
             new TurnAddConsumable(),
             new TurnLimitIncreaseConsumable(),
             new SmallBombConsumable(),
-            new ComboAddConsumable()
+            new ComboAddConsumable(),
+            new BlockDiscardConsumable()
         };
     
     List<Consumable> CommonConsumables = new List<Consumable>();

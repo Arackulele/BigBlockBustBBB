@@ -17,17 +17,17 @@ public class ShopItem : GameModifier
         if (cachedPrice.HasValue)
             return cachedPrice.Value;
 
-        double generatedPrice = baseprice + UnityEngine.Random.Range(2, 10);
+        double generatedPrice = Cost();
         
-        switch (rarity)
-        {
-            case Rarity.Common: generatedPrice *= 1;  break;
-            case Rarity.Rare:   generatedPrice *= 3;  break;
-            case Rarity.Epic:   generatedPrice *= 6;  break;
-        }
+
         
         cachedPrice = generatedPrice;
         return cachedPrice.Value;
+    }
+
+    public virtual float Cost()
+    {
+        return baseprice;
     }
 
     public void ResetPrice()

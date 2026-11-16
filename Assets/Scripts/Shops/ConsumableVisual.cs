@@ -71,7 +71,8 @@ public class ConsumableVisual : DraggableObject
                 case PlacementType.OnBlockArea:
                     Collider2D blockareacollider = BlockPlacementArea.instance.GetComponent<Collider2D>();
                     if (blockareacollider != null &&
-                        blockareacollider.OverlapPoint(transform.position)) return true;
+                        blockareacollider.OverlapPoint(transform.position) &&
+                        BlockPlacementArea.instance.HasBlockAt(transform.position)) return true;
                     break;
                 
             }
@@ -93,7 +94,11 @@ public class ConsumableVisual : DraggableObject
             ScoreManagement.Instance.UnspentScore -= Consumable.price();
             Destroy(gameObject);
         }
-        else if (!IsShop) Consumable.OnDrop(validPosition);
+        else if (!IsShop)
+        {
+            Consumable.OnDrop(validPosition);
+            if (this != null && gameObject != null) pulloutMenu.SetActive(false);
+        }
     }
 
     protected override void OnStartDragging()

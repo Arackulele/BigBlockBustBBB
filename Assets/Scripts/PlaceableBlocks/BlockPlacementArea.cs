@@ -54,6 +54,57 @@ public class BlockPlacementArea : MonoBehaviour
             
     }
 
+    public bool DiscardBlockAt(Vector2 position)
+    {
+        int closestIndex = GetBlockSlotAt(position);
+        if (closestIndex < 0) return false;
+
+        Transform block = BlockPlacementAreas[closestIndex].transform.GetChild(0);
+        Destroy(block.gameObject);
+        StartCoroutine(GetNextBlockSpawns());
+        return true;
+    }
+
+    public bool HasBlockAt(Vector2 position)
+    {
+        return GetBlockSlotAt(position) >= 0;
+    }
+
+    private int GetBlockSlotAt(Vector2 position)
+    {
+        int closestIndex = -1;
+        float closestDistance = float.PositiveInfinity;
+
+        for (int i = 0; i < BlockPlacementAreas.Count; i++)
+        {
+            GameObject slot = BlockPlacementAreas[i];
+            if (slot == null || slot.transform.childCount == 0) continue;
+
+            Transform block = slot.transform.GetChild(0);
+            var renderers = block.GetComponentsInChildren<Renderer>();
+            foreach (Renderer blockRenderer in renderers)
+            {
+                if (blockRenderer.bounds.Contains(position)) return i;
+            }
+
+            float distance = ((Vector2)slot.transform.position - position).sqrMagnitude;
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closestIndex = i;
+            }
+        }
+
+        if (closestIndex < 0) return -1;
+        Transform closestBlock = BlockPlacementAreas[closestIndex].transform.GetChild(0);
+        foreach (Renderer blockRenderer in closestBlock.GetComponentsInChildren<Renderer>())
+        {
+            if (blockRenderer.bounds.Contains(position)) return closestIndex;
+        }
+
+        return -1;
+    }
+
     private void RotateShapeRandom(List<Vector2Int> shape)
     {
         int rotations = Random.Range(0, 4);
