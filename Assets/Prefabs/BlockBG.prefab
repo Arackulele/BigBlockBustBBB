@@ -108,6 +108,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BlockScript
   Block: {fileID: 5034838056609895472}
   Color: {r: 0, g: 0.15127039, b: 1, a: 1}
+  Sprite: {fileID: 0}
   hlight: {fileID: 5774332563415464393}
   ClearParticle: {fileID: 2356185821086846320}
   GridPos: {x: 0, y: 0}

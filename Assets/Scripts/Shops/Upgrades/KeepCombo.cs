@@ -10,8 +10,8 @@ public class KeepCombo : Upgrade
 
     public override string description => "Whenever you clear a stage, your combo is kept.";
 
-    public override int ComboGainMultiplier()
+    public override void OnStageCleared()
     {
-        return 1;
+        OnActivate();
     }
 }

@@ -24,6 +24,13 @@ public class ThemerScript : MonoBehaviour
         //We want to set the current theme once as a start so all the default colors dont have to be manually set in the editor
         //ChangeTheme(CurrentTheme);
     }
+    
+    private void Update()
+    {
+        //These should always be set since we use them for the shop view as well
+        ThemeText.text = GameManager.Instance.CurrentStage.name;
+        ThemeDesc.text = GameManager.Instance.CurrentStage.description + " Required Points: x" + GameManager.Instance.CurrentStage.pointsmod;
+    }
 
     public void ChangeTheme(Theme theme)
     {
@@ -41,10 +48,6 @@ public class ThemerScript : MonoBehaviour
         ChangeSegment(UIBackground, CurrentTheme.BordBackgroundColor);
         
         ChangeSegment(UIBorder, CurrentTheme.UIBorderColor);
-
-        ThemeText.text = GameManager.Instance.CurrentStage.name;
-        ThemeDesc.text = GameManager.Instance.CurrentStage.description + " Required Points: x" + GameManager.Instance.CurrentStage.pointsmod;
-
 
     }
 

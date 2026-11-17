@@ -21,6 +21,11 @@ public class BlockPlacementArea : MonoBehaviour
         instance = this;
         BlockDictionary.Load(Database);
     }
+
+    public void ChangeDatabase(BlockDatabase database)
+    {
+        BlockDictionary.Load(database);
+    }
     
     public void FillBlocks(bool refill = false)
     {
@@ -84,7 +89,11 @@ public class BlockPlacementArea : MonoBehaviour
             var renderers = block.GetComponentsInChildren<Renderer>();
             foreach (Renderer blockRenderer in renderers)
             {
-                if (blockRenderer.bounds.Contains(position)) return i;
+                // Dragged objects are raised above the board in Z. Compare only
+                // the screen plane so the drag offset cannot prevent a hit.
+                Bounds bounds = blockRenderer.bounds;
+                if (position.x >= bounds.min.x && position.x <= bounds.max.x &&
+                    position.y >= bounds.min.y && position.y <= bounds.max.y) return i;
             }
 
             float distance = ((Vector2)slot.transform.position - position).sqrMagnitude;
@@ -99,7 +108,9 @@ public class BlockPlacementArea : MonoBehaviour
         Transform closestBlock = BlockPlacementAreas[closestIndex].transform.GetChild(0);
         foreach (Renderer blockRenderer in closestBlock.GetComponentsInChildren<Renderer>())
         {
-            if (blockRenderer.bounds.Contains(position)) return closestIndex;
+            Bounds bounds = blockRenderer.bounds;
+            if (position.x >= bounds.min.x && position.x <= bounds.max.x &&
+                position.y >= bounds.min.y && position.y <= bounds.max.y) return closestIndex;
         }
 
         return -1;

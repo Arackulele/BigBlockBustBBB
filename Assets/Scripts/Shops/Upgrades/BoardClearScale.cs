@@ -20,6 +20,7 @@ public class BoardClearScale : Upgrade
         }
         ScoreManagement.Instance.AddRawScore(Score);
         Score += 500;
+        OnActivate();
     }
     
 }

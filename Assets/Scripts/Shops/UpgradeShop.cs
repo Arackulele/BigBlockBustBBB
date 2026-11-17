@@ -28,7 +28,8 @@ public class UpgradeShop : UpgradeInventory
             new BoardClearScale(),
             new GainScoreBigBlocks(),
             new GainDiscard(),
-            new SafetyNetScore()
+            new SafetyNetScore(),
+            new TetrominoBlocks()
         };
     
     public List<Upgrade> CommonUpgrades = new List<Upgrade>();

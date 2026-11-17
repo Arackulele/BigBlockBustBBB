@@ -15,7 +15,7 @@ public class SafetyNetScore : Upgrade
         if (turn == GameManager.Instance.TurnLimit - 1)
         {
             ScoreManagement.Instance.AddScore((int)(LevelProgression.instance.ScoreReq * 0.1f));
-            
+            OnActivate();
         }
     }
     

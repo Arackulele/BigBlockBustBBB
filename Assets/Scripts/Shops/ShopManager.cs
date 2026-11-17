@@ -18,6 +18,10 @@ public class ShopManager : MonoBehaviour
     
     public int ConsumableAmount = 4;
 
+    [SerializeField] private GameObject ToActivate;
+    [SerializeField] private GameObject ToDeactivate;
+
+
     
     private void Awake()
     {
@@ -42,6 +46,13 @@ public class ShopManager : MonoBehaviour
         foreach (GameModifier u in GameManager.Instance.GameModifiers())        {
             u.OnStageCleared();
         }
+        
+        ToDeactivate.SetActive(false);
+        ToActivate.SetActive(true);
+
+        StageReroller.instance.RerollPrice = 0;
+        StageReroller.instance.UpdateRerollButtonText();
+        
         SetUpShop();
     }
 
@@ -52,6 +63,11 @@ public class ShopManager : MonoBehaviour
         active = false;
         ContinueButton.SetActive(false);
         GameBoard.instance.gameObject.SetActive(true);
+        if (GameManager.Instance.CurrentStage != null)
+            ThemerScript.Instance.ChangeTheme(GameManager.Instance.CurrentStage.Theme);
         transform.GetChild(0).gameObject.SetActive(false);
+        
+        ToDeactivate.SetActive(true);
+        ToActivate.SetActive(false);
     }
 }

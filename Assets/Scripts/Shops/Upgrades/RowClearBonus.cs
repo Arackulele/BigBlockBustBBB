@@ -19,6 +19,7 @@ public class RowClearBonus : Upgrade
             if (pos.y != rf) return 0;
         }
 
+        OnActivate();
         return 0.5f;
     }
 }

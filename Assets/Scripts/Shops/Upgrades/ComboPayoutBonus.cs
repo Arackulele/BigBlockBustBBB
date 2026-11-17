@@ -12,7 +12,11 @@ public class ComboPayoutBonus : Upgrade
 
     public override float LineClearModifier(List<Vector2Int> ClearedBlocks)
     {
-        if (ScoreManagement.Instance.Combo == 25) ScoreManagement.Instance.AddRawScore(5000);
+        if (ScoreManagement.Instance.Combo == 25)
+        {
+            ScoreManagement.Instance.AddRawScore(5000);
+            OnActivate();
+        }
         return 0;
     }
 }

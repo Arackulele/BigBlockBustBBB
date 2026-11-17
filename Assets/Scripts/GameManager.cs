@@ -201,6 +201,7 @@ public class GameManager : MonoBehaviour
             if (!HasModifier<KeepCombo>()) ScoreManagement.Instance.Combo = 1;
             LevelProgression.instance.CurrentTurn = 0;
             LevelProgression.instance.CurrentStage++;
+            CurrentStage = LevelProgression.instance.SelectNewStage();
             ShopManager.instance.GoToShop();
         });
     }
@@ -232,7 +233,6 @@ public class GameManager : MonoBehaviour
         TransitionToNextState(() =>
         {
             ShopManager.instance.ExitShop();
-            ChangeStage();
             BlockPlacementArea.instance.FillBlocks(true);
             ScoreManagement.Instance.Score = 0;
             int x = LevelProgression.instance.CurrentStage;

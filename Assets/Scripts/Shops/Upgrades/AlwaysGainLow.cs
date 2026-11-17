@@ -35,6 +35,7 @@ public class AlwaysGainLow : Upgrade
         if (lowShapes.Count == 0)
             return;
 
-        block.Positions = new List<Vector2Int>(lowShapes[Random.Range(0, lowShapes.Count)]);
+        OnActivate();
+        block.Positions = new List<Vector2Int>(lowShapes.GetRandomItem());
     }
 }

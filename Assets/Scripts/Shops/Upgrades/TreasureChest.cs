@@ -8,7 +8,7 @@ public class TreasureChest : Upgrade
     
     public override string name => "Lunchbox";
 
-    public override string description => "A random Tile on the Board is secretly marked, placing a block on said tile will grant 3 random Consumables and removes this upgrade";
+    public override string description => "A random Tile is secretly marked, placing a block on said tile will grant 3 random Consumables and removes this upgrade";
 
     private Vector2Int SecretPos;
 
@@ -17,6 +17,7 @@ public class TreasureChest : Upgrade
         if (PlacedPositions.Contains(SecretPos))
         {
             Debug.Log("Treasure found");
+            OnActivate();
             for (int i = 0; i < 4; i++) GameManager.Instance.AddConsumable(ShopManager.instance.consumableShop.SelectConsumable());
             Remove();
         }

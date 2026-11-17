@@ -12,7 +12,11 @@ public class LowMultMoney : Upgrade
 
     public override float LineClearModifier(List<Vector2Int> ClearedBlocks)
     {
-        if (ScoreManagement.Instance.Combo == 1) ScoreManagement.Instance.UnspentScore += 7;
+        if (ScoreManagement.Instance.Combo == 1)
+        {
+            OnActivate();
+            ScoreManagement.Instance.UnspentScore += 7;
+        }
         return 0f;
     }
 }

@@ -12,6 +12,7 @@ public class TurnPassMoney : Upgrade
 
     public override void OnTurnPassed(int Turn)
     {
+        OnActivate();
         ScoreManagement.Instance.UnspentScore += 2;
     }
 }

@@ -12,6 +12,7 @@ public class GainScoreRisk : Upgrade
 
     public override void OnMultReset(int PreviousMult)
     {
+        OnActivate();
         ScoreManagement.Instance.AddScoreNegative(100 * PreviousMult);
     }
 

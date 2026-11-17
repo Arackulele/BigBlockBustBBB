@@ -15,7 +15,11 @@ public class ScaleMultClears : Upgrade
 
     public override float LineClearModifier(List<Vector2Int> clearedBlocks)
     {
-        if (clearedBlocks.Count > 20) Mult += 0.2f;
+        if (clearedBlocks.Count > 20)
+        {
+            Mult += 0.2f;
+            OnActivate();
+        }
         return 0;
     }
 

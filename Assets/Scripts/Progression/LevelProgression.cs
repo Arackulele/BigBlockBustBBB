@@ -22,6 +22,8 @@ public class LevelProgression : MonoBehaviour
     [HideInInspector]
     public int CurrentTurn = 0;
     
+    public Type previousStage;
+    
     public List<Stage> StageIndex =
         new List<Stage>()
         {
@@ -77,8 +79,9 @@ public class LevelProgression : MonoBehaviour
     public float RareChance = 30f;
     public float EpicChance = 3f;
 
-    public Stage SelectNewStage()
+    public Stage SelectNewStage(bool resetPrevious = true)
     {
+        Type previousStageType = GameManager.Instance?.CurrentStage?.GetType();
         Stage selected;
 
         if (UnityEngine.Random.Range(0f, 100f) <= RareChance) selected = RareStage.GetRandomItem();
@@ -86,13 +89,20 @@ public class LevelProgression : MonoBehaviour
         else selected = CommonStage.GetRandomItem();
 
         selected ??= StageIndex.GetRandomItem();
+        
+        if (selected != null && selected.GetType() == previousStageType)
+        {
+            List<Stage> alternatives = StageIndex.FindAll(stage =>
+                stage != null && stage.GetType() != previousStageType);
+            selected = alternatives.GetRandomItem();
+        }
+
+        previousStage = previousStageType;
+        if (!resetPrevious) previousStage = null;
 
         //This is hacky and a little weird tbh
         return selected == null
             ? null
             : (Stage)Activator.CreateInstance(selected.GetType());
     }
-    
-    
-
 }

@@ -14,6 +14,7 @@ public class GainMultTemp : Upgrade
 
     public override void OnStageCleared()
     {
+        OnActivate();
         if (Mult > 0) Mult -= 0.2;
         if (Mult < 0) Mult = 0;
     }

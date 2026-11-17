@@ -19,6 +19,7 @@ public class ColumnClearBonus : Upgrade
             if (pos.x != rf) return 0;
         }
 
+        OnActivate();
         ScoreManagement.Instance.AddScore(100);
         return 0f;
     }

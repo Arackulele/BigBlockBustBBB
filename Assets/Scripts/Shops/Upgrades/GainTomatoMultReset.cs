@@ -12,6 +12,7 @@ public class GainTomatoMultReset : Upgrade
 
     public override void OnMultReset(int PreviousMult)
     {
+        OnActivate();
         GameManager.Instance.AddConsumable(new GainMultConsumable());
     }
 }

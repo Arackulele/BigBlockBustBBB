@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using NUnit.Framework;
 using System.Collections.Generic;
+using TMPro.EditorUtilities;
 using UnityEngine;
 
 public class Upgrade : ShopItem
@@ -13,7 +14,6 @@ public class Upgrade : ShopItem
 
     public override GameObject createVisual(Transform par)
     {
-        
         GameObject g = GameObject.Instantiate(AssetLoader.Instance.UpgradeTemplate, par);
         if (sprite != null) g.GetComponent<SpriteRenderer>().sprite = sprite;
         SpriteRenderer s = g.transform.GetChild(0).GetComponent<SpriteRenderer>();
@@ -30,6 +30,11 @@ public class Upgrade : ShopItem
         Visual.upgrade = this;
 
         return g;
+    }
+
+    public void OnActivate()
+    {
+        Visual.StartCoroutine(Visual.OnActivate());
     }
     
     public void Remove()

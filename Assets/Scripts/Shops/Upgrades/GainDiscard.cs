@@ -10,9 +10,9 @@ public class GainDiscard : Upgrade
 
     public override string description => "Each turn, gain a mint twig if you aren't already holding one.";
 
-    public override float LineClearModifier(List<Vector2Int> ClearedBlocks)
+    public override void OnTurnPassed(int turn)
     {
-        if (ScoreManagement.Instance.Combo == 25) ScoreManagement.Instance.AddRawScore(5000);
-        return 0;
+        if (!GameManager.Instance.HasConsumable<BlockDiscardConsumable>()) GameManager.Instance.AddConsumable(new BlockDiscardConsumable());
+        OnActivate();
     }
 }

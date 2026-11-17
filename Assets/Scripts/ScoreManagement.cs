@@ -131,4 +131,15 @@ public class ScoreManagement : MonoBehaviour
         Combo = 1;
     }
 
+    public bool SpendMoney(double Amount)
+    {
+        if (UnspentScore >= Amount)
+        {
+            UnspentScore -= Amount;
+            return true;
+        }
+
+        return false;
+    }
+
 }

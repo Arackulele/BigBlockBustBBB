@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class UpgradeVisual : DraggableObject
@@ -10,6 +11,9 @@ public class UpgradeVisual : DraggableObject
 
     public bool IsShop = false;
 
+    [SerializeField] private SpriteRenderer scroller;
+
+    [SerializeField] private GameObject activateVisual;
     
     public void Start()
     {
@@ -24,6 +28,17 @@ public class UpgradeVisual : DraggableObject
     }
 
     public Upgrade upgrade;
+
+    public IEnumerator OnActivate()
+    {
+        Debug.Log("Upgrade was activated");
+        Color orig = scroller.color;
+        scroller.color = Color.white;
+        activateVisual.SetActive(true);
+        yield return new WaitForSeconds(0.38f);
+        activateVisual.SetActive(false);
+        scroller.color = orig;
+    }
 
 
     protected override bool TryGetValidDropPosition(out Vector2 validPosition)

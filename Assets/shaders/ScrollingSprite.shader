@@ -3,12 +3,13 @@ Shader "BBB/Scrolling Sprite"
     Properties
     {
         [PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
+        [PerRendererData] _Color ("Sprite Color", Color) = (1, 1, 1, 1)
+        [HideInInspector] _RendererColor ("Renderer Color", Color) = (1, 1, 1, 1)
         _ScrollTex ("Scrolling Texture", 2D) = "white" {}
-        _Color ("Tint", Color) = (1, 1, 1, 1)
-        _ScrollTiling ("Scrolling Texture Tiling (XY)", Vector) = (10, 10, 0, 0)
+        _ScrollTiling ("Scrolling Texture Tiling", Vector) = (1, 1, 0, 0)
+        _ScrollOffset ("Scrolling Texture Offset", Vector) = (0, 0, 0, 0)
         _ScrollSpeed ("Scroll Speed", Float) = 0.1
         _ScrollAngle ("Scroll Angle (Degrees)", Range(0, 360)) = 0
-        _ScrollColor ("Scrolling Texture Tint", Color) = (1, 1, 1, 1)
     }
 
     SubShader
@@ -62,9 +63,15 @@ Shader "BBB/Scrolling Sprite"
             CBUFFER_START(UnityPerMaterial)
                 float4 _Color;
                 float4 _ScrollTiling;
-                float4 _ScrollColor;
+                float4 _ScrollOffset;
                 float _ScrollSpeed;
                 float _ScrollAngle;
+            CBUFFER_END
+
+            // SpriteRenderer supplies its color through a per-renderer property,
+            // separate from the material's _Color and the mesh vertex color.
+            CBUFFER_START(UnityPerDrawSprite)
+                half4 _RendererColor;
             CBUFFER_END
 
             Varyings vert(Attributes IN)
@@ -76,7 +83,7 @@ Shader "BBB/Scrolling Sprite"
                 OUT.positionHCS = TransformObjectToHClip(IN.positionOS);
                 OUT.uv = IN.uv;
                 OUT.scrollBase = IN.positionOS.xy;
-                OUT.color = IN.color * _Color;
+                OUT.color = IN.color * _Color * _RendererColor;
                 return OUT;
             }
 
@@ -87,10 +94,10 @@ Shader "BBB/Scrolling Sprite"
                 float angle = radians(_ScrollAngle);
                 float2 direction = float2(cos(angle), sin(angle));
                 float2 scrollOffset = direction * (_ScrollSpeed * _Time.y);
-                float2 scrollUV = frac(IN.scrollBase * _ScrollTiling.xy - scrollOffset);
-                half4 overlay = SAMPLE_TEXTURE2D(_ScrollTex, sampler_ScrollTex, scrollUV) * _ScrollColor;
+                float2 scrollUV = frac(IN.scrollBase * _ScrollTiling.xy + _ScrollOffset.xy - scrollOffset);
+                half4 overlay = SAMPLE_TEXTURE2D(_ScrollTex, sampler_ScrollTex, scrollUV);
 
-                half alpha = spriteAlpha * overlay.a * _ScrollColor.a;
+                half alpha = spriteAlpha * overlay.a;
                 return half4(overlay.rgb * IN.color.rgb, alpha);
             }
             ENDHLSL
