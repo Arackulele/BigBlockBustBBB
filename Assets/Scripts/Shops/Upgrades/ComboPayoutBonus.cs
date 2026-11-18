@@ -8,13 +8,13 @@ public class ComboPayoutBonus : Upgrade
     
     public override string name => "Novelty Coin";
 
-    public override string description => "When reaching a 25x Combo, gain 5000 Points";
+    public override string description => "When reaching a 10x Combo, gain 4000 Points";
 
-    public override float LineClearModifier(List<Vector2Int> ClearedBlocks)
+    public override int ComboGainMultiplier()
     {
-        if (ScoreManagement.Instance.Combo == 25)
+        if (ScoreManagement.Instance.Combo == 10)
         {
-            ScoreManagement.Instance.AddRawScore(5000);
+            ScoreManagement.Instance.AddRawScore(4000);
             OnActivate();
         }
         return 0;

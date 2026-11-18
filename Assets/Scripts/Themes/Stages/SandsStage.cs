@@ -15,16 +15,13 @@ public class SandsStage : Stage
 
     public override Theme Theme { get => AssetLoader.Instance.SandStage_Theme; }
     
-    public override float LineClearModifier(List<Vector2Int> ClearedBlocks)
+    public override float LineClearModifier(List<Vector2Int> clearedBlocks, int clearCountRows, int clearCountCollumns, int clearCountMisc)
     {
-        int rf = ClearedBlocks[0].y;
+        float total = 0;
+        total -= clearCountCollumns * 0.5f;
+        total += clearCountRows * 0.5f;
 
-        foreach (Vector2Int pos in ClearedBlocks)
-        {
-            if (pos.y != rf) return -0.25f;
-        }
-
-        return 0.25f;
+        return total;
     }
     
 }

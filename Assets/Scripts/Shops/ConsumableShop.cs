@@ -21,7 +21,8 @@ public class ConsumableShop : ConsumableInventory
             new TurnLimitIncreaseConsumable(),
             new SmallBombConsumable(),
             new ComboAddConsumable(),
-            new BlockDiscardConsumable()
+            new BlockDiscardConsumable(),
+            new GainScoreConsumable()
         };
     
     List<Consumable> CommonConsumables = new List<Consumable>();

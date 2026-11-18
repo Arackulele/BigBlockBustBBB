@@ -20,10 +20,13 @@ public class BlockScript : MonoBehaviour
 
     public Vector2Int GridPos;
 
-    public bool Clear()
+    public bool IsUnclearable = false;
+
+    public bool Clear(bool Forced = false)
     {
         Debug.Log("Attempting to clear Block");
-        if (!IsFilled) return false;
+        if (!IsFilled || (IsUnclearable && !Forced)) return false;
+        IsUnclearable = false;
         Block.SetActive(false);
         IsFilled = false;
         ClearParticle.startColor = Color;
@@ -40,6 +43,12 @@ public class BlockScript : MonoBehaviour
         Block.SetActive(true);
         IsFilled = true;
         return true;
+    }
+
+    public bool FillUnclearable()
+    {
+        IsUnclearable = true;
+        return Fill();
     }
 
     public void SetColor(Color c)

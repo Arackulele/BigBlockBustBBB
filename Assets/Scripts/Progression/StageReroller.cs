@@ -24,7 +24,7 @@ public class StageReroller : MonoBehaviour
     {
         if (ScoreManagement.Instance.SpendMoney(RerollPrice))
         {
-            GameManager.Instance.CurrentStage = LevelProgression.instance.SelectNewStage();
+            GameManager.Instance.CurrentStage = LevelProgression.instance.SelectNewStage(false);
             if (RerollPrice == 0) RerollPrice = 6;
             else RerollPrice *= 2;
             UpdateRerollButtonText();

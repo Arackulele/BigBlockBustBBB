@@ -7,7 +7,7 @@ public abstract class GameModifier : Purchasable
     
     public virtual string description { get; }
     
-    public virtual float LineClearModifier(List<Vector2Int> clearedBlocks) => 0;
+    public virtual float LineClearModifier(List<Vector2Int> clearedBlocks, int clearCountRows, int clearCountCollumns, int clearCountMisc) => 0;
     public virtual int BlockPlaceModifier(List<Vector2Int> placedPositions, UnplacedBlockScript block) => 0;
     public virtual float ShopPriceModifier(Purchasable item) => 0;
     public virtual float ShopBarModifier() => 0;

@@ -1,9 +1,11 @@
+using System;
 using JetBrains.Annotations;
 using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 using static Unity.Collections.AllocatorManager;
+using Random = UnityEngine.Random;
 
 public class GameBoard : MonoBehaviour
 {
@@ -107,13 +109,27 @@ public class GameBoard : MonoBehaviour
     {
         Color c = ThemerScript.Instance.CurrentTheme.BlockColors.GetRandomItem();
         Sprite s = ThemerScript.Instance.CurrentTheme.BlockSprites.GetRandomItem();
-        GameBoard.instance.SetBlockAtPos(pos.x, pos.y, c, s);
+        SetBlockAtPos(pos.x, pos.y, c, s);
     }
     
-    public void ClearBlockAtPos(int x, int y)
+    public void SetBlockUnclearable(Vector2Int pos)
     {
-        GridMap[x, y] = false;
-        GridObjects[x, y].GetComponent<BlockScript>().Clear();
+        Color c = new Color(0.4f, 0.4f, 0.4f);
+        Sprite s = ThemerScript.Instance.CurrentTheme.BlockSprites[0];
+
+        int x = pos.x;
+        int y = pos.y;
+        GridMap[x, y] = true;
+        GridObjects[x, y].GetComponent<BlockScript>().Color = c;
+        GridObjects[x, y].GetComponent<BlockScript>().Sprite = s;
+        GridObjects[x, y].GetComponent<BlockScript>().FillUnclearable()
+            ;
+        
+    }
+    
+    public void ClearBlockAtPos(int x, int y, bool forced = false)
+    {
+        if (GridObjects[x, y].GetComponent<BlockScript>().Clear(forced)) GridMap[x, y] = false;
     }
     
     public void ClearBlockAtPos(Vector2Int pos)
@@ -124,16 +140,16 @@ public class GameBoard : MonoBehaviour
     public void ClearBoard()
     {
         bool[,] gridBeforeClear = (bool[,])GridMap.Clone();
-        List<Vector2Int> clearableBlocks = GetClearableBlocks(gridBeforeClear, out int clearedRows);
-        if (clearedRows > 0)
+        List<Vector2Int> clearableBlocks = GetClearableBlocks(gridBeforeClear, out int clearCountRows, out int clearCountCollumns, out int clearCountMisc);
+        int clearCountTotal = clearCountRows + clearCountCollumns + clearCountMisc;
+        if (clearCountTotal > 0)
         {
             foreach (Vector2Int bl in clearableBlocks)
             {
             ClearBlockAtPos(bl.x, bl.y);
             }
 
-            ScoreManagement.Instance.ClearLine(20 * (clearedRows * clearedRows), clearableBlocks);
-
+            ScoreManagement.Instance.ClearLine(20 * (clearCountTotal * clearCountTotal), clearableBlocks, clearCountRows, clearCountCollumns, clearCountMisc);
         }
 
         foreach (GameModifier u in GameManager.Instance.GameModifiers())  {
@@ -141,9 +157,11 @@ public class GameBoard : MonoBehaviour
         }
     }
 
-    public List<Vector2Int> GetClearableBlocks(bool[,] gridMap, out int clearCount)
+    public List<Vector2Int> GetClearableBlocks(bool[,] gridMap, out int clearCountRows, out int clearCountCollumns, out int clearCountMisc)
     {
-        clearCount = 0;
+        clearCountRows = 0;
+        clearCountCollumns = 0;
+        clearCountMisc = 0;
         var clearableBlocks = new List<Vector2Int>();
 
         for (int y = 0; y < gridMap.GetLength(1); y++)
@@ -153,7 +171,7 @@ public class GameBoard : MonoBehaviour
                 if (!gridMap[x, y]) { full = false; break; }
             if (!full) continue;
 
-            clearCount++;
+            clearCountRows++;
             for (int x = 0; x < gridMap.GetLength(0); x++)
                 AddUnique(clearableBlocks, new Vector2Int(x, y));
         }
@@ -165,7 +183,7 @@ public class GameBoard : MonoBehaviour
                 if (!gridMap[x, y]) { full = false; break; }
             if (!full) continue;
 
-            clearCount++;
+            clearCountCollumns++;
             for (int y = 0; y < gridMap.GetLength(1); y++)
                 AddUnique(clearableBlocks, new Vector2Int(x, y));
         }
@@ -175,7 +193,7 @@ public class GameBoard : MonoBehaviour
             List<Vector2Int> additionalBlocks = modifier.GetAdditionalClearableBlocks(gridMap);
             foreach (Vector2Int pos in additionalBlocks)
                 AddUnique(clearableBlocks, pos);
-            if (additionalBlocks.Count > 1) clearCount++;
+            if (additionalBlocks.Count > 1) clearCountMisc+= Math.Max(1, additionalBlocks.Count/8);
         }
 
         return clearableBlocks;
@@ -192,7 +210,7 @@ public class GameBoard : MonoBehaviour
         {
             for (int c = 0; c < GridMap.GetLength(1); c++)
             {
-                ClearBlockAtPos(i, c);
+                ClearBlockAtPos(i, c, true);
             }
         }
     }

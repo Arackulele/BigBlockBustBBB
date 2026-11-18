@@ -20,11 +20,18 @@ public class UpgradeVisual : DraggableObject
         Awake();
         name.text = upgrade.name;
         desc.text = upgrade.description;
+
         if (IsShop)
         {
-            price.gameObject.SetActive(true);
+            price.color = Color.softYellow;
             price.text = upgrade.price().ToString();
         }
+        else 
+        {
+            price.color = Color.darkOrange;
+            price.text = (upgrade.price() * 0.5f).ToString();
+        }
+        
     }
 
     public Upgrade upgrade;
@@ -45,9 +52,10 @@ public class UpgradeVisual : DraggableObject
     {
         validPosition = transform.position;
 
-        if (!IsShop )
+        if (!IsShop)
         {
             if ( upgrade == null || GameManager.Instance == null || ScoreManagement.Instance == null || GameManager.Instance.upgradeArea == null) return false;
+            
             if (RemoveAreaScript.colliderinstance != null && RemoveAreaScript.colliderinstance.OverlapPoint(transform.position)) return true;
         }
 
@@ -70,7 +78,7 @@ public class UpgradeVisual : DraggableObject
         else
         {
             ScoreManagement.Instance.UnspentScore += upgrade.price() * 0.5f;
-            Destroy(gameObject); 
+            upgrade.Remove(); 
         }
     }
     

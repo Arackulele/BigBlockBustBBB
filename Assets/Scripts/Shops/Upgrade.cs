@@ -46,8 +46,9 @@ public class Upgrade : ShopItem
     private IEnumerator WaitThenRemove()
     {
         yield return new WaitForEndOfFrame();
-        
         GameManager.Instance.Perks.Remove(this);
+        ShopManager.instance.shopInventory.Upgrades.Add(this);
+        yield return new WaitForEndOfFrame();
         GameObject.Destroy(Visual.gameObject);
     }
 

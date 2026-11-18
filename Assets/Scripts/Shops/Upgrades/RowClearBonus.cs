@@ -6,20 +6,14 @@ public class RowClearBonus : Upgrade
 
     public override Rarity rarity { get => Rarity.Common; }
     
-    public override string name => "Olive Branch";
+    public override string name => "Silver spoon";
 
-    public override string description => "Clearing a row gains 50% more points";
+    public override string description => "Clearing a row has +0.5 mult";
 
-    public override float LineClearModifier(List<Vector2Int> ClearedBlocks)
+    public override float LineClearModifier(List<Vector2Int> clearedBlocks, int clearCountRows, int clearCountCollumns, int clearCountMisc)
     {
-        int rf = ClearedBlocks[0].y;
-
-        foreach (Vector2Int pos in ClearedBlocks)
-        {
-            if (pos.y != rf) return 0;
-        }
-
         OnActivate();
-        return 0.5f;
+        if (clearCountRows > 0) return 0.5f * clearCountRows;
+        return 0;
     }
 }

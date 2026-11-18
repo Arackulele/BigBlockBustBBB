@@ -69,11 +69,11 @@ public class ScoreManagement : MonoBehaviour
         ChangeScore(amount, pos);
     }
 
-    public void ClearLine(int amount, List<Vector2Int> ClearedBlocks, Vector2 pos = new Vector2())
+    public void ClearLine(int amount, List<Vector2Int> ClearedBlocks, int clearCountRows, int clearCountCollumns, int clearCountMisc, Vector2 pos = new Vector2())
     {
         amount = (int)(amount * GetMult());
         foreach (GameModifier u in GameManager.Instance.GameModifiers())        {
-            amount = (int)(amount * (u.LineClearModifier(ClearedBlocks) + 1));
+            amount = (int)(amount * (u.LineClearModifier(ClearedBlocks, clearCountRows, clearCountCollumns, clearCountMisc) + 1));
         }
         
         IncrementMult(pos);

@@ -8,7 +8,7 @@ public class BoardClearScale : Upgrade
     
     public override string name => "Sweeping Broom";
 
-    public override string description => "Gain 500 points when clearing a full board, this goes up by 500 every time the bonus is obtained.";
+    public override string description => "Gain <color=blue>" + Score + "</color> points when clearing a full board, this goes up by 500 every time the bonus is obtained.";
 
     private int Score = 500;
 

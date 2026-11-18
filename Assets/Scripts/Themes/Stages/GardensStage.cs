@@ -9,13 +9,13 @@ public class GardensStage : Stage
     
     public override string name => "Pink Gardens";
 
-    public override string description => "Clearing a line with only same color blocks awards double points.";
+    public override string description => "Clearing a line with only same color blocks awards 3x points.";
     
     public override double pointsmod => 1.175;
 
     public override Theme Theme { get => AssetLoader.Instance.GardensStage_Theme; }
 
-    public override float LineClearModifier(List<Vector2Int> clearedBlocks)
+    public override float LineClearModifier(List<Vector2Int> clearedBlocks, int clearCountRows, int clearCountCollumns, int clearCountMisc)
     {
         //ToDo: Why the fuck havent i just implemented a method to get the blockscript directly in game manager
         Color c = GameBoard.instance.GetBlockAtPosition(clearedBlocks[0]).GetComponent<BlockScript>().Color;
@@ -24,9 +24,9 @@ public class GardensStage : Stage
         {
             Color comp = GameBoard.instance.GetBlockAtPosition(i).GetComponent<BlockScript>().Color;
 
-            if (c != comp) return base.LineClearModifier(clearedBlocks);
+            if (c != comp) return 0;
         }
 
-        return 1f;
+        return 2f;
     }
 }

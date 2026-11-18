@@ -15,14 +15,14 @@ public class OreStage : Stage
 
     public override Theme Theme { get => AssetLoader.Instance.OreStage_Theme; }
     
-    public override float LineClearModifier(List<Vector2Int> ClearedBlocks)
+    public override float LineClearModifier(List<Vector2Int> clearedBlocks, int clearCountRows, int clearCountCollumns, int clearCountMisc)
     {
         Color bronze = Theme.BlockColors[0];
         Color gold = Theme.BlockColors[2];
 
         float finalmod = 0;
 
-        foreach (Vector2Int blockpos in ClearedBlocks)
+        foreach (Vector2Int blockpos in clearedBlocks)
         {
             Color Match = GameBoard.instance.GetBlockAtPosition(blockpos).GetComponent<BlockScript>().Color;
             if (Match == bronze) finalmod -= 0.5f;

@@ -9,19 +9,21 @@ public class ScaleMultClears : Upgrade
     public override string name => "Ball of Tinfoil";
 
     //ToDo: Dynamic description
-    public override string description => "Gain 0.2 mult, this increases permanently by 0.2 for each 3+ line clear.";
+    public override string description => "Gain <color=red>" + Mult + "</color>, this increases permanently by 0.2 for each 3+ line clear.";
 
-    private double Mult = 0.2f;
+    private double Mult = 0.2;
 
-    public override float LineClearModifier(List<Vector2Int> clearedBlocks)
+    public override float LineClearModifier(List<Vector2Int> clearedBlocks, int clearCountRows, int clearCountCollumns, int clearCountMisc)
     {
-        if (clearedBlocks.Count > 20)
+        int clearCountTotal = clearCountRows + clearCountCollumns + clearCountMisc;
+        if (clearCountTotal > 2)
         {
-            Mult += 0.2f;
+            Mult += 0.2;
             OnActivate();
         }
         return 0;
     }
+    
 
     public override float GlobalPointsMultiplier()
     {

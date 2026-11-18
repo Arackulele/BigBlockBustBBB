@@ -33,10 +33,12 @@ public class LevelProgression : MonoBehaviour
             new ValleyStage(),
             new OceanStage(),
             new GardensStage(),
+            new ForestStage(),
             
             new WoodBlockStage(),
             new OreStage(),
-            new MossStage()
+            new MossStage(),
+            new MountainStage()
         };
 
     private void Update()
@@ -98,7 +100,7 @@ public class LevelProgression : MonoBehaviour
         }
 
         previousStage = previousStageType;
-        if (!resetPrevious) previousStage = null;
+        if (resetPrevious) previousStage = null;
 
         //This is hacky and a little weird tbh
         return selected == null

@@ -239,6 +239,9 @@ public class GameManager : MonoBehaviour
             LevelProgression.instance.ScoreReq = (float)((500 + 10 * (x + 2) * x) * CurrentStage.pointsmod);
             LevelProgression.instance.ScoreReq = Mathf.RoundToInt(LevelProgression.instance.ScoreReq);
             GameBoard.instance.EmptyBoard();
+            
+            //Since a stage should be added when the round starts, and isnt added through the normal upgrade process, we go through the trigger here
+            CurrentStage.OnAdded();
         });
     }
 

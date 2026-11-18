@@ -214,7 +214,7 @@ public class UnplacedBlockScript : DraggableObject
             ] = true;
         }
 
-        List<Vector2Int> clearable = GameBoard.instance.GetClearableBlocks(simulated, out _);
+        List<Vector2Int> clearable = GameBoard.instance.GetClearableBlocks(simulated, out _, out _, out _);
         foreach (Vector2Int position in clearable)
             HighlightCell(position.x, position.y);
     }

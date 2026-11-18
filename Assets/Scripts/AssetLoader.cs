@@ -21,9 +21,12 @@ public class AssetLoader : MonoBehaviour
     public Theme ValleyStage_Theme;
     public Theme OceanStage_Theme;
     public Theme GardensStage_Theme;
+    public Theme ForestStage_Theme;
+    
     public Theme WoodenStage_Theme;
     public Theme OreStage_Theme;
     public Theme MossStage_Theme;
+    public Theme MountainStage_Theme;
     
     public BlockDatabase DefaultBlockPalette;
     public BlockDatabase TetrominoBlockPalette;
