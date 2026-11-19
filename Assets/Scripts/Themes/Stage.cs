@@ -14,6 +14,12 @@ public class Stage : GameModifier
     
     public virtual double pointsmod { get; }
 
-    
+    public virtual int ScoreReq()
+    {
+        int x = LevelProgression.instance.CurrentStage;
+        double req = (float)((500 + 10 * (x + 2) * x) * GameManager.Instance.CurrentStage.pointsmod);
+        req = Mathf.RoundToInt(LevelProgression.instance.ScoreReq);
+        return (int)req;
+    }
 
 }

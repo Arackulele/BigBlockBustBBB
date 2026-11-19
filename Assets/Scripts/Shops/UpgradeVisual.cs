@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 public class UpgradeVisual : DraggableObject
 {
@@ -32,6 +33,13 @@ public class UpgradeVisual : DraggableObject
             price.text = (upgrade.price() * 0.5f).ToString();
         }
         
+    }
+
+    //this is lowk kinda hacky
+    void FixedUpdate()
+    {
+        name.text = upgrade.name;
+        desc.text = upgrade.description;
     }
 
     public Upgrade upgrade;
@@ -81,6 +89,7 @@ public class UpgradeVisual : DraggableObject
             upgrade.Remove(); 
         }
     }
+    
     
     protected override void OnStartDragging()
     {

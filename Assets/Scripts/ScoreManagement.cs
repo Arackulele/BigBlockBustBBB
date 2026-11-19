@@ -5,14 +5,6 @@ using UnityEngine;
 
 public class ScoreManagement : MonoBehaviour
 {
-    [SerializeField]
-    private TextMeshProUGUI ScoreText;
-
-    [SerializeField]
-    private TextMeshProUGUI SpendingScoreText;
-
-    [SerializeField]
-    private TextMeshProUGUI CurrentMultPrefab;
 
     [SerializeField]
     private GameObject ScoreGiverPrefab;
@@ -29,14 +21,6 @@ public class ScoreManagement : MonoBehaviour
     public double UnspentScore;
 
     public int Combo = 1;
-
-    private void Update()
-    {
-        ScoreText.text = "" + Math.Round((double)Score, 1) + "/" + LevelProgression.instance.ScoreReq;
-        SpendingScoreText.text = "" + Math.Round(UnspentScore, 2);
-        CurrentMultPrefab.text = "" + Combo + "/" + Math.Round(GetMult(), 2);
-
-    }
 
     private void Start()
     {
@@ -110,6 +94,11 @@ public class ScoreManagement : MonoBehaviour
     
     private void ChangeScore(int amount, Vector2 pos = new Vector2())
     {
+        foreach (GameModifier u in GameManager.Instance.GameModifiers())        {
+            Debug.Log($"Upgrade: {(u == null ? "NULL" : u.ToString())}");
+            u.OnScoreGained(amount);
+        }
+        
         GameObject g = Instantiate(ScoreGiverPrefab);
         g.transform.position = pos;
         g.GetComponent<ScorePoint>().Amount = amount;

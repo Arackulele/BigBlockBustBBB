@@ -32,7 +32,11 @@ public class UpgradeShop : UpgradeInventory
             new TetrominoBlocks(),
             new ColumnPointScale(),
             new RowMultScale(),
-            new AlwaysGainHigh()
+            new AlwaysGainHigh(),
+            new RowMultScale(),
+            new FarmEpicConsumable(),
+            new FarmEpicUpgrade(),
+            new ComboLineMultiplier()
         };
     
     public List<Upgrade> CommonUpgrades = new List<Upgrade>();
@@ -86,6 +90,27 @@ public class UpgradeShop : UpgradeInventory
         }
         Selected?.ResetPrice();
         return Selected;
+    }
+    
+    public Upgrade GetUpgradeOfRarity(Rarity rarity)
+    {
+        Upgrade selected;
+
+        switch (rarity)
+        {
+            default:
+            case Rarity.Common:
+                selected = CommonUpgrades.GetRandomItem();
+                break;
+            case Rarity.Rare:
+                selected = RareUpgrades.GetRandomItem();
+                break;
+            case Rarity.Epic:
+                selected = EpicUpgrades.GetRandomItem();
+                break;
+        }
+
+        return selected;
     }
 
     private void Awake()

@@ -36,6 +36,7 @@ public class Upgrade : ShopItem
     {
         Visual.StartCoroutine(Visual.OnActivate());
     }
+
     
     public void Remove()
     {

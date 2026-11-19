@@ -71,6 +71,29 @@ public class ConsumableShop : ConsumableInventory
             : (Consumable)Activator.CreateInstance(selected.GetType());
     }
 
+    public Consumable GetConsumableOfRarity(Rarity rarity)
+    {
+        Consumable selected;
+
+        switch (rarity)
+        {
+            default:
+            case Rarity.Common:
+                selected = CommonConsumables.GetRandomItem();
+                break;
+            case Rarity.Rare:
+                selected = RareConsumables.GetRandomItem();
+                break;
+            case Rarity.Epic:
+                selected = EpicConsumables.GetRandomItem();
+                break;
+        }
+        
+        return selected == null
+            ? null
+            : (Consumable)Activator.CreateInstance(selected.GetType());
+    }
+
     private void Awake()
     {
         foreach (Consumable consumable in ConsumableIndex)
