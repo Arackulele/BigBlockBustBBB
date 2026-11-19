@@ -34,7 +34,7 @@ public class Upgrade : ShopItem
 
     public void OnActivate()
     {
-        Visual.StartCoroutine(Visual.OnActivate());
+        if (Visual != null)Visual.StartCoroutine(Visual.OnActivate());
     }
 
     
