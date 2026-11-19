@@ -31,7 +31,8 @@ public class UpgradeShop : UpgradeInventory
             new SafetyNetScore(),
             new TetrominoBlocks(),
             new ColumnPointScale(),
-            new RowMultScale()
+            new RowMultScale(),
+            new AlwaysGainHigh()
         };
     
     public List<Upgrade> CommonUpgrades = new List<Upgrade>();

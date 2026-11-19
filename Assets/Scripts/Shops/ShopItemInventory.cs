@@ -14,13 +14,14 @@ public abstract class ShopItemInventory : MonoBehaviour
 
     public void UpdateArea()
     {
-        foreach (GameObject obj in ItemVisuals)
+        List<GameObject> visuals = ItemVisuals;
+        foreach (GameObject visual in visuals)
         {
-            if (obj != null)
-                Destroy(obj);
+            if (visual != null)
+                Destroy(visual);
         }
 
-        ItemVisuals.Clear();
+        visuals.Clear();
         PopulatebyList();
     }
 
@@ -29,18 +30,27 @@ public abstract class ShopItemInventory : MonoBehaviour
     protected void Populate<T>(List<T> items, bool shop, Action<GameObject> markAsShopVisual)
         where T : ShopItem
     {
+        if (items == null)
+            return;
+
         int count = items.Count;
 
         for (int i = 0; i < count; i++)
         {
-            GameObject visual = items[i].createVisual(VisualParent);
+            T item = items[i];
+            if (item == null)
+                continue;
+
+            GameObject visual = item.createVisual(VisualParent);
+            if (visual == null)
+                continue;
+
             ItemVisuals.Add(visual);
 
             if (shop)
                 markAsShopVisual(visual);
 
-            if (visual != null)
-                PositionVisual(visual.transform, GetItemPosition(i, count));
+            PositionVisual(visual.transform, GetItemPosition(i, count));
         }
     }
 
@@ -60,7 +70,7 @@ public abstract class ShopItemInventory : MonoBehaviour
 
     private Vector3 GetItemPosition(int index, int total)
     {
-        int itemsInLine = Mathf.Min(ItemsPerLine, total);
+        int itemsInLine = Mathf.Min(Mathf.Max(1, ItemsPerLine), total);
         int row;
         int column;
         int rowCount;
@@ -81,21 +91,27 @@ public abstract class ShopItemInventory : MonoBehaviour
             column = index % columnCount;
         }
 
-        float x = GetAxisPosition(column, columnCount, LayoutBounds.min.x, LayoutBounds.size.x, Padding.x);
-        float y = GetAxisPosition(row, rowCount, LayoutBounds.max.y, LayoutBounds.size.y, Padding.y, true);
+        float x = GetAxisPosition(column, columnCount, LayoutBounds.min.x, LayoutBounds.max.x, Padding.x);
+        float y = GetAxisPosition(row, rowCount, LayoutBounds.min.y, LayoutBounds.max.y, Padding.y, true);
 
         return new Vector3(x, y, LayoutBounds.center.z);
     }
 
-    private static float GetAxisPosition(int index, int count, float start, float size, float requestedPadding, bool descending = false)
+    private static float GetAxisPosition(int index, int count, float min, float max, float padding, bool descending = false)
     {
-        float padding = count > 1
-            ? Mathf.Min(requestedPadding, size / (count - 1))
+        float size = Mathf.Max(0f, max - min);
+        float edgePadding = Mathf.Min(padding, size * 0.5f);
+        float contentMin = min + edgePadding;
+        float contentSize = Mathf.Max(0f, size - edgePadding * 2f);
+        float gap = count > 1
+            ? Mathf.Min(padding, contentSize / (count - 1))
             : 0f;
-        float cellSize = (size - padding * (count - 1)) / count;
-        float position = start + cellSize * 0.5f + index * (cellSize + padding);
+        float cellSize = count > 0
+            ? Mathf.Max(0f, (contentSize - gap * (count - 1)) / count)
+            : 0f;
+        float position = contentMin + cellSize * 0.5f + index * (cellSize + gap);
 
-        return descending ? start - (position - start) : position;
+        return descending ? min + max - position : position;
     }
 
     private void OnDrawGizmosSelected()
