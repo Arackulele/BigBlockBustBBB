@@ -8,7 +8,7 @@ public class PlacedBlocksMultiplier : Upgrade
     
     public override string name => "Suitcase";
 
-    public override string description => "Each Block already placed on the board adds 5% to the multiplier";
+    public override string description() => "Each Block already placed on the board adds 5% to the multiplier";
 
     public override float GlobalPointsMultiplier()
     {

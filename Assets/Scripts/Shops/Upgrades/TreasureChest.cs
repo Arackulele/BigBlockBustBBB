@@ -8,7 +8,8 @@ public class TreasureChest : Upgrade
     
     public override string name => "Lunchbox";
 
-    public override string description => "A random Tile is secretly marked, placing a block on said tile will grant 3 random Consumables and removes this upgrade";
+    public override string description() =>
+        "A random Tile is secretly marked, placing a block on said tile will grant 3 random Consumables and removes this upgrade";
 
     private Vector2Int SecretPos;
 

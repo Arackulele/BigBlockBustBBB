@@ -8,7 +8,7 @@ public class FarmEpicUpgrade : Upgrade
     
     public override string name => "Amethyst Geode";
 
-    public override string description => "After reaching a 10x combo, replace this upgrade with a random epic upgrade.";
+    public override string description() => "After reaching a 10x combo, replace this upgrade with a random epic upgrade.";
 
     private int Score = 5000;
 

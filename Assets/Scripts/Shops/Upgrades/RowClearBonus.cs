@@ -8,7 +8,7 @@ public class RowClearBonus : Upgrade
     
     public override string name => "Silver spoon";
 
-    public override string description => "Clearing a row has +0.5 mult";
+    public override string description() => "Clearing a row has +0.5 mult";
 
     public override float LineClearModifier(List<Vector2Int> clearedBlocks, int clearCountRows, int clearCountCollumns, int clearCountMisc)
     {

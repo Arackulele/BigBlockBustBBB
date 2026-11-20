@@ -8,7 +8,7 @@ public class KeepCombo : Upgrade
     
     public override string name => "Insurance Policy";
 
-    public override string description => "Whenever you clear a stage, your combo is kept.";
+    public override string description() => "Whenever you clear a stage, your combo is kept.";
 
     public override void OnStageCleared()
     {

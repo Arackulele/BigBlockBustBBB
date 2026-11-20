@@ -8,7 +8,8 @@ public class ColumnPointScale : Upgrade
     
     public override string name => "Olive Sapling";
 
-    public override string description => "Gain <color=blue>" + Score + "</color> score every turn, this increases by 2 for every column cleared.";
+    public override string description() => "Gain <color=blue>" + Score +
+                                            "</color> score every turn, this increases by 2 for every column cleared.";
 
     private int Score = 2;
 

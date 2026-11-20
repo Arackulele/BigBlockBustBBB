@@ -9,7 +9,7 @@ public class BlockRerollConsumable : Consumable
 
     public override string name => "Breath Mint";
 
-    public override string description => "Use to reroll placeable blocks";
+    public override string description() => "Use to reroll placeable blocks";
 
     public override void OnDrop(Vector2 pos)
     {

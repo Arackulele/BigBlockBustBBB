@@ -10,8 +10,8 @@ public class FillConsumable : Consumable
 
     public override string name => "Hot Soup";
 
-    public override string description => "Fill an area of Tiles, with a maximum of 12 in total.";
-    
+    public override string description() => "Fill an area of Tiles, with a maximum of 12 in total.";
+
     private static List<Vector2Int> Matrix = new List<Vector2Int>()
     {
         new Vector2Int(1, 0),

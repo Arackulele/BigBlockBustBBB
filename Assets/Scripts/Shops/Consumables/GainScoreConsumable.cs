@@ -9,7 +9,7 @@ public class GainScoreConsumable : Consumable
 
     public override string name => "Cubed Melon";
 
-    public override string description => "Use to get 1D6*10 Score, affected by mult";
+    public override string description() => "Use to get 1D6*10 Score, affected by mult";
 
     public override void OnDrop(Vector2 pos)
     {

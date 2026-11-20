@@ -8,7 +8,7 @@ public class TetrominoBlocks : Upgrade
     
     public override string name => "Gameboy Cartridge";
 
-    public override string description => "Replace your block palette with the set of Tetrominos";
+    public override string description() => "Replace your block palette with the set of Tetrominos";
 
     public override void OnAdded()
     {

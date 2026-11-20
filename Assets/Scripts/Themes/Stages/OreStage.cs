@@ -9,8 +9,9 @@ public class OreStage : Stage
     
     public override string name => "Metalworks";
 
-    public override string description => "When a line is cleared, bronze blocks add -0.5 to the modifier, gold blocks add 0.5.";
-    
+    public override string description() =>
+        "When a line is cleared, bronze blocks add -0.5 to the modifier, gold blocks add 0.5.";
+
     public override double pointsmod => 1;
 
     public override Theme Theme { get => AssetLoader.Instance.OreStage_Theme; }

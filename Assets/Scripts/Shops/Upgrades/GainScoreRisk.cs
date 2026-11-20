@@ -8,7 +8,7 @@ public class GainScoreRisk : Upgrade
     
     public override string name => "Toy Skateboard";
 
-    public override string description => "Mult rises twice as fast, but you loose 100*mult points when breaking combo.";
+    public override string description() => "Mult rises twice as fast, but you loose 100*mult points when breaking combo.";
 
     public override void OnMultReset(int PreviousMult)
     {

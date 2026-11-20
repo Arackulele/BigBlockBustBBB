@@ -20,7 +20,7 @@ public class UpgradeVisual : DraggableObject
     {
         Awake();
         name.text = upgrade.name;
-        desc.text = upgrade.description;
+        desc.text = upgrade.description();
 
         if (IsShop)
         {
@@ -39,7 +39,7 @@ public class UpgradeVisual : DraggableObject
     void FixedUpdate()
     {
         name.text = upgrade.name;
-        desc.text = upgrade.description;
+        desc.text = upgrade.description();
     }
 
     public Upgrade upgrade;

@@ -8,14 +8,15 @@ public class FarmEpicConsumable : Upgrade
     
     public override string name => "Cracked Geode";
 
-    public override string description => "After gaining <color=blue>" + Score + "</color> score, remove this upgrade and gain a random epic consumable.";
+    public override string description() => "After gaining <color=blue>" + Score +
+                                            "</color> score, remove this upgrade and gain a random epic consumable.";
 
     private int Score = 5000;
 
-    public override void OnScoreGained(int amount)
+    public override int ScoreGained(int amount)
     {
         if (amount <= 0 || !GameManager.Instance.Perks.Contains(this))
-            return;
+            return amount;
 
         Score -= amount;
 
@@ -26,5 +27,7 @@ public class FarmEpicConsumable : Upgrade
             Remove();
 
         }
+
+        return amount;
     }
 }

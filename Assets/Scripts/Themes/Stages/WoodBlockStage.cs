@@ -7,8 +7,8 @@ public class WoodBlockStage : Stage
     
     public override string name => "Wooden Blocks";
 
-    public override string description => "A full 4x4 Area of Blocks is also cleared.";
-    
+    public override string description() => "A full 4x4 Area of Blocks is also cleared.";
+
     public override double pointsmod => 1.4;
 
     public override Theme Theme { get => AssetLoader.Instance.WoodenStage_Theme; }

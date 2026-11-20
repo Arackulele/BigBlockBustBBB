@@ -9,7 +9,7 @@ public class TurnLimitIncreaseConsumable : Consumable
 
     public override string name => "Golden Bread";
 
-    public override string description => "Use to permanently gain 1 Turn, but loose 2 Consumable Slots";
+    public override string description() => "Use to permanently gain 1 Turn, but loose 2 Consumable Slots";
 
     public override void OnDrop(Vector2 pos)
     {

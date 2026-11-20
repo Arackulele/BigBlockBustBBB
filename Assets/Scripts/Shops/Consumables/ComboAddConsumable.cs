@@ -9,7 +9,7 @@ public class ComboAddConsumable : Consumable
 
     public override string name => "Heirloom Tomato";
 
-    public override string description => "Use to double your combo";
+    public override string description() => "Use to double your combo";
 
     public override void OnDrop(Vector2 pos)
     {

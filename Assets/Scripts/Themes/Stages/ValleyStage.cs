@@ -9,8 +9,8 @@ public class ValleyStage : Stage
     
     public override string name => "Green Valley";
 
-    public override string description => "Every third turn, gain 25% more points.";
-    
+    public override string description() => "Every third turn, gain 25% more points.";
+
     public override double pointsmod => 1.125;
 
     public override Theme Theme { get => AssetLoader.Instance.ValleyStage_Theme; }

@@ -8,7 +8,7 @@ public class MoneyMultBonus : Upgrade
     
     public override string name => "Piggybank";
 
-    public override string description => "Gain 1% of your current Money as mult";
+    public override string description() => "Gain 1% of your current Money as mult";
 
     public override float GlobalPointsMultiplier()
     {

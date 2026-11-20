@@ -9,8 +9,8 @@ public class HillsStage : Stage
     
     public override string name => "Grey Hills";
 
-    public override string description => "Columns get +0.5 mult, Rows get -0.5 mult.";
-    
+    public override string description() => "Columns get +0.5 mult, Rows get -0.5 mult.";
+
     public override double pointsmod => 1;
 
     public override Theme Theme { get => AssetLoader.Instance.HillsStage_Theme; }

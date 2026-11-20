@@ -9,7 +9,7 @@ public class BlockDiscardConsumable : Consumable
 
     public override string name => "Mint leaf";
 
-    public override string description => "Use to discard a block";
+    public override string description() => "Use to discard a block";
 
     public override void OnDrop(Vector2 pos)
     {

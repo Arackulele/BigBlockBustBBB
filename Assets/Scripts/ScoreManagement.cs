@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ScoreManagement : MonoBehaviour
 {
-
+    
     [SerializeField]
     private GameObject ScoreGiverPrefab;
 
@@ -96,7 +96,7 @@ public class ScoreManagement : MonoBehaviour
     {
         foreach (GameModifier u in GameManager.Instance.GameModifiers())        {
             Debug.Log($"Upgrade: {(u == null ? "NULL" : u.ToString())}");
-            u.OnScoreGained(amount);
+            amount = u.ScoreGained(amount);
         }
         
         GameObject g = Instantiate(ScoreGiverPrefab);

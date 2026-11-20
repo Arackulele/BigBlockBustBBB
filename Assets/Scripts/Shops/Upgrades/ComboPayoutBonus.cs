@@ -8,7 +8,7 @@ public class ComboPayoutBonus : Upgrade
     
     public override string name => "Novelty Coin";
 
-    public override string description => "When reaching a 10x Combo, gain 4000 Points";
+    public override string description() => "When reaching a 10x Combo, gain 4000 Points";
 
     public override int ComboGainMultiplier()
     {

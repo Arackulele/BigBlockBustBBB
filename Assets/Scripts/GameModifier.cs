@@ -4,9 +4,9 @@ using UnityEngine;
 public abstract class GameModifier : Purchasable
 {
     public virtual string name { get; }
-    
-    public virtual string description { get; }
-    
+
+    public virtual string description() => "";
+
     public virtual float LineClearModifier(List<Vector2Int> clearedBlocks, int clearCountRows, int clearCountCollumns, int clearCountMisc) => 0;
     public virtual int BlockPlaceModifier(List<Vector2Int> placedPositions, UnplacedBlockScript block) => 0;
     public virtual float ShopPriceModifier(Purchasable item) => 0;
@@ -21,7 +21,7 @@ public abstract class GameModifier : Purchasable
     public virtual void AfterBlocksPlaced() { }
     public virtual void OnConsumableUsed() { }
     public virtual void OnStageCleared() { }
-    public virtual void OnScoreGained(int amount) { }
+    public virtual int ScoreGained(int amount) => amount;
 
 
     public virtual List<Vector2Int> GetAdditionalClearableBlocks(bool[,] gridMap) => new List<Vector2Int>();

@@ -8,7 +8,7 @@ public class AlwaysGainHigh : Upgrade
     
     public override string name => "Toy Monster Truck";
 
-    public override string description => "Always gain a Block with 6 or more squares";
+    public override string description() => "Always gain a Block with 6 or more squares";
 
     public override void OnBlocksRefilled()
     {

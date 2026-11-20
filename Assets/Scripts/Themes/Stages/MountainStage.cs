@@ -9,8 +9,8 @@ public class MountainStage : Stage
     
     public override string name => "Rocky Mountains";
 
-    public override string description => "A cross in the middle is filled with unclearable blocks.";
-    
+    public override string description() => "A cross in the middle is filled with unclearable blocks.";
+
     public override double pointsmod => 1.125;
 
     public override Theme Theme { get => AssetLoader.Instance.MountainStage_Theme; }

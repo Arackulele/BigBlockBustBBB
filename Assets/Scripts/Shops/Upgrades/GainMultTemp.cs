@@ -8,7 +8,8 @@ public class GainMultTemp : Upgrade
     
     public override string name => "Ice Cube";
 
-    public override string description => "Gain <color=red>" + Mult + "</color> mult, this decreases by 0.2 mult after every stage.";
+    public override string description() =>
+        "Gain <color=red>" + Mult + "</color> mult, this decreases by 0.2 mult after every stage.";
 
     private double Mult = 4;
 

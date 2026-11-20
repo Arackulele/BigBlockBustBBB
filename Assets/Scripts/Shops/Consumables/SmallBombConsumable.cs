@@ -10,8 +10,8 @@ public class SmallBombConsumable : Consumable
 
     public override string name => "Gummy Bear";
 
-    public override string description => "Place on a Tile on the Board to remove all placed Blocks in a cross area.";
-    
+    public override string description() => "Place on a Tile on the Board to remove all placed Blocks in a cross area.";
+
 
     private static List<Vector2Int> Matrix = new List<Vector2Int>()
     {

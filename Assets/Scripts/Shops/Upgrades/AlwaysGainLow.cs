@@ -8,7 +8,7 @@ public class AlwaysGainLow : Upgrade
     
     public override string name => "Tiny Toy Soldier";
 
-    public override string description => "Always gain a Block with 3 or less squares";
+    public override string description() => "Always gain a Block with 3 or less squares";
 
     public override void OnBlocksRefilled()
     {

@@ -8,7 +8,7 @@ public class TurnPassMoney : Upgrade
     
     public override string name => "Postage Stamp";
 
-    public override string description => "Gain 2 Money at the end of every Turn";
+    public override string description() => "Gain 2 Money at the end of every Turn";
 
     public override void OnTurnPassed(int Turn)
     {

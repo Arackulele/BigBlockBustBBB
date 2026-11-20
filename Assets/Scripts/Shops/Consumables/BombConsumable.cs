@@ -9,8 +9,8 @@ public class BombConsumable : Consumable
     
     public override string name => "Hard Candy";
 
-    public override string description => "Place on a Tile on the Board to remove all placed Blocks in a 3x3 Area.";
-    
+    public override string description() => "Place on a Tile on the Board to remove all placed Blocks in a 3x3 Area.";
+
 
     private static List<Vector2Int> Matrix = new List<Vector2Int>()
     {

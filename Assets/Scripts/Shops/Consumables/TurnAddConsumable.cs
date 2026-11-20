@@ -9,7 +9,7 @@ public class TurnAddConsumable : Consumable
 
     public override string name => "Focaccia";
 
-    public override string description => "Use to gain 1 Turn";
+    public override string description() => "Use to gain 1 Turn";
 
     public override void OnDrop(Vector2 pos)
     {

@@ -29,7 +29,7 @@ public class ConsumableVisual : DraggableObject
     {
         Awake();
         name.text = Consumable.name;
-        desc.text = Consumable.description;
+        desc.text = Consumable.description();
         if (IsShop)
         {
             price.gameObject.SetActive(true);

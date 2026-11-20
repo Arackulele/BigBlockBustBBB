@@ -9,7 +9,7 @@ public class GainMultConsumable : Consumable
 
     public override string name => "Cherry Tomato";
 
-    public override string description => "Use to get 1 Combo, and extend your Combo by 1 Round";
+    public override string description() => "Use to get 1 Combo, and extend your Combo by 1 Round";
 
     public override void OnDrop(Vector2 pos)
     {

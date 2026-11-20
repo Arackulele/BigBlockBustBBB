@@ -8,7 +8,7 @@ public class ComboLineMultiplier : Upgrade
     
     public override string name => "Bottle Rocket";
 
-    public override string description => "Clearing a column gains an additional 100 points";
+    public override string description() => "Clearing a column gains an additional 100 points";
 
     public override float LineClearModifier(List<Vector2Int> clearedBlocks, int clearCountRows, int clearCountCollumns, int clearCountMisc)
     {

@@ -9,8 +9,8 @@ public class SandsStage : Stage
     
     public override string name => "Yellow Sands";
 
-    public override string description => "Rows get +25% mult, Columns get -25% mult.";
-    
+    public override string description() => "Rows get +25% mult, Columns get -25% mult.";
+
     public override double pointsmod => 1;
 
     public override Theme Theme { get => AssetLoader.Instance.SandStage_Theme; }

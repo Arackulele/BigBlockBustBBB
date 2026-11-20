@@ -8,7 +8,7 @@ public class LowMultMoney : Upgrade
     
     public override string name => "Lucky Penny";
 
-    public override string description => "At 0 combo, clearing a line rewards 7 money";
+    public override string description() => "At 0 combo, clearing a line rewards 7 money";
 
     public override float LineClearModifier(List<Vector2Int> clearedBlocks, int clearCountRows, int clearCountCollumns, int clearCountMisc)
     {

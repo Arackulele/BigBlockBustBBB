@@ -8,7 +8,7 @@ public class ConsumableUsedPoints : Upgrade
     
     public override string name => "Recycling Bin";
 
-    public override string description => "Whenever a consumable is used up, gain 10 Points";
+    public override string description() => "Whenever a consumable is used up, gain 10 Points";
 
     public override void OnConsumableUsed()
     {

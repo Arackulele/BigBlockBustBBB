@@ -8,7 +8,7 @@ public class GlobalLowMultBonus : Upgrade
     
     public override string name => "Speckled Rock";
 
-    public override string description => "If your combo is less than 3, gain 2.5 mult";
+    public override string description() => "If your combo is less than 3, gain 2.5 mult";
 
     public override float GlobalPointsMultiplier()
     {

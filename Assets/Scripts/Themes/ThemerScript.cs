@@ -29,7 +29,7 @@ public class ThemerScript : MonoBehaviour
     {
         //These should always be set since we use them for the shop view as well
         ThemeText.text = GameManager.Instance.CurrentStage.name;
-        ThemeDesc.text = GameManager.Instance.CurrentStage.description + " Required Points: x" + GameManager.Instance.CurrentStage.pointsmod;
+        ThemeDesc.text = GameManager.Instance.CurrentStage.description() + " Required Points: x" + GameManager.Instance.CurrentStage.pointsmod;
     }
 
     public void ChangeTheme(Theme theme)

@@ -9,7 +9,7 @@ public class GainScoreConsumableBig : Consumable
 
     public override string name => "Peeled Kiwi";
 
-    public override string description => "Use to get 1D12*20 Score, affected by mult";
+    public override string description() => "Use to get 1D12*20 Score, affected by mult";
 
     public override void OnDrop(Vector2 pos)
     {

@@ -9,7 +9,7 @@ public class EatMultConsumable : Consumable
 
     public override string name => "Tomatillo";
 
-    public override string description => "Use to reset your Combo, gain 7 Money for each Combo point removed";
+    public override string description() => "Use to reset your Combo, gain 7 Money for each Combo point removed";
 
     public override void OnDrop(Vector2 pos)
     {

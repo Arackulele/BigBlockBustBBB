@@ -9,8 +9,8 @@ public class MossStage : Stage
     
     public override string name => "Moss Grotto";
 
-    public override string description => "Whenever you place a block, a random tile on the board will grow moss.";
-    
+    public override string description() => "Whenever you place a block, a random tile on the board will grow moss.";
+
     public override double pointsmod => 1;
 
     public override Theme Theme { get => AssetLoader.Instance.MossStage_Theme; }

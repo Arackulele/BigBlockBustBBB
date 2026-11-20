@@ -8,7 +8,8 @@ public class RowMultScale : Upgrade
     
     public override string name => "Silver Ladle";
 
-    public override string description => "Gain <color=red>" + Mult + "</color> mult, this increases by 0.05 for every row cleared.";
+    public override string description() =>
+        "Gain <color=red>" + Mult + "</color> mult, this increases by 0.05 for every row cleared.";
 
     private double Mult = 0.05;
 

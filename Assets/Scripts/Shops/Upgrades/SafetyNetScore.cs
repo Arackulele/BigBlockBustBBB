@@ -8,7 +8,8 @@ public class SafetyNetScore : Upgrade
     
     public override string name => "Safety Net";
 
-    public override string description => "If you reach the last turn and haven't reached the target score, gain 10% of the score as points.";
+    public override string description() =>
+        "If you reach the last turn and haven't reached the target score, gain 10% of the score as points.";
 
     public override void OnTurnPassed(int turn)
     {

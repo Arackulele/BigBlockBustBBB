@@ -9,8 +9,8 @@ public class OceanStage : Stage
     
     public override string name => "Blue Ocean";
 
-    public override string description => "Blocks placed gain double Points.";
-    
+    public override string description() => "Blocks placed gain double Points.";
+
     public override double pointsmod => 1.2;
 
     public override Theme Theme { get => AssetLoader.Instance.OceanStage_Theme; }

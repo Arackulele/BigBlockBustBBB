@@ -9,7 +9,7 @@ public class DefaultStage : Stage
     
     public override string name => "Blockland";
 
-    public override string description => "No modifiers.";
+    public override string description()  => "No modifiers.";
 
     public override double pointsmod => 1;
 

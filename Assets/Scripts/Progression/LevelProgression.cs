@@ -20,6 +20,9 @@ public class LevelProgression : MonoBehaviour
     public int CurrentStage = 1;
     
     [HideInInspector]
+    public int CurrentLayer = 1;
+    
+    [HideInInspector]
     public int CurrentTurn = 0;
     
     public Type previousStage;

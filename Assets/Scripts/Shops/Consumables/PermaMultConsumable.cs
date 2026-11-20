@@ -9,7 +9,7 @@ public class PermaMultConsumable : Consumable
 
     public override string name => "Golden Salad";
 
-    public override string description => "Use to get 5% more points for the rest of the run";
+    public override string description() => "Use to get 5% more points for the rest of the run";
 
     public override void OnDrop(Vector2 pos)
     {

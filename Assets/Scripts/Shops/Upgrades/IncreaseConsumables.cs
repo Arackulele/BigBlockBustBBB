@@ -8,7 +8,7 @@ public class IncreaseConsumables : Upgrade
     
     public override string name => "Fruit Basket";
 
-    public override string description => "Increase Consumable Slots by 3";
+    public override string description() => "Increase Consumable Slots by 3";
 
     public override void OnAdded()
     {
