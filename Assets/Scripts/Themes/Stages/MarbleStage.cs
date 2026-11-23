@@ -9,7 +9,7 @@ public class MarbleStage : Stage
     
     public override string name => "Polished Marble";
 
-    public override string description() => "Clearing a line on the edge of the board gives double the points.";
+    public override string description() => "Clearing a line on the edge of the board gives *2 points.";
 
     public override double pointsmod => 1.2;
 

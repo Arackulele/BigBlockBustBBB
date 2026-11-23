@@ -41,7 +41,8 @@ public class LevelProgression : MonoBehaviour
             new WoodBlockStage(),
             new OreStage(),
             new MossStage(),
-            new MountainStage()
+            new MountainStage(),
+            new MarbleStage()
         };
 
     private void Update()

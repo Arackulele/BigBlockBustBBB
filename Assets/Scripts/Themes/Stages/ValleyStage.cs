@@ -9,7 +9,7 @@ public class ValleyStage : Stage
     
     public override string name => "Green Valley";
 
-    public override string description() => "Every third turn, gain 25% more points.";
+    public override string description() => "Every third turn, gain +0.5 mult.";
 
     public override double pointsmod => 1.125;
 
@@ -17,7 +17,7 @@ public class ValleyStage : Stage
 
     public override float GlobalPointsMultiplier()
     {
-        if (LevelProgression.instance.CurrentTurn % 3 == 0) return 1.25f;
+        if (LevelProgression.instance.CurrentTurn % 3 == 0) return 0.5f;
         return 0;
     }
 }

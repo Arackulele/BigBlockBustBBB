@@ -9,7 +9,7 @@ public class ForestStage : Stage
     
     public override string name => "Orange Forest";
 
-    public override string description() => "Clearing a line with all 4 different colors awards 3x points.";
+    public override string description() => "Clearing a line with all 4 different colors awards +2 mult.";
 
     public override double pointsmod => 1.225;
 

@@ -9,7 +9,7 @@ public class SandsStage : Stage
     
     public override string name => "Yellow Sands";
 
-    public override string description() => "Rows get +25% mult, Columns get -25% mult.";
+    public override string description() => "Rows get +0.5 mult, Columns get -0.5 mult.";
 
     public override double pointsmod => 1;
 

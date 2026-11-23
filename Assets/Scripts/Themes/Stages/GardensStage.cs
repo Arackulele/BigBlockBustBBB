@@ -9,7 +9,7 @@ public class GardensStage : Stage
     
     public override string name => "Pink Gardens";
 
-    public override string description() => "Clearing a line with only same color blocks awards 3x points.";
+    public override string description() => "Clearing a line with only same color blocks awards +2 mult.";
 
     public override double pointsmod => 1.175;
 
