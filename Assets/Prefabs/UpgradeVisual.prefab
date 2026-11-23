@@ -114,6 +114,7 @@ MonoBehaviour:
   name: {fileID: 4835752808789985760}
   desc: {fileID: 8355438333562767634}
   price: {fileID: 2210070252121437901}
+  ItemSprite: {fileID: 5413163474931052943}
   IsShop: 0
   scroller: {fileID: 1877771501979872726}
   activateVisual: {fileID: 2289271577692599218}

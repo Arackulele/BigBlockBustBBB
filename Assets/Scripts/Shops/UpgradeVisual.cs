@@ -8,6 +8,7 @@ public class UpgradeVisual : DraggableObject
     public TMPro.TextMeshPro name;
     public TMPro.TextMeshPro desc;
     public TMPro.TextMeshPro price;
+    public SpriteRenderer ItemSprite;
 
 
     public bool IsShop = false;
@@ -21,6 +22,8 @@ public class UpgradeVisual : DraggableObject
         Awake();
         name.text = upgrade.name;
         desc.text = upgrade.description();
+
+        ItemSprite.sprite = upgrade.sprite;
 
         if (IsShop)
         {

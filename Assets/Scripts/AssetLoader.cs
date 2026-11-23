@@ -27,6 +27,8 @@ public class AssetLoader : MonoBehaviour
     public Theme OreStage_Theme;
     public Theme MossStage_Theme;
     public Theme MountainStage_Theme;
+    public Theme MarbleStage_Theme;
+
     
     public BlockDatabase DefaultBlockPalette;
     public BlockDatabase TetrominoBlockPalette;

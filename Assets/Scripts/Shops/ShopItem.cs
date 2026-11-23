@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class ShopItem : GameModifier
 {
-    [SerializeField]
-    protected Sprite sprite;
+    [HideInInspector]
+    public Sprite sprite;
 
     private double? cachedPrice;
 

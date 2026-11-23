@@ -2,8 +2,13 @@ using System;
 using System.Collections;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro.EditorUtilities;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+using System.IO;
+#endif
 
 public class Upgrade : ShopItem
 {
@@ -14,6 +19,9 @@ public class Upgrade : ShopItem
 
     public override GameObject createVisual(Transform par)
     {
+        if (sprite == null)
+            sprite = FindUpgradeSprite(name);
+
         GameObject g = GameObject.Instantiate(AssetLoader.Instance.UpgradeTemplate, par);
         if (sprite != null) g.GetComponent<SpriteRenderer>().sprite = sprite;
         SpriteRenderer s = g.transform.GetChild(0).GetComponent<SpriteRenderer>();
@@ -30,6 +38,33 @@ public class Upgrade : ShopItem
         Visual.upgrade = this;
 
         return g;
+    }
+
+    private static Sprite FindUpgradeSprite(string displayName)
+    {
+    #if UNITY_EDITOR
+        if (string.IsNullOrWhiteSpace(displayName)) return null;
+
+        string normalizedName = NormalizeSpriteName(displayName);
+        // Search all assets in the folder and load them as Sprite. FindAssets("t:Sprite")
+        // can omit texture assets depending on their importer state.
+        string[] assetGuids = AssetDatabase.FindAssets(string.Empty, new[] { "Assets/Sprites/UpgradeSprites" });
+        foreach (string guid in assetGuids)
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guid);
+            if (NormalizeSpriteName(Path.GetFileNameWithoutExtension(path)) != normalizedName)
+                continue;
+
+            Sprite foundSprite = AssetDatabase.LoadAssetAtPath<Sprite>(path);
+            if (foundSprite != null) return foundSprite;
+        }
+    #endif
+        return null;
+    }
+
+    private static string NormalizeSpriteName(string value)
+    {
+        return string.Concat(value.Where(character => char.IsLetterOrDigit(character))).ToLowerInvariant();
     }
 
     public void OnActivate()

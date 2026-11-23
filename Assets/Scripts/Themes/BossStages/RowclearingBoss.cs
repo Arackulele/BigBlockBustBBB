@@ -17,6 +17,8 @@ public class RowClearingBoss : BossStage
 
     public override bool ScoreCondition()
     {
-        return false;
+        return ScoreManagement.Instance != null
+            && ScoreManagement.Instance.CurrentScoreGainType == ScoreGainType.LineClear
+            && ScoreManagement.Instance.CurrentClearCountRows > 0;
     }
 }

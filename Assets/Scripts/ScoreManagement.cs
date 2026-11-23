@@ -22,6 +22,10 @@ public class ScoreManagement : MonoBehaviour
 
     public int Combo = 1;
 
+    
+    public ScoreGainType CurrentScoreGainType { get; private set; } = ScoreGainType.Misc;
+    public int CurrentClearCountRows { get; private set; }
+
     private void Start()
     {
         Instance = this;
@@ -62,7 +66,19 @@ public class ScoreManagement : MonoBehaviour
         
         IncrementMult(pos);
         GameBoard.instance.GettingMult = true;
-        PutScoreAndMoney(amount, pos);
+        ScoreGainType previousType = CurrentScoreGainType;
+        int previousRows = CurrentClearCountRows;
+        CurrentScoreGainType = ScoreGainType.LineClear;
+        CurrentClearCountRows = clearCountRows;
+        try
+        {
+            PutScoreAndMoney(amount, pos);
+        }
+        finally
+        {
+            CurrentScoreGainType = previousType;
+            CurrentClearCountRows = previousRows;
+        }
 
     }
 

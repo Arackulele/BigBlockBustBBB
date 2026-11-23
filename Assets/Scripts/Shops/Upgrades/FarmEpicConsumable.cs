@@ -24,6 +24,7 @@ public class FarmEpicConsumable : Upgrade
         {
             OnActivate();
             GameManager.Instance.AddConsumable(ShopManager.instance.consumableShop.GetConsumableOfRarity(Rarity.Epic));
+            Score = 5000;
             Remove();
 
         }
