@@ -36,7 +36,8 @@ public class UpgradeShop : UpgradeInventory
             new RowMultScale(),
             new FarmEpicConsumable(),
             new FarmEpicUpgrade(),
-            new ComboLineMultiplier()
+            new ComboLineMultiplier(),
+            new UpgradeSlotCostMoney()
         };
     
     public List<Upgrade> CommonUpgrades = new List<Upgrade>();
@@ -52,7 +53,7 @@ public class UpgradeShop : UpgradeInventory
     public float EpicChance()
     {
         float x = LevelProgression.instance.CurrentStage;
-        return (float)math.min(32, 0.5 + ((x*x)/50));
+        return (float)math.min(35, 0.5 + ((x*x)/42));
     } 
     
     public List<Upgrade> Upgrades = new List<Upgrade>();

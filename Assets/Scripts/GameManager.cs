@@ -112,6 +112,16 @@ public class GameManager : MonoBehaviour
         return false;
     }
 
+    public bool RemoveUpgrade(Upgrade upgrade)
+    {
+        if (Perks.Contains(upgrade))
+        {
+            Perks.Remove(upgrade);
+            return true;
+        }
+        return false;
+    }
+
     public bool AddConsumable(Consumable consumable)
     {
         if (Consumables.Count >= MaxConsumables)

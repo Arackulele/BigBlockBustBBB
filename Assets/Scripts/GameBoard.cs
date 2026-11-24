@@ -149,7 +149,7 @@ public class GameBoard : MonoBehaviour
             ClearBlockAtPos(bl.x, bl.y);
             }
 
-            ScoreManagement.Instance.ClearLine(20 * (clearCountTotal * clearCountTotal), clearableBlocks, clearCountRows, clearCountCollumns, clearCountMisc);
+            ScoreManagement.Instance.ClearLine(20 * (clearCountTotal * clearCountTotal), clearableBlocks, clearCountRows, clearCountCollumns, clearCountMisc, GetRealPosition(clearableBlocks.GetRandomItem()));
         }
 
         foreach (GameModifier u in GameManager.Instance.GameModifiers())  {

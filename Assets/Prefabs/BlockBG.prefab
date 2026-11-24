@@ -112,6 +112,7 @@ MonoBehaviour:
   hlight: {fileID: 5774332563415464393}
   ClearParticle: {fileID: 2356185821086846320}
   GridPos: {x: 0, y: 0}
+  IsUnclearable: 0
 --- !u!1 &8888541865058497241
 GameObject:
   m_ObjectHideFlags: 0
