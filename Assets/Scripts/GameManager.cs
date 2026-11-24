@@ -204,15 +204,10 @@ public class GameManager : MonoBehaviour
     {
         if (stageTransitionInProgress) return;
 
-        //ToDo: This would be nicer to keep in the upgrade but it'd take more code
         stageTransitionInProgress = true;
         TransitionToNextState(() =>
         {
-            if (!HasModifier<KeepCombo>()) ScoreManagement.Instance.Combo = 1;
-            LevelProgression.instance.CurrentTurn = 0;
-            LevelProgression.instance.CurrentStage++;
-            CurrentStage = LevelProgression.instance.SelectNewStage();
-            ShopManager.instance.GoToShop();
+            LayerProgression.Instance.NextEvent();
         });
     }
     
@@ -242,14 +237,7 @@ public class GameManager : MonoBehaviour
         stageTransitionInProgress = true;
         TransitionToNextState(() =>
         {
-            ShopManager.instance.ExitShop();
-            BlockPlacementArea.instance.FillBlocks(true);
-            ScoreManagement.Instance.Score = 0;
-            LevelProgression.instance.ScoreReq = CurrentStage.ScoreReq();
-            GameBoard.instance.EmptyBoard();
-            
-            //Since a stage should be added when the round starts, and isnt added through the normal upgrade process, we go through the trigger here
-            CurrentStage.OnAdded();
+            LayerProgression.Instance.NextEvent();
         });
     }
 

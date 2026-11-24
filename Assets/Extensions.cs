@@ -1,6 +1,8 @@
 
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 
 public static class Extensions
@@ -65,5 +67,19 @@ public static class Extensions
         );
     }
 
+    public static int RoundOff (this int i)
+    {
+        return ((int)Math.Round(i / 10.0)) * 10;
+    }
+    
+    public static int RoundOff (this float i)
+    {
+        return ((int)Math.Round(i / 10.0)) * 10;
+    }
+    
+    public static int RoundOff (this double i)
+    {
+        return ((int)Math.Round(i / 10.0)) * 10;
+    }
 
 }

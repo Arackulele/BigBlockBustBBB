@@ -18,7 +18,7 @@ public class Stage : GameModifier
     {
         int x = LevelProgression.instance.CurrentStage;
         double req = (500 + 8 * x  * x * x) * pointsmod;
-        return Mathf.RoundToInt((float)req);
+        return req.RoundOff();
     }
 
 }

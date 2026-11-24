@@ -100,7 +100,13 @@ public class ScoreManagement : MonoBehaviour
     {
         GameObject g = Instantiate(MultVisualPrefab);
         g.transform.position = Vector2.Lerp(new Vector2(), pos, 0.5f);
-        Combo++;
+        int total = 1;
+        
+        foreach (GameModifier u in GameManager.Instance.GameModifiers())
+        {
+            total += u.ComboGainMultiplier();
+        }
+        Combo+= total;
     }
 
     private void PutScore(int amount, Vector2 pos = new Vector2())

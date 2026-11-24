@@ -42,7 +42,7 @@ public class BossStage : Stage
         }
         
         double req = (1000 + y) * pointsmod;
-        return Mathf.RoundToInt((float)req);
+        return req.RoundOff();
     }
 
     public override void OnAdded()

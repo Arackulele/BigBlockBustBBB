@@ -6266,7 +6266,7 @@ MonoBehaviour:
     - {r: 0.5681716, g: 0.7264151, b: 0.15419191, a: 1}
     - {r: 0.6415094, g: 0.6021198, b: 0.1724813, a: 1}
     BGMaterial: {fileID: 2100000, guid: 70e4010f449b14856a330f54e4b9c9d8, type: 2}
-    BordBackgroundColor: {r: 0.21960784, g: 0.49019608, b: 0.33897507, a: 1}
+    BordBackgroundColor: {r: 0.21960784, g: 0.49019608, b: 0.47148266, a: 1}
     UIBorderColor: {r: 0, g: 0.6132076, b: 0.6072031, a: 1}
     ScoreTextColor:
       topLeft: {r: 0, g: 0, b: 0, a: 0}
@@ -6383,7 +6383,7 @@ MonoBehaviour:
     - {r: 0.747331, g: 0.7334211, b: 0.90188676, a: 1}
     BGMaterial: {fileID: 2100000, guid: 37a79fb24e4ad1f469b4e9ec8fb4bc42, type: 2}
     BordBackgroundColor: {r: 0.53385305, g: 0.48769668, b: 0.5396226, a: 1}
-    UIBorderColor: {r: 1, g: 0.9427809, b: 0.53396225, a: 1}
+    UIBorderColor: {r: 0.8415094, g: 0.70972586, b: 0.73967886, a: 1}
     ScoreTextColor:
       topLeft: {r: 0, g: 0, b: 0, a: 0}
       topRight: {r: 0, g: 0, b: 0, a: 0}
@@ -7198,6 +7198,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 323670262}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &867305865
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 867305866}
+  - component: {fileID: 867305867}
+  m_Layer: 0
+  m_Name: LayerManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &867305866
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 867305865}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 961652143}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &867305867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 867305865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5929e374d1ca84148a6de0c73eab9056, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LayerProgression
+  CurrentLayer: 
 --- !u!1 &929799385
 GameObject:
   m_ObjectHideFlags: 0
@@ -7506,6 +7551,7 @@ Transform:
   - {fileID: 602699412}
   - {fileID: 498665770}
   - {fileID: 1059086483}
+  - {fileID: 867305866}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &979267720

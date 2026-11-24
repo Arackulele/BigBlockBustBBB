@@ -8,7 +8,7 @@ public class FillConsumable : Consumable
     public override ConsumableVisual.PlacementType Placement { get => ConsumableVisual.PlacementType.OnBoard; }
 
 
-    public override string name => "Hot Soup";
+    public override string name => "Cream of Mushroom Soup";
 
     public override string description() => "Fill an area of Tiles, with a maximum of 12 in total.";
 
