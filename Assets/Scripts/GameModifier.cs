@@ -16,6 +16,7 @@ public abstract class GameModifier : Purchasable
     public virtual void OnTurnPassed(int turn) { }
     public virtual float GlobalPointsMultiplier() => 0;
     public virtual void OnBlocksRefilled() { }
+    public virtual List<List<Vector2Int>> ModifyBlockPalette(List<List<Vector2Int>> palette) => palette;
     public virtual void OnAdded() { }
     public virtual void OnRemoved() { }
     public virtual void AfterBlocksPlaced() { }

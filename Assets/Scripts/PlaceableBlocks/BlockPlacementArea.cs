@@ -26,6 +26,18 @@ public class BlockPlacementArea : MonoBehaviour
     {
         BlockDictionary.Load(database);
     }
+
+    public List<List<Vector2Int>> GetBlockPalette()
+    {
+        var palette = new List<List<Vector2Int>>();
+        foreach (List<Vector2Int> shape in BlockDictionary.BlockShapes)
+            palette.Add(new List<Vector2Int>(shape));
+
+        foreach (GameModifier modifier in GameManager.Instance.GameModifiers())
+            palette = modifier.ModifyBlockPalette(palette);
+
+        return palette;
+    }
     
     public void FillBlocks(bool refill = false)
     {
@@ -50,8 +62,13 @@ public class BlockPlacementArea : MonoBehaviour
                 GameObject newblock = Instantiate(PlaceBlockPrefab, block.transform);
                 UnplacedBlockScript newBlockScript = newblock.GetComponent<UnplacedBlockScript>();
 
-                List<Vector2Int> shape = new List<Vector2Int>(
-                    BlockDictionary.BlockShapes.GetRandomItem());
+                List<List<Vector2Int>> palette = GetBlockPalette();
+                if (palette.Count == 0)
+                {
+                    Destroy(newblock);
+                    return;
+                }
+                List<Vector2Int> shape = new List<Vector2Int>(palette.GetRandomItem());
 
                 RotateShapeRandom(shape);
 

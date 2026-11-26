@@ -266,12 +266,6 @@ public class GameManager : MonoBehaviour
         TransitionManager.Instance().onTransitionEnd -= ResetStageTransition;
         stageTransitionInProgress = false;
     }
-
-    public void ChangeStage()
-    {
-        CurrentStage = LevelProgression.instance.SelectNewStage();
-        ThemerScript.Instance.ChangeTheme(CurrentStage.Theme);
-    }
     
     public void ChangeStage(Stage stage)
     {

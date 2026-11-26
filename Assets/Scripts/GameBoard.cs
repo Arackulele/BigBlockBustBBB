@@ -167,9 +167,13 @@ public class GameBoard : MonoBehaviour
         for (int y = 0; y < gridMap.GetLength(1); y++)
         {
             bool full = true;
+            bool onlyunbreakable = true;
             for (int x = 0; x < gridMap.GetLength(0); x++)
+            {
                 if (!gridMap[x, y]) { full = false; break; }
-            if (!full) continue;
+                else if (!GridObjects[x, y].GetComponent<BlockScript>().IsUnclearable) onlyunbreakable = false;
+            }
+            if (!full || onlyunbreakable) continue;
 
             clearCountRows++;
             for (int x = 0; x < gridMap.GetLength(0); x++)
@@ -179,9 +183,13 @@ public class GameBoard : MonoBehaviour
         for (int x = 0; x < gridMap.GetLength(0); x++)
         {
             bool full = true;
+            bool onlyunbreakable = true;
             for (int y = 0; y < gridMap.GetLength(1); y++)
+            {
                 if (!gridMap[x, y]) { full = false; break; }
-            if (!full) continue;
+                else if (!GridObjects[x, y].GetComponent<BlockScript>().IsUnclearable) onlyunbreakable = false;
+            }
+            if (!full || onlyunbreakable) continue;
 
             clearCountCollumns++;
             for (int y = 0; y < gridMap.GetLength(1); y++)

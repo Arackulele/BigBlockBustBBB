@@ -7,9 +7,7 @@ public class ScaleMultClears : Upgrade
     public override Rarity rarity { get => Rarity.Rare; }
     
     public override string name => "Ball of Tinfoil";
-
-    //ToDo: Dynamic description
-
+    
     public override string description() =>
         "Gain <color=red>" + Mult + "</color>, this increases permanently by 0.2 for each 3+ line clear.";
 

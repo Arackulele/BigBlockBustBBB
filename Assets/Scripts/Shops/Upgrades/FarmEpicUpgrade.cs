@@ -14,11 +14,11 @@ public class FarmEpicUpgrade : Upgrade
 
     public override int ComboGainMultiplier()
     {
-        if (ScoreManagement.Instance.Combo > 9)
+        if (ScoreManagement.Instance.Combo >= 9)
         {
             OnActivate();
             GameManager.Instance.ChangeMaxPerks(1);
-            GameManager.Instance.AddUpgrade(ShopManager.instance.shopInventory.GetUpgradeOfRarity(Rarity.Rare));
+            GameManager.Instance.AddUpgrade(ShopManager.instance.shopInventory.GetUpgradeOfRarity(Rarity.Epic));
             Remove();
             GameManager.Instance.ChangeMaxPerks(-1);
         }

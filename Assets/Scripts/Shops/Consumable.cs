@@ -1,13 +1,15 @@
 using System;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+using System.IO;
+#endif
 
 public class Consumable : ShopItem
 {
-    //ToDo:Gain Points on condition set
-    //Get specific Block Types in Block roll
-
     public override float baseprice => 7;
     
     public virtual ConsumableVisual.PlacementType Placement => ConsumableVisual.PlacementType.Anywhere;
@@ -16,7 +18,9 @@ public class Consumable : ShopItem
 
     public override GameObject createVisual(Transform par)
     {
-        
+        if (sprite == null)
+            sprite = FindConsumableSprite(name);
+
         GameObject g = GameObject.Instantiate(AssetLoader.Instance.ConsumableTemplate, par);
         if (sprite != null) g.GetComponent<SpriteRenderer>().sprite = sprite;
         SpriteRenderer s = g.transform.GetChild(0).GetComponent<SpriteRenderer>();
@@ -35,6 +39,31 @@ public class Consumable : ShopItem
 
 
         return g;
+    }
+
+    private static Sprite FindConsumableSprite(string displayName)
+    {
+#if UNITY_EDITOR
+        if (string.IsNullOrWhiteSpace(displayName)) return null;
+
+        string normalizedName = NormalizeSpriteName(displayName);
+        string[] assetGuids = AssetDatabase.FindAssets(string.Empty, new[] { "Assets/Sprites/ConsumableSprites" });
+        foreach (string guid in assetGuids)
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guid);
+            if (NormalizeSpriteName(Path.GetFileNameWithoutExtension(path)) != normalizedName)
+                continue;
+
+            Sprite foundSprite = AssetDatabase.LoadAssetAtPath<Sprite>(path);
+            if (foundSprite != null) return foundSprite;
+        }
+#endif
+        return null;
+    }
+
+    private static string NormalizeSpriteName(string value)
+    {
+        return string.Concat(value.Where(char.IsLetterOrDigit)).ToLowerInvariant();
     }
 
     public virtual void OnDrop(Vector2 pos)

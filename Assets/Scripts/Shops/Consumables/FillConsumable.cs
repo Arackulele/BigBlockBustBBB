@@ -26,11 +26,11 @@ public class FillConsumable : Consumable
     private int Counter = 12;
     
 
+    //ToDo: this should be filled into the new affectblocksconsumable system
     public override void OnDrop(Vector2 pos)
     {
         Vector2Int origin = GameBoard.instance.ClosestBlock(pos, true);
 
-        //ToDO: I should just make a unified placeblock method for colors and stuff
         color = ThemerScript.Instance.CurrentTheme.BlockColors.GetRandomItem();
         sprite = ThemerScript.Instance.CurrentTheme.BlockSprites.GetRandomItem();
 

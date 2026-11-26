@@ -1,35 +1,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ColumnFillConsumable : Consumable
+public class ColumnFillConsumable : AffectBlocksConsumable
 {
     public override Rarity rarity { get => Rarity.Rare; }
-
-    public override ConsumableVisual.PlacementType Placement { get => ConsumableVisual.PlacementType.OnBoard; }
-
-
-    public override string name => "Licorice Stick";
+    
+    public override string name => "Pretzel Stick";
 
     public override string description() => "Use to clear a full column.";
 
-    private Color color;
-    public Sprite sprite;
-    
-    public override void OnDrop(Vector2 pos)
+    public override bool isDestroying => false;
+
+
+    public override List<Vector2Int> Matrix
     {
-        Vector2Int origin = GameBoard.instance.ClosestBlock(pos, true);
-
-        //ToDO: I should just make a unified placeblock method for colors and stuff
-        color = ThemerScript.Instance.CurrentTheme.BlockColors.GetRandomItem();
-        sprite = ThemerScript.Instance.CurrentTheme.BlockSprites.GetRandomItem();
-
-
-        for(int i = 0; i < GameBoard.instance.BoardSize().y; i++) {
-        
-            if (GameBoard.instance.GridMap[origin.x, i] == false)GameBoard.instance.SetBlockAtPos(origin.x, i, color, sprite);
+        get
+        {
+            int height = GameBoard.instance.BoardSize().y;
+            var matrix = new List<Vector2Int>(height);
+            for (int y = -height; y < height; y++)
+                matrix.Add(new Vector2Int(0, y));
+            return matrix;
         }
-        GameBoard.instance.ClearBoard();
-        UsedUp();
     }
-    
 }

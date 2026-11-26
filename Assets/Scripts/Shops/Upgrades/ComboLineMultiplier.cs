@@ -12,7 +12,7 @@ public class ComboLineMultiplier : Upgrade
 
     public override float LineClearModifier(List<Vector2Int> clearedBlocks, int clearCountRows, int clearCountCollumns, int clearCountMisc)
     {
-        ScoreManagement.Instance.Combo += (clearCountMisc + clearCountCollumns + clearCountRows);
+        ScoreManagement.Instance.Combo += (clearCountMisc + clearCountCollumns + clearCountRows) - 1;
         return 0f;
     }
 }

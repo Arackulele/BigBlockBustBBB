@@ -22,9 +22,9 @@ public class ConsumableShop : ConsumableInventory
             new SmallBombConsumable(),
             new ComboAddConsumable(),
             new BlockDiscardConsumable(),
-            new GainScoreConsumable(),
+            new GainScoreConsumableBig(),
             new ColumnFillConsumable(),
-            new RowFillConsumable()
+            new RowFillConsumable(),
         };
     
     List<Consumable> CommonConsumables = new List<Consumable>();

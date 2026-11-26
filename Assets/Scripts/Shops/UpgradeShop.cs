@@ -33,11 +33,14 @@ public class UpgradeShop : UpgradeInventory
             new ColumnPointScale(),
             new RowMultScale(),
             new AlwaysGainHigh(),
-            new RowMultScale(),
             new FarmEpicConsumable(),
             new FarmEpicUpgrade(),
             new ComboLineMultiplier(),
-            new UpgradeSlotCostMoney()
+            new UpgradeSlotCostMoney(),
+            new RemoveDiagonals(),
+            new GainMoneySingleBlock(),
+            new AddFullLines(),
+            new AddSingleBlocks()
         };
     
     public List<Upgrade> CommonUpgrades = new List<Upgrade>();

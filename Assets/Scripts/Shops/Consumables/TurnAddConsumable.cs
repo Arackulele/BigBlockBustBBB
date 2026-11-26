@@ -7,7 +7,7 @@ public class TurnAddConsumable : Consumable
     public override ConsumableVisual.PlacementType Placement { get => ConsumableVisual.PlacementType.Anywhere; }
 
 
-    public override string name => "Focaccia";
+    public override string name => "Croissant";
 
     public override string description() => "Use to gain 1 Turn";
 

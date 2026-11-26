@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class RowClearingBoss : BossStage
 {
-    public override string name => "Row-dy Ronny ";
+    public override string name => "Row-dy Ronny";
 
     public override string ScoreConditionDesc() => "Ronny only takes damage from Row clears.";
 

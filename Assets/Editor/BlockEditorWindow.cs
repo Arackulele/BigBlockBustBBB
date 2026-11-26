@@ -6,7 +6,7 @@ public class BlockEditorWindow : EditorWindow
 {
     private BlockDatabase database;
 
-    private const int GridSize = 6;
+    private const int GridSize = 8;
     private bool[,] grid = new bool[GridSize, GridSize];
 
     private int selectedShape = -1;
@@ -115,14 +115,12 @@ public class BlockEditorWindow : EditorWindow
         if (cells.Count == 0)
             return cells;
 
-        // Calculate centroid.
         Vector2 centroid = Vector2.zero;
         foreach (var cell in cells)
             centroid += (Vector2)cell;
 
         centroid /= cells.Count;
 
-        // Find occupied block nearest the centroid.
         Vector2Int newOrigin = cells[0];
         float bestDistance = float.MaxValue;
 
@@ -137,7 +135,6 @@ public class BlockEditorWindow : EditorWindow
             }
         }
 
-        // Shift so that block becomes (0,0).
         for (int i = 0; i < cells.Count; i++)
             cells[i] -= newOrigin;
 

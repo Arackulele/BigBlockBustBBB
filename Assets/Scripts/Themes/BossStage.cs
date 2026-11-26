@@ -74,11 +74,9 @@ public class BossStage : Stage
         //this is way more code than is necessary to accomplish this, ill just use rich text formatting next time
         compound += " " + AttackDesc();
         compound += " Attacks every ";
-        if (AttackCooldown() == 1) compound += " turn";
-        else
-        {
-            compound += "" + AttackCooldown() +  " turns.";
-        }
+        if (AttackCooldown() == 1) compound += " turn.";
+        else compound += "" + AttackCooldown() +  " turns.";
+        
 
         return compound;
     }

@@ -40,9 +40,8 @@ public class LayerProgression : MonoBehaviour
 
     public void NextEvent()
     {
-        if (CurrentLayer.Count < CurrentPosition + 1)
+        if (CurrentLayer.Count <= CurrentPosition + 1)
         {
-
             CurrentPosition = 0;
             GenerateNewLayer(0);
         }
@@ -55,21 +54,22 @@ public class LayerProgression : MonoBehaviour
     {
         switch (from)
         { 
+            case EventType.BossStage:
             case EventType.RegularStage:
-                if (!GameManager.Instance.HasModifier<KeepCombo>()) ScoreManagement.Instance.Combo = 1;
-                LevelProgression.instance.CurrentTurn = 0;
-                LevelProgression.instance.CurrentStage++;
-                GameManager.Instance.CurrentStage = LevelProgression.instance.SelectNewStage();
-                ShopManager.instance.GoToShop();
+            case EventType.BonusStage:
+                SwitchFromStageHelper();
                 break;
+            
             case  EventType.Shop:
                 ShopManager.instance.ExitShop();
                 break;
         }
-
+        CurrentPosition++;
         switch (to)
         {
+            case EventType.BossStage:
             case EventType.RegularStage:
+            case EventType.BonusStage:
                 ShopManager.instance.ExitShop();
                 BlockPlacementArea.instance.FillBlocks(true);
                 ScoreManagement.Instance.Score = 0;
@@ -79,12 +79,23 @@ public class LayerProgression : MonoBehaviour
                 //Since a stage should be added when the round starts, and isnt added through the normal upgrade process, we go through the trigger here
                 GameManager.Instance.CurrentStage.OnAdded();
                 break;
+            
             case EventType.Shop :
+                if (CurrentLayer[CurrentPosition+1] == EventType.RegularStage) GameManager.Instance.CurrentStage = LevelProgression.instance.SelectNewStage();
+                if (CurrentLayer[CurrentPosition+1] == EventType.BossStage)    GameManager.Instance.CurrentStage = new RowClearingBoss();
+                if (CurrentLayer[CurrentPosition+1] == EventType.BonusStage)   GameManager.Instance.CurrentStage = new DefaultStage();
+
                 ShopManager.instance.GoToShop();
                 break;
         }
 
-        CurrentPosition++;
+    }
+
+    private void SwitchFromStageHelper()
+    {
+        if (!GameManager.Instance.HasModifier<KeepCombo>()) ScoreManagement.Instance.Combo = 1;
+        LevelProgression.instance.CurrentTurn = 0;
+        LevelProgression.instance.CurrentStage++;
     }
     
 }

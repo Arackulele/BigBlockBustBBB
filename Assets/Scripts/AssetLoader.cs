@@ -32,9 +32,9 @@ public class AssetLoader : MonoBehaviour
     
     public BlockDatabase DefaultBlockPalette;
     public BlockDatabase TetrominoBlockPalette;
-
-
-
+    public BlockDatabase DiagonalBlockPalette;
+    public BlockDatabase FullLineBlockPalette;
+    public BlockDatabase SingleBlockPalette;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
