@@ -6,9 +6,9 @@
   - Tags:
     - Untagged, Respawn, Finish, EditorOnly, MainCamera, Player, GameController
   - Layers:
-    - Default, TransparentFX, Ignore Raycast, Water, UI, Always Front
+    - Default, TransparentFX, Ignore Raycast, Water, UI
 - Active game object:
-  - Name: ScoreManager
+  - Name: shopParent
   - Tag: Untagged
   - Layer: Default
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->
